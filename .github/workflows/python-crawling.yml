@@ -4,10 +4,11 @@
 name: yes24_crawler
 on:
   schedule:
-    - cron: '45 0 * * *'
+    - cron: '20 * * * *'
 
 jobs:
   build:
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
