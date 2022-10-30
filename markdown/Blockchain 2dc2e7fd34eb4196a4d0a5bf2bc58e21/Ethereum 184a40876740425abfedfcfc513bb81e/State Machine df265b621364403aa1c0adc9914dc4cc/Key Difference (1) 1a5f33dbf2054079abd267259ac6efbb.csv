@@ -1,0 +1,17 @@
+﻿Characteristics,Stateful,Stateless
+Definition,Stateful Protocols require the server to save the state of a process.,Stateless Protocols do not need the server to save the state of a process.
+Response mechanism,"Stateful expects a response and if no answer is received, the request is resent.","In stateless, the client sends a request to a server, which the server responds to based on the state of the request."
+Design complexity,This makes the design heavy and complex since data needs to be stored.,Server design is simplified in this case.
+Requirement of Server,The server is required to store and save status information and details of sessions.,No server is needed for data storage.
+Dependency,"Server and Client are tightly coupled, as in extremely interdependent on each other.","Server and Client are more independent and hence, loosely coupled."
+Transaction Handling,Transaction handling is relatively slow in the stateful protocol.,This is relatively faster in the stateless protocol.
+Implementation,They are logically heavy to implement.,They are easy to implement.
+Functioning after a crash,"Since stateful protocols need to store data regarding the sessions, once the crash occurs, all the stored data is lost. Hence, it doesn’t work very well after a crash occurs.","In the event of a crash, stateless protocols work better because there doesn’t exist a state that needs to be restored. A server that failed during the crash can simply be restarted."
+Design,The server design is complex to implement.,The server design is simpler to implement.
+Working State,They react only by the current state of a transaction or request.,They act independently by taking the previous or next request into consideration.
+Requests,Requests are always dependent on the server-side.,Requests are self-contained and not dependent on the server side.
+Userbase,"These are a thing of the past, and the dynamic user base is very less.",These are the future because more and more industries are moving towards statelessness.
+Servers Specifications,The same server must be utilized to process every request.,Different servers can be used to process different information at a time.
+Scaling Architecture,Scaling architecture is difficult and complex.,It is relatively easier to scale architecture.
+Programming,It is difficult to code as one of the salient features here is data storage.,It is much easier to code.
+Examples,"Telnet, FTP (File Transfer Protocol), etc.","HTTP, UDP (User Datagram Protocol), DNS (Domain Name System), etc."

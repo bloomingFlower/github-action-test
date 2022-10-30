@@ -1,0 +1,713 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>State Machine</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="df265b62-1364-403a-a1c0-adc9914dc4cc" class="page sans"><header><h1 class="page-title">State Machine</h1></header><div class="page-body"><h1 id="ac4c0954-e3c7-487b-8581-4de6f2bd4ba0" class="">[Stateless Client]</h1><ul id="dc5b39e6-3e74-4132-8a81-2e7b306b7072" class="toggle"><li><details open=""><summary>References</summary><figure id="d27c2ef2-f97a-44f4-8168-2b1e2af3208b"><a href="https://medium.com/onther-tech/%EC%9D%B4%EB%8D%94%EB%A6%AC%EC%9B%802-0-%EA%B9%8A%EC%9D%B4%EB%B3%B4%EA%B8%B0-%EC%8B%9C%EB%A6%AC%EC%A6%88-%EC%8A%A4%ED%83%9C%EC%9D%B4%ED%8A%B8%EB%A6%AC%EC%8A%A4-%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8-stateless-client-7%ED%8E%B8-b2e96d9f071b" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">[이더리움2.0 깊이보기 시리즈] 스태이트리스 클라이언트(Stateless client)[7편]</div><div class="bookmark-description">이더리움 2.0에서 밸리데이터(validator)들은 셔플링(shuffling)되어 각각의 샤드 체인에 배정됩니다. 밸리데이터가 샤드 체인에 배정되면, 밸리데이터는 샤드 체인의 전체 상태 트리(entire state trie)를 새로 다운로드하여 상태를 싱크(sync)하게 됩니다. 밸리데이터가 샤드 체인에 배정될 때마다 전체 상태 트리를 새로 다운로드 받는 일은 밸리데이터에게 큰 부담이 됩니다. 만약 밸리데이터의 노드가 Stateless하다면 이러한 부담을 크게 줄일 수 있습니다.</div></div><div class="bookmark-href">https://medium.com/onther-tech/%EC%9D%B4%EB%8D%94%EB%A6%AC%EC%9B%802-0-%EA%B9%8A%EC%9D%B4%EB%B3%B4%EA%B8%B0-%EC%8B%9C%EB%A6%AC%EC%A6%88-%EC%8A%A4%ED%83%9C%EC%9D%B4%ED%8A%B8%EB%A6%AC%EC%8A%A4-%ED%81%B4%EB%9D%BC%EC%9D%B4%EC%96%B8%ED%8A%B8-stateless-client-7%ED%8E%B8-b2e96d9f071b</div></div><img src="https://miro.medium.com/max/1200/0*pTfN4IxZ522mUubG.png" class="bookmark-image"/></a></figure><figure id="c49daece-2060-4f72-a075-e6cf122081aa"><a href="https://ethresear.ch/t/the-stateless-client-concept/172" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">The Stateless Client Concept</div><div class="bookmark-description">There exists a protocol transformation that theoretically can be made to many kinds of protocols that in mathematical terms looks as follows. Suppose that we use the state transition lingo, STF(S, B) -&gt; S&#x27;, where S and S&#x27; are states, B is a block (or it could be a transaction T), and STF is the state transition function.</div></div><div class="bookmark-href"><img src="https://ethresear.ch/uploads/default/optimized/2X/b/b5d7a1aa2f70490e3de763bef97271864784994f_2_32x32.png" class="icon bookmark-icon"/>https://ethresear.ch/t/the-stateless-client-concept/172</div></div><img src="https://ethresear.ch/uploads/default/original/2X/6/6097a53a28665397488e4a3ae79aa3c6384d6cc3.png" class="bookmark-image"/></a></figure><figure id="161f66e4-3c3c-4161-be9d-688fce58f99e"><a href="https://medium.com/@akhounov/data-from-the-ethereum-stateless-prototype-8c69479c8abc" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Data from the Ethereum stateless prototype</div><div class="bookmark-description">I wanted to look into the stateless clients for a long time, since this. Of course, during the intervening 15 months my understanding of the Ethereum state, the protocol, the software and the network has changed. For example, I no longer believe that the concept of Stateless clients can be introduced without a hard fork.</div></div><div class="bookmark-href"><img src="https://miro.medium.com/1*m-R_BkNf1Qjr1YbyOIJY2w.png" class="icon bookmark-icon"/>https://medium.com/@akhounov/data-from-the-ethereum-stateless-prototype-8c69479c8abc</div></div><img src="https://miro.medium.com/max/1200/1*guePlAjOnk0yeJLzBPcxqg.png" class="bookmark-image"/></a></figure></details></li></ul><p id="b406aa9a-a79c-4a1a-a3ba-f68c42b6ca85" class="">
+</p><p id="79ca87bd-8a72-42bb-a977-786dc43c72b7" class="">Double batched log Accumulator and State-minimised execution model</p><p id="47f132b9-5590-4d6a-8d59-cbe86674b78e" class="">
+</p><p id="5689bf93-e0c8-4675-bd2d-9deab0ea5e31" class="">이더리움 2.0에서 validator들은 shuffling되어 각각의 shard chain에 배정.</p><p id="3af827c1-e1da-44c9-a692-4bc52b2547a4" class="">Validator가 shard chain에 배정되면, validator는 shard chain의 전체 상태 트리(entire state trie)를 새로 다운로드하여 상태를 sync.</p><p id="e8ed1d49-1ece-4cf7-a8df-c7b202d6573f" class="">하지만 validator가 shard chain에 배정될 때마다 entire state trie를 새로 다운받는 일은 validator에게 부담.</p><p id="5f5b0c31-51be-43a7-acbe-14b0d039241d" class="">validator node가 stateless하다면 부담을 크게 줄일 수 있음.</p><p id="24f5331b-02bc-480d-8865-b18887d7cef9" class=""><mark class="highlight-yellow_background">stateless client는 entire state trie를 가지지 않고 상태 루트(state root) 값 만을 가지기 때문.</mark></p><h2 id="6bcfcd74-d91e-42ff-af78-fc8f2e49b9bc" class="">Stateless Client Concept</h2><h3 id="e39ca76e-cd0d-4b5b-bcb2-a84ef9ffc5ae" class="">Definition</h3><p id="eeb818a4-fb88-4a36-bddc-56f5b4c0d27a" class="">이더리움 1.0: 트랜잭션을 실행하면서 state에 접근하기 위해서는 entire state trie가 필요.</p><p id="b2b0a6d0-eef8-4c48-ac6d-d766e2edeac8" class="">Stateless client에서 entire state trie에 대한 접근 없이 tx를 성공적으로 처리하려면 tx와 함께 witness 데이터가 필요. witness 데이터란 tx가 실행하면서 접근하게 되는 account 또는 storage key 접근에 필요한 데이터를 의미.</p><p id="8d261431-668a-41a2-9d1a-211abac2ecd7" class="">(Merkle trie의 예로 들면, 머클 트리의 리프 노드와 해당 리프 노드가 머클 트리에 존재함을 입증해 줄 수 있는 merkle path가 witness)</p><p id="db058d44-8c14-4bcf-969c-9654866f843c" class="">Stateless client에서 tx이 witness에 포함되지 않은 account나 storage key에 접근하면 error를 발생. tx가 성공적으로 처리되면 stateless client는 새로운 state root를 가짐.</p><p id="0491cf62-2fab-40ed-bb53-8a255ba9b759" class="">State client는 state root만을 가짐. witness data는 miner가 제공. Miner는 항상 entire state trie를 가짐.</p><p id="40fff7cf-b4d3-467d-91ec-155704708768" class="">대안, tx sender가 전체 상태 트리를 가지게 해 witness 제공에 대한 책임을 tx sender에게 넘기는 방식이 있음. (miner를stateless 하게 함.)</p><p id="dc8275ca-4012-478c-b672-73343d4d0c71" class="">→ 이게 무슨 의미가 있지??</p><p id="cd23b4ad-cb2a-43ec-8dab-563ca23e22b8" class="">Stateless client 는 이더리움 1.0에 적용이 어려움.</p><p id="32ac0ca9-f479-4522-b9c3-94085a83423a" class="">account에 대한 접근이 동적. 누구나 임의의 account에 접근이 가능.</p><p id="ae85c7c1-ab4c-415a-b097-7bbf46830181" class="">tx sender가 tx와 함께 witness를 보내더라도 해당 witness를 포함하지 않은 account에 접근하게 되면 에러 발생.</p><p id="e2ed3de7-419d-4260-9f1f-825a2cc18b18" class="">대안. Tx 외부에 account list를 두는 방식</p><p id="898de7c8-1d0d-4d0e-a025-6f4a30ed61c1" class="">Tx를 미리 실행해보고 tx가 실행되면서 접근하는 account list를 tx와 함께 보냄. + witness 도 함께 보냄.</p><p id="2be203a7-36b6-4375-bc9a-a72b6c8497c2" class="">문제. tx와 account list를 보낼 때 시점과 실제 tx이 블록에 포함되어 처리되는 시점에 latency가 존재. 그 사이 해당 account의 state 변경이 이뤄지면 witness correctness가 깨짐.</p><p id="1925a6b3-1e05-4890-8e6e-c56cafe3309d" class="">대안. miner가 블록에 tx를 포함하기 전 miner가 다시 witness를 조정. miner가 갖고 있는 state trie로 부터 witness를 다시 생성.</p><h3 id="4dcb06e1-8484-4161-add3-912692ded199" class="">Advantage</h3><ol type="1" id="d921c224-7852-4560-a128-3041076eb022" class="numbered-list" start="1"><li>Stateless miner와 node들은 전체 상태 트리를 가지지 않아도 됨. → 노드간 동기화가 빠름</li></ol><ol type="1" id="44004121-8c7b-40d4-85c9-aaf5bcae8527" class="numbered-list" start="2"><li>Storage 접근에 필요한 SLOAD, SSTORE opcode에 대한 scheme이 필요 없음. 상태에 접근하지 않기 때문.</li></ol><ol type="1" id="7527f713-0181-42a1-8bbc-74e84f4ba4a1" class="numbered-list" start="3"><li>Stateless client는 전체 상태 트리 접근에 필요한 disk I/O가 필요하지 않음. disk I/O는 상태 값을 읽거나 쓸 때 발생. 이더리움 네트워크의 상태 트리가 커지면 입출력 비용이 비싸짐. 이는 Denial-of-Service 공격 벡터로 작용.</li></ol><ol type="1" id="53057a42-b1a7-46a7-ae23-d0349a9b5438" class="numbered-list" start="4"><li>tx와 account list를 명시하는 것 → tx가 접근하는 account가 겹치지 않으면 tx처리에 대한 병렬화 가능.</li></ol><ol type="1" id="e84fee2a-7acd-445a-94c1-3772d90b081a" class="numbered-list" start="5"><li>tx와 account list를 명시하면 client에서 해당 account list storage data를 미리 가져 올 수 있음.</li></ol><ol type="1" id="8e5735f2-8443-465f-b9e1-daaa1ebf122d" class="numbered-list" start="6"><li>Sharding에서 validator는 각 shard에 shuffling 되어 배정. Shard chain의 state를 새로 다운로드하여 sync를 맞춤. Stateless한 validator가 shard chain 배정 시, state root 만 다운로드 하면 되어 validator가 shuffling 되어 배정되는 과정이 간소화.</li></ol><p id="babad6c1-cc7c-4fde-8424-d9410c58af44" class="">이더리움 PoS전환에 Stateless client가 필수가 아닌 이유</p><p id="7de68148-dcd8-4e71-925e-8fda4db50e25" class="">No longer a prerequisite for the move to PoS.</p><figure id="2def4f68-e6b5-4a3f-a29e-5d4ce77b2c43"><a href="https://www.reddit.com/r/ethfinance/comments/pqsfpm/can_someone_explain_stateless_ethereum_is_no/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Can someone explain &#x27;&quot;Stateless Ethereum&quot; is no longer a prerequisite for the move to proof of stake.&#x27;</div><div class="bookmark-description">What are the advantages/disadvantages of this? From - AllCoreDevs Update 006 found here</div></div><div class="bookmark-href"><img src="https://www.redditstatic.com/desktop2x/img/favicon/favicon-16x16.png" class="icon bookmark-icon"/>https://www.reddit.com/r/ethfinance/comments/pqsfpm/can_someone_explain_stateless_ethereum_is_no/</div></div><img src="https://external-preview.redd.it/u3uQmENp2qu96xXB0dSAqew2urSkcfY0l2r7ScqzhP0.jpg?auto=webp&amp;s=c7a213cd06e6da3006435737fe7656b486f7e563" class="bookmark-image"/></a></figure><p id="0da7bfa2-e48a-4f36-9ccf-2f49edc84537" class="">
+</p><h1 id="de638780-a988-4f2f-8665-611e162679fa" class="">Stateful vs Stateless</h1><figure id="e086db5f-34b1-4ae1-831a-bd125173e265"><a href="https://www.interviewbit.com/blog/stateful-vs-stateless/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Stateful vs Stateless: Full Difference</div><div class="bookmark-description">As the world rapidly moves towards a future where technology plays an integral part in our lives, we may have heard the word - &#x27;network protocol&#x27; quite often. So what is network protocol?</div></div><div class="bookmark-href">https://www.interviewbit.com/blog/stateful-vs-stateless/</div></div><img src="https://www.interviewbit.com/blog/wp-content/uploads/2021/12/Stateful-Vs-Stateless.png" class="bookmark-image"/></a></figure><ul id="099c90d5-bed7-4cbd-8ff2-3ec6311e0273" class="bulleted-list"><li style="list-style-type:disc">Network Protocol: a set of rulese that govern how data is formatted, sent and received by computer network devices, ranging from servers and routers to endpoints, regardless of their underlying infrastructures, designs, or standards.</li></ul><ul id="4ce7fe1b-bf0d-4d33-834d-557ed202f242" class="bulleted-list"><li style="list-style-type:disc">State: the condition or the quility of being at a given point of time.</li></ul><ul id="f28273d7-3346-40c3-9773-f5792b11056d" class="bulleted-list"><li style="list-style-type:disc">Stateful/Stateless의 구분은  the length of interaction a client has with it and how much of the information is stored.</li></ul><h2 id="0b8e2049-9781-44c8-9243-0c0dba83efdc" class="">Stateful 하다?</h2><p id="28da5b22-1f54-49f9-93a9-0ec1f07a452a" class="">전화를 생각해보자. 대화의 시작부터 끝까지 지속적으로 연결 중이다.</p><p id="5a71db92-8ae8-40f8-ace7-e296a8436bf0" class="">연결은 처음만 validate함. request를 보내고 응답이 없으면 request를 다시 보냄.</p><p id="63f32bbb-df23-41bb-b41c-5428014d3b7b" class="">Session을 저장한다.</p><p id="bd293fae-c6ff-470f-9d4a-82684ef794c1" class="">이전 tx가 현재 tx에 어떻게 영향을 주었는지? 여부. 은행 거래와 같은 것.</p><p id="797857b1-2b4b-43f8-ab1e-4c36e1cb9bb4" class="">stateless는 그저 message를 send하기만 하면 됨.</p><h3 id="982640c6-75b3-490e-bda6-ac48f93f26db" class="">Advantages of Stateful</h3><ul id="485f6059-de27-4517-a7c4-d67a6c8f8499" class="bulleted-list"><li style="list-style-type:disc">keep track of the connection. continually keeping track of information</li></ul><ul id="1147a82d-3a49-441b-ad24-2038abdfa144" class="bulleted-list"><li style="list-style-type:disc">more intuitive. can maintain data on the server between two requests.</li></ul><ul id="f572daa4-3888-4224-befc-3bc45ca32b6f" class="bulleted-list"><li style="list-style-type:disc">improve performance when data retrieval is required only once.</li></ul><h3 id="baa715da-c503-4394-a00c-05d32e1a6210" class="">Disadvantages of Stateful</h3><ul id="31e97a16-24f4-4bbc-9c4c-755e2e847b03" class="bulleted-list"><li style="list-style-type:disc">stateful protocol requires memory allocation in order to store data.</li></ul><ul id="4d3a4d70-2c0c-447e-a067-cd5d81a0af1d" class="bulleted-list"><li style="list-style-type:disc">can be decrease in the performance. requires continuous management of the service’s full lifecycle.</li></ul><ul id="a76f82d6-cda9-4714-9c95-2ad51c253844" class="bulleted-list"><li style="list-style-type:disc">require backing storage(usually)</li></ul><ul id="ec2ab93c-c3b3-4ed8-832a-c0136e2ddb54" class="bulleted-list"><li style="list-style-type:disc">state is maintained —&gt; stateful is not very secure</li></ul><h2 id="2aeaa1a5-9053-4562-9e91-6ed81f2949f1" class="">Stateless란?</h2><p id="debdc3e5-9401-45b2-a2e8-074771707ae3" class="">
+</p><h3 id="1803abaf-6881-43de-908b-416164e7b6ff" class="">Advantages of Stateless</h3><ul id="5dd9c9df-f4b8-4648-a8fe-33a33bbc8334" class="bulleted-list"><li style="list-style-type:disc">easy to recover from partial faliures like crashes.</li></ul><ul id="e021d139-7d96-4ee3-929a-9e8e944bcc37" class="bulleted-list"><li style="list-style-type:disc">the server does not have to store session state between requesets. scalability can be easily enhanced</li></ul><ul id="70adec68-51d1-4bf7-a97f-c39eccd50241" class="bulleted-list"><li style="list-style-type:disc">does not need a large number of resources.</li></ul><ul id="d3498e68-ca19-40b9-bbc3-4a7df9966ed5" class="bulleted-list"><li style="list-style-type:disc">each individual communication is unconnected and distinct.</li></ul><ul id="f938b518-1694-479d-9ea5-efc66798a162" class="bulleted-list"><li style="list-style-type:disc">no need to refer to another packet in these packets.</li></ul><h3 id="afa646ff-5142-40c8-b0b1-d5cd14698a02" class="">Disadvantages of Stateless</h3><ul id="cf743d9e-7e7a-49b1-8dbe-35d335795aec" class="bulleted-list"><li style="list-style-type:disc">essential to include additional information in each request. the server will need to interpret this new information.</li></ul><ul id="51a91862-c5b8-40dc-a271-71a8b3074ded" class="bulleted-list"><li style="list-style-type:disc">degrade network performance by increasing the amount of repetitive data delivered in a series of requests, which cannot be saved and reused.</li></ul><ul id="ec6d5b87-2d39-404b-9ad6-c42a2d73161f" class="bulleted-list"><li style="list-style-type:disc">does not store information about a particular user session.</li></ul><p id="aeb99a08-3e86-4724-afa0-af343403cd76" class="">
+</p><p id="bf31ef37-b613-40b1-9813-436fdb160851" class="">Save Data or Not</p><div id="1a5f33db-f205-4079-abd2-67259ac6efbb" class="collection-content"><h4 class="collection-title">Key Difference (1)</h4><table class="collection-content"><thead><tr><th><span class="icon property-icon"><svg viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesTitle"><path d="M0.637695 13.1914C1.0957 13.1914 1.32812 13 1.47852 12.5215L2.24414 10.3887H6.14746L6.90625 12.5215C7.05664 13 7.2959 13.1914 7.74707 13.1914C8.22559 13.1914 8.5332 12.9043 8.5332 12.4531C8.5332 12.2891 8.50586 12.1523 8.44434 11.9678L5.41602 3.79199C5.2041 3.21777 4.82129 2.9375 4.19922 2.9375C3.60449 2.9375 3.21484 3.21777 3.0166 3.78516L-0.0322266 12.002C-0.09375 12.1797 -0.121094 12.3232 -0.121094 12.4668C-0.121094 12.918 0.166016 13.1914 0.637695 13.1914ZM2.63379 9.12402L4.17871 4.68066H4.21973L5.76465 9.12402H2.63379ZM12.2793 13.2324C13.3115 13.2324 14.2891 12.6787 14.7129 11.8037H14.7402V12.5762C14.7471 12.9863 15.0273 13.2393 15.4238 13.2393C15.834 13.2393 16.1143 12.9795 16.1143 12.5215V8.00977C16.1143 6.49902 14.9658 5.52148 13.1543 5.52148C11.7666 5.52148 10.6592 6.08887 10.2695 6.99121C10.1943 7.15527 10.1533 7.3125 10.1533 7.46289C10.1533 7.81152 10.4062 8.04395 10.7686 8.04395C11.0215 8.04395 11.2129 7.94824 11.3496 7.73633C11.7529 6.99121 12.2861 6.65625 13.1064 6.65625C14.0977 6.65625 14.6992 7.20996 14.6992 8.1123V8.67285L12.5664 8.7959C10.7686 8.8916 9.77734 9.69824 9.77734 11.0107C9.77734 12.3369 10.8096 13.2324 12.2793 13.2324ZM12.6621 12.1387C11.8008 12.1387 11.2129 11.667 11.2129 10.9561C11.2129 10.2725 11.7598 9.82129 12.7578 9.75977L14.6992 9.62988V10.3203C14.6992 11.3457 13.7969 12.1387 12.6621 12.1387Z"></path></svg></span>Characteristics</th><th><span class="icon property-icon"><svg viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M1.56738 3.25879H14.4258C14.7676 3.25879 15.0479 2.97852 15.0479 2.63672C15.0479 2.29492 14.7744 2.02148 14.4258 2.02148H1.56738C1.21875 2.02148 0.952148 2.29492 0.952148 2.63672C0.952148 2.97852 1.22559 3.25879 1.56738 3.25879ZM1.56738 6.84082H14.4258C14.7676 6.84082 15.0479 6.56055 15.0479 6.21875C15.0479 5.87695 14.7744 5.60352 14.4258 5.60352H1.56738C1.21875 5.60352 0.952148 5.87695 0.952148 6.21875C0.952148 6.56055 1.22559 6.84082 1.56738 6.84082ZM1.56738 10.4229H14.4258C14.7676 10.4229 15.0479 10.1426 15.0479 9.80078C15.0479 9.45898 14.7744 9.18555 14.4258 9.18555H1.56738C1.21875 9.18555 0.952148 9.45898 0.952148 9.80078C0.952148 10.1426 1.22559 10.4229 1.56738 10.4229ZM1.56738 14.0049H8.75879C9.10059 14.0049 9.38086 13.7246 9.38086 13.3828C9.38086 13.041 9.10742 12.7676 8.75879 12.7676H1.56738C1.21875 12.7676 0.952148 13.041 0.952148 13.3828C0.952148 13.7246 1.22559 14.0049 1.56738 14.0049Z"></path></svg></span>Stateful</th><th><span class="icon property-icon"><svg viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M1.56738 3.25879H14.4258C14.7676 3.25879 15.0479 2.97852 15.0479 2.63672C15.0479 2.29492 14.7744 2.02148 14.4258 2.02148H1.56738C1.21875 2.02148 0.952148 2.29492 0.952148 2.63672C0.952148 2.97852 1.22559 3.25879 1.56738 3.25879ZM1.56738 6.84082H14.4258C14.7676 6.84082 15.0479 6.56055 15.0479 6.21875C15.0479 5.87695 14.7744 5.60352 14.4258 5.60352H1.56738C1.21875 5.60352 0.952148 5.87695 0.952148 6.21875C0.952148 6.56055 1.22559 6.84082 1.56738 6.84082ZM1.56738 10.4229H14.4258C14.7676 10.4229 15.0479 10.1426 15.0479 9.80078C15.0479 9.45898 14.7744 9.18555 14.4258 9.18555H1.56738C1.21875 9.18555 0.952148 9.45898 0.952148 9.80078C0.952148 10.1426 1.22559 10.4229 1.56738 10.4229ZM1.56738 14.0049H8.75879C9.10059 14.0049 9.38086 13.7246 9.38086 13.3828C9.38086 13.041 9.10742 12.7676 8.75879 12.7676H1.56738C1.21875 12.7676 0.952148 13.041 0.952148 13.3828C0.952148 13.7246 1.22559 14.0049 1.56738 14.0049Z"></path></svg></span>Stateless</th></tr></thead><tbody><tr id="dcda4f5f-eb95-49fa-b925-41674c77d412"><td class="cell-title"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Key%20Difference%20(1)%201a5f33dbf2054079abd267259ac6efbb/Definition%20dcda4f5feb9549fab92541674c77d412.html">Definition</a></td><td class="cell-&gt;OXD">Stateful Protocols require the server to save the state of a process.</td><td class="cell-~kNQ">Stateless Protocols do not need the server to save the state of a process.</td></tr><tr id="089135bc-ca37-4a38-8b80-5f4d020d9c5a"><td class="cell-title"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Key%20Difference%20(1)%201a5f33dbf2054079abd267259ac6efbb/Response%20mechanism%20089135bcca374a388b805f4d020d9c5a.html">Response mechanism</a></td><td class="cell-&gt;OXD">Stateful expects a response and if no answer is received, the request is resent.</td><td class="cell-~kNQ">In stateless, the client sends a request to a server, which the server responds to based on the state of the request.</td></tr><tr id="b6e6400f-37cc-4965-af68-dc4b8d2df810"><td class="cell-title"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Key%20Difference%20(1)%201a5f33dbf2054079abd267259ac6efbb/Design%20complexity%20b6e6400f37cc4965af68dc4b8d2df810.html">Design complexity</a></td><td class="cell-&gt;OXD">This makes the design heavy and complex since data needs to be stored.</td><td class="cell-~kNQ">Server design is simplified in this case.</td></tr><tr id="75212f26-d6f4-4ee1-9b51-a3d2004ba6af"><td class="cell-title"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Key%20Difference%20(1)%201a5f33dbf2054079abd267259ac6efbb/Requirement%20of%20Server%2075212f26d6f44ee19b51a3d2004ba6af.html">Requirement of Server</a></td><td class="cell-&gt;OXD">The server is required to store and save status information and details of sessions.</td><td class="cell-~kNQ">No server is needed for data storage.</td></tr><tr id="b7e55520-26bc-46a8-8fb9-2bc8b8e6dd22"><td class="cell-title"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Key%20Difference%20(1)%201a5f33dbf2054079abd267259ac6efbb/Dependency%20b7e5552026bc46a88fb92bc8b8e6dd22.html">Dependency</a></td><td class="cell-&gt;OXD">Server and Client are tightly coupled, as in extremely interdependent on each other.</td><td class="cell-~kNQ">Server and Client are more independent and hence, loosely coupled.</td></tr><tr id="98b1e3fe-562a-4849-a0bc-f02e2e11b5fc"><td class="cell-title"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Key%20Difference%20(1)%201a5f33dbf2054079abd267259ac6efbb/Transaction%20Handling%2098b1e3fe562a4849a0bcf02e2e11b5fc.html">Transaction Handling</a></td><td class="cell-&gt;OXD">Transaction handling is relatively slow in the stateful protocol.</td><td class="cell-~kNQ">This is relatively faster in the stateless protocol.</td></tr><tr id="31500276-2c69-4a4e-987d-eab36ba2c0f3"><td class="cell-title"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Key%20Difference%20(1)%201a5f33dbf2054079abd267259ac6efbb/Implementation%20315002762c694a4e987deab36ba2c0f3.html">Implementation</a></td><td class="cell-&gt;OXD">They are logically heavy to implement.</td><td class="cell-~kNQ">They are easy to implement.</td></tr><tr id="76fdcf05-b231-4f0a-9703-2bd1a58b0e0a"><td class="cell-title"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Key%20Difference%20(1)%201a5f33dbf2054079abd267259ac6efbb/Functioning%20after%20a%20crash%2076fdcf05b2314f0a97032bd1a58b0e0a.html">Functioning after a crash</a></td><td class="cell-&gt;OXD">Since stateful protocols need to store data regarding the sessions, once the crash occurs, all the stored data is lost. Hence, it doesn’t work very well after a crash occurs.</td><td class="cell-~kNQ">In the event of a crash, stateless protocols work better because there doesn’t exist a state that needs to be restored. A server that failed during the crash can simply be restarted.</td></tr><tr id="1214154c-9d08-4283-9ab6-8c5d2e963bd4"><td class="cell-title"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Key%20Difference%20(1)%201a5f33dbf2054079abd267259ac6efbb/Design%201214154c9d0842839ab68c5d2e963bd4.html">Design</a></td><td class="cell-&gt;OXD">The server design is complex to implement.</td><td class="cell-~kNQ">The server design is simpler to implement.</td></tr><tr id="fa783ccd-a54f-4dc9-9402-3375fab9427a"><td class="cell-title"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Key%20Difference%20(1)%201a5f33dbf2054079abd267259ac6efbb/Working%20State%20fa783ccda54f4dc994023375fab9427a.html">Working State</a></td><td class="cell-&gt;OXD">They react only by the current state of a transaction or request.</td><td class="cell-~kNQ">They act independently by taking the previous or next request into consideration.</td></tr><tr id="f54a22cc-e854-423c-ac6d-febd7d97cf9b"><td class="cell-title"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Key%20Difference%20(1)%201a5f33dbf2054079abd267259ac6efbb/Requests%20f54a22cce854423cac6dfebd7d97cf9b.html">Requests</a></td><td class="cell-&gt;OXD">Requests are always dependent on the server-side.</td><td class="cell-~kNQ">Requests are self-contained and not dependent on the server side.</td></tr><tr id="352631c2-b5f0-45fa-9e5c-db74f834edb5"><td class="cell-title"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Key%20Difference%20(1)%201a5f33dbf2054079abd267259ac6efbb/Userbase%20352631c2b5f045fa9e5cdb74f834edb5.html">Userbase</a></td><td class="cell-&gt;OXD">These are a thing of the past, and the dynamic user base is very less.</td><td class="cell-~kNQ">These are the future because more and more industries are moving towards statelessness.</td></tr><tr id="a61e7b56-61f8-48b2-bebf-d282929c1538"><td class="cell-title"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Key%20Difference%20(1)%201a5f33dbf2054079abd267259ac6efbb/Servers%20Specifications%20a61e7b5661f848b2bebfd282929c1538.html">Servers Specifications</a></td><td class="cell-&gt;OXD">The same server must be utilized to process every request.</td><td class="cell-~kNQ">Different servers can be used to process different information at a time.</td></tr><tr id="d4ba3ca8-563d-4eb3-995c-12d52e77ea1a"><td class="cell-title"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Key%20Difference%20(1)%201a5f33dbf2054079abd267259ac6efbb/Scaling%20Architecture%20d4ba3ca8563d4eb3995c12d52e77ea1a.html">Scaling Architecture</a></td><td class="cell-&gt;OXD">Scaling architecture is difficult and complex.</td><td class="cell-~kNQ">It is relatively easier to scale architecture.</td></tr><tr id="65c353f1-789d-4fa0-a5ec-1ad4e97cf0ca"><td class="cell-title"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Key%20Difference%20(1)%201a5f33dbf2054079abd267259ac6efbb/Programming%2065c353f1789d4fa0a5ec1ad4e97cf0ca.html">Programming</a></td><td class="cell-&gt;OXD">It is difficult to code as one of the salient features here is data storage.</td><td class="cell-~kNQ">It is much easier to code.</td></tr><tr id="53712432-7d31-4ec9-8731-9015deaed8c6"><td class="cell-title"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Key%20Difference%20(1)%201a5f33dbf2054079abd267259ac6efbb/Examples%20537124327d314ec987319015deaed8c6.html">Examples</a></td><td class="cell-&gt;OXD">Telnet, FTP (File Transfer Protocol), etc.</td><td class="cell-~kNQ">HTTP, UDP (User Datagram Protocol), DNS (Domain Name System), etc.</td></tr></tbody></table></div><h1 id="238fc0f4-589c-44f3-b620-21c483834137" class="">Stateless Ethereum</h1><figure id="01b009e1-41ba-4653-ba66-b619b5995413"><a href="https://ethresear.ch/t/the-stateless-client-concept/172" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://ethresear.ch/t/the-stateless-client-concept/172</div></div></a></figure><h2 id="83c09f30-d4bc-47c0-b7f6-f9cbb9f805c5" class="">State</h2><h3 id="89cd7cc6-05f4-4f82-b000-19eb833b2553" class="">Account State</h3><ul id="905515a2-f3ee-4a57-9e3e-3b1c5b07b0c0" class="bulleted-list"><li style="list-style-type:disc">nonce, balance, storageRoot, codeHash(contract)</li></ul><h3 id="4ab75e90-9f5b-4201-9290-bf67581a3e8c" class="">World State</h3><ul id="54eac26a-df09-45a0-9774-05709d080a0e" class="bulleted-list"><li style="list-style-type:disc">mapping of account addresses between account states.(Merkle Patricia tree)</li></ul><p id="277e8ea8-1d43-4e78-9839-b6295d89336a" class="">Statelessness allows the creation of light nodes.</p><p id="0b0344cf-7d49-4eea-af74-ccf1b5a00931" class="">A light node contains only the chain of headers without the execution of any txs or associated states.</p><p id="ba17bc3e-4fcb-415b-98f9-eb561855e7f2" class="">When a node comes online it will be fully stateless.(zero information regarding state.</p><h3 id="f51de683-b459-453a-a129-bbc1f380ec24" class="">Ethereum 1.X </h3><figure id="b9125804-aa09-4cc4-8662-0f7048d3c6a3"><a href="https://blog.ethereum.org/2019/12/30/eth1x-files-state-of-stateless-ethereum/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">The 1.x Files: The State of Stateless Ethereum</div><div class="bookmark-description">In the last edition of The 1.x files, we did a quick re-cap of where the Eth 1.x research initiative came from, what&#x27;s at stake, and what some possible solutions are. We ended with the concept of stateless ethereum, and left a more detailed examination of the stateless client for...</div></div><div class="bookmark-href"><img src="https://blog.ethereum.org/favicon.png" class="icon bookmark-icon"/>https://blog.ethereum.org/2019/12/30/eth1x-files-state-of-stateless-ethereum/</div></div><img src="https://blog.ethereum.org/img/ethereum-blog-og-image.png" class="bookmark-image"/></a></figure><p id="ad073e35-fbb3-4b25-9003-93043e2d73f8" class="">implements stateless client but not stateless miners.</p><p id="c8c540a9-1bf5-4652-bf4f-6ae671e8e601" class="">launch-block: only records the input and output state of this block locally.</p><p id="f13699d4-14d7-4ffa-a8f7-53ba4301b0f7" class="">witness data is called by the node to construct blocks. </p><p id="8f385e62-ca84-48d3-9540-e600556df67c" class="">witness data + input/output date ⇒ stateless client</p><h3 id="cf23d5be-bedb-448d-bc23-2b51dad9cd04" class="">Ethereum 2.0</h3><p id="feb92b05-4c47-4368-842e-305fef863d8a" class="">stateless clients and statelesss miners in Sharding.</p><p id="91773fe6-3729-49e4-8996-8d07486bfb4f" class="">All nodes are stateless so that faster processing with less data increases scalability greatly.</p><p id="b44902f5-7095-4277-b017-5d584dbcbc2d" class="">Eth1 is a sequential chain of blocks where one is complete on top of another in a linear fashion. This leads to traffic jams.</p><p id="8ea27a0d-8c2e-4453-8326-67fda1ee29fd" class="">Sharding is a design where the Eth network is split into groups referrede to a shards. Each shard has its own independant state. Txs are delegated to different shards for processing. parallel computing increases efficienct by allowing the work to be split up and executed concurrently.</p><p id="2c55819d-6efc-4ada-ae58-004e02214593" class="">
+</p><p id="7e0b48dd-bf8c-4f2f-84f6-be2ead70182e" class="">A truly stateless client would never keep a copy of state. It would only grab the latest txs together with the witness, and everything it needs to execute the next block.</p><p id="4b880a2b-1a2e-4885-bf40-4b9af71d5792" class="">
+</p><p id="0475a954-2834-4da1-8ece-f113b0e24bc9" class="">If the entire network were stateless, this could actually hold up forever witnesses for new blocks can be produced from the previous block.</p><p id="eea0af5e-57a8-417f-b9fb-3421682f5f2e" class="">
+</p><p id="454bfdac-d507-49f3-8f45-0a702cba55f7" class="">varying degrees of statefullness. and have a network in which some nodes keep a full copy of state and can serve everyone else fresh witnesses.</p><p id="9d7e4006-b60b-461a-b423-fe408e92eff7" class="">
+</p><ul id="a7143a13-ee49-4b37-935f-83f99a701725" class="bulleted-list"><li style="list-style-type:disc">Full-state nodes would operate as before, but would additionally compute a witness and either attach it to a new block, or propagate it through a secondary network sub-protocol.</li></ul><ul id="85fce16d-7956-4601-a0f9-643e2d67ef4e" class="bulleted-list"><li style="list-style-type:disc">Partial-state nodes can keep a full state for just a short number of blocks, or perhaps just watch the piece of state that they are interested in and get the rest of the data that they need to verify blocks from witnesses.</li></ul><ul id="f4c73bbe-4211-4c57-ad73-33fbf3b0f83d" class="bulleted-list"><li style="list-style-type:disc">Zero-state nodes: want to keep their clients running as light as possible could rely entirely on witnesses to verify new blocks.</li></ul><figure id="aab6476a-6423-4705-97fe-5f77af99bdfc"><a href="https://ethresear.ch/t/state-provider-models-in-ethereum-2-0/6750?u=benjaminion" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">State Provider Models in Ethereum 2.0</div><div class="bookmark-description">This post was co-authored by @samwilsn and @adietrichs, with significant input by @villanuevawill and the Quilt team. Introduction Ethereum 2.0&#x27;s statelessness means that transactions have to bring their own state. More precisely, for every transaction a block proposer (BP) wants to include into a block, they also have to include all state accessed by that transaction, as well as the corresponding witnesses.</div></div><div class="bookmark-href"><img src="https://ethresear.ch/uploads/default/optimized/2X/b/b5d7a1aa2f70490e3de763bef97271864784994f_2_32x32.png" class="icon bookmark-icon"/>https://ethresear.ch/t/state-provider-models-in-ethereum-2-0/6750?u=benjaminion</div></div><img src="https://ethresear.ch/uploads/default/original/2X/b/bd99e506c20b051cd87469c1a4a9ee1131d69017.png" class="bookmark-image"/></a></figure><p id="252668ff-c429-468f-bc83-284ef9344b81" class="">PoS ⇒ consensus comes very quickly.</p><h3 id="7c905bba-13ca-4671-aad9-711304b50db0" class="">Aim</h3><p id="cfe17313-c1aa-4bb9-aa30-10c5ae6d206c" class="">make ethereum scale, by mitigating unbounded state growth.</p><h3 id="54547aa1-b690-428c-94d6-70a37299e375" class="">Witness</h3><p id="873f3542-4402-4d33-a0af-55c30386e6f2" class="">When client receive validated blocks from miners, they will also receive its corresponding witness.</p><p id="efbc0449-68d4-4757-99db-3b1f3c18c25a" class="">The block witness consists of all the data required to execute the transactions contained in that block.</p><h3 id="0b661b36-1eca-4ae2-b48e-944af6a084f7" class="">Modeling</h3><p id="5fe2ac87-be22-4dcf-a8bc-eb5ff8f1d41e" class="">the approach we typically use when we want to predict the future, or explore unintentional know-on effects that may occur when changes are made.</p><p id="4d6ef0be-61b2-4f39-a861-bd7d8196a0e5" class="">
+</p><p id="74122646-a2e7-4055-99ed-6907714a64be" class="">현재의 이더리움 네트워크를 stateless로 바꿀 때 시스템이 어떻게 적용되고 동작하는지를 잘 이해할 필요가 있음.</p><p id="f589a055-87ec-4a26-b03a-2b077bc77b22" class="">가장 최악과 최선의 시나리오는 어떨까?</p><p id="e7acdbd9-2b51-436d-99e4-18c2a7b8533e" class="">
+</p><h3 id="102417fb-379f-457f-80ad-7c9dac309f80" class="">Baysian Network</h3><p id="1933ee4b-d4ae-4b13-ba8c-41c3866a1abb" class="">a probabilistic graphical and visual modeling tool that represents the interaction of stakeholders whithin the model.</p><p id="c70813b1-9f8f-47a7-872b-9c7084143eb6" class="">explicitly represent uncertainty using joint probability distributions across all the factors and interactions in the model.</p><p id="f5b46c5e-19f4-4124-a09d-6933b01fb983" class="">be suitede to modeling complex system like ethereum.</p><p id="f861a054-735c-469b-9441-796d2f622722" class="">be used regardless of whether ehre is a lot or little data.</p><figure id="68a0382b-e8aa-458f-b289-fb681e6bea41" class="image"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled.png"><img style="width:358px" src="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled.png"/></a></figure><p id="c95212f5-d248-4ad0-bb3b-2fe7e66fee5f" class=""><strong>Figure 1: Stateless Ethereum model showing four sub-models</strong></p><figure id="4e070975-8b6b-4379-9f5d-49bbfef63a41" class="image"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%201.png"><img style="width:903px" src="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%201.png"/></a></figure><figure id="a25a0528-24c5-4471-b728-064a87c2b7bc" class="image"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%202.png"><img style="width:379px" src="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%202.png"/></a></figure><p id="2a06c537-1852-452e-9151-7d7dea930fbe" class="">full node, archive node: semi-stateless node</p><h3 id="4af2bdae-bf05-4989-8544-6fc7304c9760" class="">Block Producer</h3><p id="6018e9ff-9a79-4d79-9961-c623ceae44b2" class="">Miner</p><h3 id="cc312876-adc0-4bbc-8dfd-c6cf9accc036" class="">Node bandwidth</h3><p id="cf299b96-a7a8-4c3d-ba7b-ae675cb334ea" class="">Enables fast propagation of blocks through the Ethereum network.</p><p id="7dee53cc-9008-4c50-abef-d3acf3cf9c44" class="">High bandwidth: businesses, hosting nodes</p><p id="1ed3f7ed-9240-4f9a-a6f0-c4e04c6d4c8b" class="">Medium bandwidth: colleges, residential</p><p id="d5e16de6-3398-4e62-9b41-c01729065bac" class="">Low bandwitdh: others..</p><figure id="1d266c10-b848-4c7d-a8ab-b08a7b9e325c" class="image"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2022-06-24_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_7.31.10.png"><img style="width:1438px" src="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2022-06-24_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_7.31.10.png"/></a></figure><p id="94123c07-6358-484e-b5e4-2d04c423bb92" class="">
+</p><figure id="ae7759e7-b96e-44c7-b504-27ad36b84912" class="image"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%203.png"><img style="width:561px" src="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%203.png"/></a></figure><p id="b2038d4f-81ae-4432-baba-e9f35eed9b9c" class="">
+</p><figure id="e637ae87-3582-4b7a-bdab-7edf38848d02" class="image"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%204.png"><img style="width:570px" src="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%204.png"/></a></figure><h2 id="981bacfc-9d8f-4782-b285-15aa7cfcbd15" class="">Accumulator</h2><p id="4761c666-76c2-4b38-ac89-bc8db6660784" class="">Stateless Client에서 사용</p><ol type="1" id="3e12ce2c-f041-4663-a202-a9b3168bf14f" class="numbered-list" start="1"><li>Persist the blockchain data, specifically the tx and block that have been agreed by validators via consensus protocol.</li></ol><ol type="1" id="67561148-d639-48cc-afbc-e66478093d1a" class="numbered-list" start="2"><li>Provide a response with Merkle proofs to any query that asks for a part of the blockchain data.</li></ol><p id="ea149f76-2d25-45f7-8f1e-542fdc68aea4" class="">Merkle tree가 strong accumulator!</p><figure id="07327a70-ca0e-4311-b0c0-84927d033899" class="image"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%205.png"><img style="width:816px" src="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%205.png"/></a></figure><figure id="e0dca48c-6db5-4533-befb-737cf2a7203b"><a href="https://eprint.iacr.org/2015/718.pdf" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href"><img src="https://eprint.iacr.org/favicon.ico" class="icon bookmark-icon"/>https://eprint.iacr.org/2015/718.pdf</div></div></a></figure><p id="4c20cca8-f37c-4c03-958e-2877e2c2f791" class="">
+</p><ul id="5355ddbc-8ff3-45b3-9beb-3b3bca80b801" class="bulleted-list"><li style="list-style-type:disc">Merkle root value: Accumulator value</li></ul><ul id="8adb094f-2fd0-4c23-9f0c-09555c89efc1" class="bulleted-list"><li style="list-style-type:disc">Merkle path: Membership witness</li></ul><ul id="3afc62fe-f929-43ad-af32-dc0b7a526703" class="bulleted-list"><li style="list-style-type:disc">Strong: accumulator를 생성하고 새로운 element를 accumulator에 추가하기 위해 누군가를 trust하지 않아도 된다. Trustless한 accumulator를 strong accumulator라 함.(secret을 require하지 않음.)
+—&gt; 누군가를 trust하지 않는다의 누군가가 누구??</li></ul><ul id="33e150fa-373a-425f-b0a6-bd95ae6f26a3" class="bulleted-list"><li style="list-style-type:disc">Accumulator는 accumulator value를 가짐.
+새로운 element를 추가할 때 마다 accumulator value가 변경. 특정 element가 accumulator에 존재하고 있음을 membership witness로 증명</li></ul><p id="adb42b30-16ef-4bca-b5e8-c6939485f6b1" class="">Polynomial-time algorithm: 다항 시간 안에 해결할 수 있는 알고리즘</p><h2 id="daea14f4-b205-44d8-9f6b-fc9ea852d90b" class="">Asynchronous Accumulator</h2><p id="8b1ab746-e1ae-4b50-82a2-f250d8ae21b6" class="">Accumulator는 element 추가 횟수에 1:1 비율로 membership witness 업데이트를 새로 추가.</p><ul id="a4fb35c8-555e-490b-8ec8-cf6ed79ac92b" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-yellow_background">Low update frequency</mark>: Asynchronous accumulator는 새로 추가되는 element 개수에 완전히 비례하지 않음.(Sub-linear)</li></ul><figure id="5825fcaf-9d2c-4737-9f49-3243fe5628ca" class="image"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%206.png"><img style="width:864px" src="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%206.png"/></a></figure><ul id="55738155-086f-4660-9d3f-28629004e964" class="bulleted-list"><li style="list-style-type:disc">여러 개의 merkle tree의 merkle root 값으로 이뤄짐. merkle root 값의 리스트</li></ul><ul id="cdcacd1a-d6d1-4b8c-9b39-a4398d351980" class="bulleted-list"><li style="list-style-type:disc">Membership witness는 merkle tree의 leaf node에서부터 해당 leaf node를 가지고 있는 merkle root까지의 merkle path. (위 그림에서 점섬으로 그려진 노드)</li></ul><ul id="390282d4-a4d3-4ec1-8b84-935ab28bdfbb" class="bulleted-list"><li style="list-style-type:disc">Membership witness 업데이트는 merkle tree가 merge 될 때만 발생.</li></ul><ul id="4f388914-0c4e-4313-a5d8-ea6552ef7236" class="bulleted-list"><li style="list-style-type:disc">Accumulator에 저장되는 merkle root 값들은 업데이트가 아닌 append-only.
+(merkle_root = H(H(h1 || h2) || (H3 || h4))</li></ul><figure id="2a67992e-7a8a-494e-abd0-2bcd49cc8f24"><a href="https://starcoin.org/en/developer/tech/accumulator/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Introduction to Accumulator | Starcoin</div><div class="bookmark-description">The Merkle Accumulator is an append-only Merkle tree that the Starcoin Blockchain uses to store the transaction_info hash. Merkle accumulators can provide proofs that a transaction was included in the chain (&quot;proof of inclusion&quot;). They are also called &quot;history trees&quot; in literature.</div></div><div class="bookmark-href">https://starcoin.org/en/developer/tech/accumulator/</div></div><img src="https://starcoin.org/en/developer/tech/accumulator/images/accumulator2.png" class="bookmark-image"/></a></figure><ul id="38df132e-628e-49fb-8142-6a5d6e72066c" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-yellow_background">Old-Accumulator Compatibility</mark>: 최신의 membership witness를 가지고 이전 상태의 accumulator 상태에서의 특정 데이터 membership 검증이 가능한 특성.
+(3.2 참고)</li></ul><ul id="c2140712-b608-427d-a132-b032e8f80772" class="bulleted-list"><li style="list-style-type:disc">Merkle Mountain Ranges 자료 구조와 같다는 비탈릭의 피드백. → 새로운 accumulator를 제안</li></ul><h2 id="132da20a-8958-4002-a97c-d696246dc820" class="">History in the stateless model</h2><p id="b413920d-9c16-4b19-8642-fe74535243a5" class="">Asynchronous accumulator, accumulator는 history data만을 다룸.</p><p id="2ef2a51a-567f-4a23-895a-d6f367462f44" class="">History는 변경이 불가능하며 append-only 한 data.</p><p id="a092aab7-0eeb-48f7-b51b-ecb722ab24fb" class="">Transaction History, Block History, Receipt History, Contract</p><p id="3a526cc1-b6a5-4799-9603-e2e11b47847f" class="">Stateless client는 witness가 tx와 함께 제공되기 때문에 state(데이터를 찾는 행위)를 필요로 하지 않음. Stateless client는 동적(데이터 수정 가능)인 상태를 다루는 것보다 정적(데이터 수정 불가능, 추가는 가능)인 히스토리를 다루는 것이 더욱 쉬움.</p><p id="3cba46b4-234e-4dda-8d86-88daa4fa4b49" class="">
+</p><h2 id="25aeaf4b-625b-4e26-8a87-87ca1872d043" class="">Merkle Mountain Ranges(MMR)</h2><figure id="ea117cc1-1c9d-48d8-9b1b-8b36ccab5d8c"><a href="https://github.com/opentimestamps/opentimestamps-server/blob/master/doc/merkle-mountain-range.md" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">opentimestamps-server/merkle-mountain-range.md at master · opentimestamps/opentimestamps-server</div><div class="bookmark-description">As digests are accumulated we hash them into trees, building up the largest perfect binary trees possible as we go. At least one tree will always exist, with 2^k digests at the base, and 2^(k+1)-1 total elements. If the total number of digests doesn&#x27;t divide up into one perfect tree, more than one tree will exist.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/opentimestamps/opentimestamps-server/blob/master/doc/merkle-mountain-range.md</div></div><img src="https://opengraph.githubassets.com/3f4c0671853e0d71677eecbb5d2a3c1d753300f3f5276151aa8b20582a35382f/opentimestamps/opentimestamps-server" class="bookmark-image"/></a></figure><figure id="433ab6b5-d276-4444-ae76-d2f90a4d22c9" class="image"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%207.png"><img style="width:432px" src="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%207.png"/></a></figure><ul id="bcace839-1857-4201-aa80-bb2f5bda8147" class="bulleted-list"><li style="list-style-type:disc">MMR 데이터는 모두 digest하며 append-only.</li></ul><ul id="a3fe8e4f-c5d8-4d4d-8ccd-655423340192" class="bulleted-list"><li style="list-style-type:disc">Digeset: 어떤 값을 해시 함수에 넣어서 나온 결과 값.</li></ul><ul id="41dd8fd9-08a4-4909-acac-a5d08fb010d6" class="bulleted-list"><li style="list-style-type:disc">MMR 각 노드위 숫자: 노드가 생성된 순서 (15개면 새로운 tree 생성??)</li></ul><ul id="12b55535-4125-4541-a60a-786d5d982202" class="bulleted-list"><li style="list-style-type:disc">새로운 node 추가는 다른 node 변경을 야기하지 않음.
+Merkle trie는 새로운 node가 생김에 따라 intermediate node의 변경이 일어남.</li></ul><ul id="b2b4c138-0894-442b-ac20-e0a0d27eb8e5" class="bulleted-list"><li style="list-style-type:disc">mountain의 꼭대기를 peak이라 함.</li></ul><p id="277cac66-6cc2-4798-ae87-65d9b4bbb320" class="">
+</p><ol type="1" id="8cf567e5-a9ed-4b4f-adfb-284b4d0e2a29" class="numbered-list" start="1"><li>Leaf node의 개수를 통해 MMR 높이를 구할 수 있음. 높이는 log2(n)의 내림 값.</li></ol><ol type="1" id="6bb4f9ef-20ff-491f-a105-80d9a31599f7" class="numbered-list" start="2"><li>MMR의 Peak node는 항상 왼쪽에서 먼저 생성. 가장 높은 peak 역시 왼쪽 mountain에서 생성. Peak node들은 모두 2^n-1 포지션에 존재.
+<p id="deff3212-177a-410a-b685-ba111ec875b4" class="">2^0 - 1 = 0, and 0 &lt; 11</p><p id="0cdabbe3-a51f-4691-aa7e-61785ac9cbe9" class="">2^1 - 1 = 1, and 1 &lt; 11</p><p id="b7d36793-1c30-4c40-b24f-54ca8fae6c3e" class="">2^2 - 1 = 3, and 3 &lt; 11</p><p id="ea6474b5-5468-4d3f-9cff-009774d1568d" class="">2^3 - 1 = 7, and 7 &lt; 11</p><p id="03813ec5-b2ce-4eac-8454-4de538a3b469" class="">2^4 - 1 = 15, and 15 is not &lt; 11</p></li></ol><ol type="1" id="862379d8-6225-4872-b19c-36397de68223" class="numbered-list" start="3"><li>Peak node를 찾은 후, 다음 peak 찾기 위해서 right-sibling node로 점프(+2^(h+1)-1) 혹은 left-child(-2^h)를 취함. h는 높이. </li></ol><h3 id="2c42709b-1790-48c8-a0ce-2658a51116d8" class="">Merkle root(Accumulator value)</h3><p id="73fd62f5-8672-47c7-9002-844e289e23c1" class="">MMR에는 대표하는 단 하나의 Merkle root가 존재하지 않음.</p><p id="d59235f7-2c84-4313-a1b1-cca7fe6ffd3d" class="">MMR에서 Merkle root를 만들기 위해서는 <mark class="highlight-yellow_background">bagging</mark>이라는 작업 필요. bagging은 MMR에 존재하는 꼭대기(Peak) 노드들을 이어 붙인 다음 이를 해싱. 이 값이 Merkle root 값.</p><p id="82050a2b-7fc1-4333-a5cb-34b0e24a2ba8" class="">
+</p><h3 id="390ff678-5c3e-451b-a3fd-889f9852d55a" class="">Merkle path(Memebership witness)</h3><p id="4ac8bd2d-4234-43d7-9236-d4d7cd7da41b" class="">위 그림 예시에서 position 10 leaf node의 merkle path는 다음의 data를 포함.</p><p id="995ee2b9-411b-4c2b-86ea-dbe33b88224d" class="">(1) Merkle Root(bagging)</p><p id="d4d212bc-f8ea-4b28-92af-f5ba9518c67c" class="">(2) 꼭대기 노드 데이터: 17, 18</p><p id="ba0f6ea3-71a3-4046-8a68-f6372b833aa0" class="">(3) 이외의 데이터: 11번(merge(10,11) = 12), 9번(merge(9, 12)= 13), 6번(merge(6,13)=14).</p><p id="ac9a12ce-6645-4568-bdbf-5d8384235546" class="">
+</p><h2 id="c2bdc6a0-d07d-4e39-a2bb-216525ea3d58" class="">Log Accumulator</h2><figure id="eb60cd24-9e78-4195-b007-b22b91a2b8f0"><a href="https://ethresear.ch/t/batching-and-cyclic-partitioning-of-logs/536" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Batching and cyclic partitioning of logs</div><div class="bookmark-description">This post further explores Merkle Mountain Ranges (MMRs) in the context of stateless clients. Previous posts: History, state, and asynchronous accumulators in the stateless model A cryptoeconomic accumulator for state-minimised contracts TLDR: We introduce batching and cyclic partitioning of history objects, called &quot;logs&quot; for short.</div></div><div class="bookmark-href"><img src="https://ethresear.ch/uploads/default/optimized/2X/b/b5d7a1aa2f70490e3de763bef97271864784994f_2_32x32.png" class="icon bookmark-icon"/>https://ethresear.ch/t/batching-and-cyclic-partitioning-of-logs/536</div></div><img src="https://ethresear.ch/uploads/default/original/2X/6/6097a53a28665397488e4a3ae79aa3c6384d6cc3.png" class="bookmark-image"/></a></figure><figure id="7dcf7937-c298-43a9-80a8-58316c592646"><a href="https://ethresear.ch/t/multi-tries-vs-partial-statelessness/391" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Multi-tries vs partial statelessness</div><div class="bookmark-description">In another post it was highlighted that two ideas (namely multi-tries and partial statelessness) share similarities beyond both reducing witness sizes in the context of stateless clients. I will quickly recap the two ideas, and then show that multi-tries are actually better than partial statelessness in every respect I can think of.</div></div><div class="bookmark-href"><img src="https://ethresear.ch/uploads/default/optimized/2X/b/b5d7a1aa2f70490e3de763bef97271864784994f_2_32x32.png" class="icon bookmark-icon"/>https://ethresear.ch/t/multi-tries-vs-partial-statelessness/391</div></div><img src="https://ethresear.ch/uploads/default/original/2X/6/6097a53a28665397488e4a3ae79aa3c6384d6cc3.png" class="bookmark-image"/></a></figure><p id="0390b558-42bc-4b45-b9c5-51b62cb96148" class="">MMR을 이용한 새로운 Accumulator.</p><p id="17b7df3a-d06c-4ca1-b703-cd5502286d82" class="">히스토리를 저장. 히스토리는 log.</p><p id="963cbf69-6df4-4a52-9c9d-ed5271a15164" class="">Log accumulator는 3MR를 사용. 3MR은 multi-MMR의 약자. MMR의 집합.</p><p id="4ef51496-13be-4147-a68f-25e388e79b25" class="">
+</p><p id="ec38e69d-6179-443a-8a5e-87070b6edbbc" class="">Stateless client에서 각각의 샤드는 2^n개로 구성된 3MR을 가짐.</p><p id="f478eac7-93db-43f5-8e71-61a166b26728" class="">각각의 3MR은 0, 1, …, (2^n)-1로 라벨링. </p><figure id="55804bb5-d9d1-40d7-8317-9fe11d55ed48" class="image"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%208.png"><img style="width:960px" src="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%208.png"/></a></figure><p id="a7dbd274-9aa7-46ac-ab28-3ae468e6039d" class="">Shard chain에서 Block을 Collation이라 함.</p><p id="f9996845-d4e3-4f7c-8cbd-c605d6978f4e" class="">Collation을 생성하는 주체가 Collator.</p><p id="87f35393-a29f-42c4-a270-89fa0ed60f40" class="">
+</p><p id="47fb810a-7f65-4be2-9dd6-0a29475aed25" class="">높이가 i인 Collation을 받으면(누가??) collation에 포함된 log들을 가지고 merkle tree 생성.</p><p id="5c1c9839-88f8-4854-a0bf-2c3f236083a5" class="">이렇게 생성된 merkle tree의 root hash 값이 log batch root 라고 함.</p><p id="8ed63eb2-0dbb-4e84-8c9b-4c47cef605ee" class="">log batch root 만드는 과정이 batching이라 함.</p><p id="8302b39a-3b5e-48a8-b8aa-ca1a77188269" class="">Batching 이후, cyclic partitioning 작업 수행. </p><p id="21edd647-3ac2-41d9-a0b6-92a9a0e0d333" class="">Log batch root는 샤드가 갖고 있는 2^n개의 MMR 중 하나에 삽입. </p><p id="467db3fb-43a4-4ba5-836c-71a7858d1164" class="">높이 i인 collation에서의 log batch root는 i mod 2^n 연산을 통해 나온 숫자로 labeling 된 MMR에 삽입.</p><p id="dac77261-ae4a-4673-8a72-867d5fd4389a" class="">(e.g.,  n 이 2이고 높이가 10인 collation으로 부터 생긴 log batch root는 4개의 MMR 중 2로 라벨링된 MMR에 삽입.)</p><p id="aeb9dd42-9c9a-4455-9893-907c6cff9295" class="">
+</p><p id="6bfad905-09da-4c8a-9651-dbc360c9cb71" class="">특정 log가 Log accumulator의 멤버임을 입증해야 함.</p><p id="196fd82a-dbfc-4b67-88c9-affbb69ffa08" class="">witness 가 필요.</p><ol type="1" id="367b9a6f-f1d8-472a-8516-c21bc567fbb7" class="numbered-list" start="1"><li>로그 l을 가진 leaf node에서 log batch root까지의 merkle path. (batching)</li></ol><ol type="1" id="87b86955-1d89-46df-8ad9-acbec1d0fde6" class="numbered-list" start="2"><li>MMR에 삽입된 log batch root를 가지는 leaf node에서 MMR의 merkle root까지의 merkle path(MMR의 merkle path - cyclic partitioning)</li></ol><p id="ccfc4ea6-653c-4d50-86d6-5c740e787938" class="">
+</p><p id="a31b7324-0eaf-466b-8d9f-4796fd712362" class="">Log Accumulator가 MMR에서 개선된 점.</p><ol type="1" id="70494de3-1b02-4d46-a370-94c13692bd27" class="numbered-list" start="1"><li>Deterministic witness update events
+: Batching 작업으로 인해, 높이 i인 collation에 포함된 log들을 포함하는 log batch root는 2^n개의 MMR 중 하나의 MMR m1(예시)에 추가. 여기서 결정적(deterministic)이라는 의미는 m1의 witness 업데이트가 collation 높이에만 의존. MMR, m1의 witness 업데이트가 언제 이뤄질지 예측 가능.</li></ol><ol type="1" id="5affe06f-b3d7-4df4-98f0-95a4fabe8c6e" class="numbered-list" start="2"><li>Reduced witness update events
+: “partitioning”하기 때문에, 각각의 MMR에서의 witness 업데이트는 1/2^n(2^n == MMR의 개수) 만큼 발생. Log accumulator가 2^n개의 MMR로 구성되어 있음.</li></ol><ol type="1" id="b1ca8471-6b70-42b8-a7cb-60b21aebe700" class="numbered-list" start="3"><li>Cheap historical data availability
+: 로그가 주어질 때, witness를 새로 업데이터하기 위해서는 genesis이후부터 만들어진 모든 collation의 log batch root만을 가지고 있으면 됨.  이 log batch root를 collation headere애 기록하면, 특정 샤드에 대한 모든 SPV(Simplified Payment Verification)노드 역시 log witness 업데이트에 필요한 데이터들을 제공할 수 있게 됨. SPV node는 collaation header만을 저장. 이 header에 log batch root가 기록 됨.</li></ol><h2 id="f97b8f79-3471-4a56-9e7d-a14cecd43428" class="">Double-batched Merkle Log Accumulator</h2><figure id="aafa5476-d843-4d0a-897b-57f7e97ec921" class="image"><a href="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%209.png"><img style="width:816px" src="State%20Machine%20df265b621364403aa1c0adc9914dc4cc/Untitled%209.png"/></a></figure><p id="3edd0da0-637e-41d2-baa0-b3d11ff2e1ae" class="">Log accumulator에 log가 추가되면서 생기는 witness 의 업데이트를 최소화하도록 발전시킨 accumulator.</p><p id="3a0c02dd-5bd2-4292-a1dd-e3d56918f490" class="">Log accumulator의 batching 부분을 two layer로 나눔.</p><p id="94421ccd-0c31-4543-a1b3-c4cf5cccb33f" class="">모든 샤드에 32byte hash를 저장하는 두 개의 버퍼 제공.</p><ol type="1" id="ccd65a0b-cf2c-4fcd-a6a1-b0f4cd6f90be" class="numbered-list" start="1"><li>Bottom buffer
+: 2^n 개의 entry를 가지는 고정된 사이즈. 각각의 entry가 0, 1,.. 2^n-1로 라벨링되는 버퍼.</li></ol><ol type="1" id="3d72d78b-2832-4608-b32d-e7319b3d2159" class="numbered-list" start="2"><li>Top buffer
+: Collation 높이에 따라 사이즈가 증가하는 버퍼.</li></ol><p id="8863f730-9528-4ddb-b6f0-b22cb8ebd07c" class="">
+</p><p id="fe125379-bdcb-4243-a69b-308880c8b30b" class="">높이가 i인 collation log들을 batching해서 log batch root 생성.</p><p id="5da168c2-a167-4beb-aa3c-028e07a0ed35" class="">Log batch root를 bottom buffer의 i mod 2^n 연산으로 나온 숫자 값으로 labeling된 entry에 삽입. </p><p id="7a7d5097-90e5-4698-b542-59c405dbda09" class="">만약 bottom buffer의 마지막 entry(2^n-1)에 log batch root가 삽입되면 bottom buffer의 모든 entry들을 가지고 merkle tree를 만들어서 merkle root 값인 batch hash를 만듬.</p><p id="50ff4672-be92-4812-b451-d05d7b786001" class="">만들어진 batch hash를 top buffer에 append.</p><p id="c9bb3fee-0744-4b34-aab0-4b5b9d938a7d" class="">즉 bottom buffer의 모든 log batch root로 merkle tree를 만들고, 이 merkle tree의 merkle root 값을 top buffer에 추가.</p><p id="0c760daf-efd3-481e-a90e-57c6eb3b813b" class="">
+</p><p id="ad320c07-44b8-4429-b0b6-d2414d046086" class="">Bottom buffer 마지막 entry 값이 채워질 때만 witness update가 발생.</p><h3 id="cad3db55-8a1f-4a86-b2e5-05509602eac4" class="">Membership witness</h3><ul id="ba2a3407-ad51-404b-976e-f1dff71fc37b" class="bulleted-list"><li style="list-style-type:disc">pre-witness: 로그 l에서부터 Bottom buffer의 entry에 포함된 log batch root 까지의 merkle path.</li></ul><ul id="bbf8f999-19fa-4223-b996-b35666c5cc0f" class="bulleted-list"><li style="list-style-type:disc">permanent witness: log batch root 값들로 이루어진 merkle tree에서 merkle path와 pre-witness를 묶어서(concatenaating) 만든 것.</li></ul><p id="4cf103ee-5139-45af-ae54-b43521aefb00" class="">Double-batched Merkle Log Accumulator의 사이즈는 32 * (2^n + h/2^n) bytes가 됨. h는 collation의 높이. </p><p id="a5b9c65b-cb93-4cc7-8d89-3b6c036f13b9" class="">Collation 인터벌 8초 n=13 이라 가정.</p><p id="0dec1eda-e28b-4bbd-9b6a-128549d9b881" class="">Bottom buffer는 250 kB 고정.</p><p id="59c49a42-ce9b-4061-a586-c3d583078e25" class="">Top buffer는 51년이 지나면 750 kB.</p><p id="ac220ddd-99a5-459b-8b8e-28d5f4aaf197" class="">
+</p><h2 id="384fbb49-16fa-453e-bdc6-f4fd2a175647" class="">State-minised executions</h2><p id="45294bc6-99ab-4310-946d-1577dd624e61" class="">각각의 샤드 체인은 Double-batched Merkle Log Accumulator를 가짐. 유저로 부터 log를 받으면 해당 log를 accumulator에 저장.</p><p id="2d0a1c3d-3acd-4897-acf2-be226ba4521a" class="">이러한 샤드 체인을 log shard라 함.</p><p id="27a091af-f4c0-4a73-ad88-de61b3f79a3b" class="">
+</p><p id="abbd0994-26be-4741-a795-b1f346062766" class="">State-minised contract를 사용. </p><p id="e28afa11-ab9b-4d36-8ae5-bcb66e4dc9eb" class="">기존 stateful 한 contract는 nonce, balance, storageRoot, codeHash를 가짐.</p><p id="93a226dc-470c-4588-8084-4483afe51b49" class="">State-minimised contract는 storageRoot만 가짐.</p><p id="486c4b27-4040-4a7b-9863-0d3f122bfeb1" class="">State-minimised contract가 저장하는 state root를 virtual state root라 함.</p><p id="2bd579e7-be29-4ad3-872f-435edc4d0f39" class="">State-minimised의 state transition을 virtual state transition이라 함.</p><p id="603a382d-51c3-45bd-9eec-a3e3d71a01c2" class="">
+</p><ol type="1" id="0151fa7e-21a8-4107-aad5-5dbabc6d3a27" class="numbered-list" start="1"><li>유저는 Log T 형대의 tx를 log shard에 보냄. 이 tx를 virtual transaction이라 부름. 보냄 virtual tx는 log shard 의 double-batched merkle log accumulator에 push되어 저장.</li></ol><ol type="1" id="1ac96d55-a0a7-4a8b-bd3d-8514db449377" class="numbered-list" start="2"><li>State-minimised contract에 대한 virtual tx이 log shard에 제출되면 excutor는 state-minimiseed contract의 컨펌되지 않은 새로운 virtual state root를 제안.
+executor는 새로운 virtual state root를 제안하는 자. executor가 virtual state root를 제안하려면 일정량의 담보를 deposit해야 함.</li></ol><ol type="1" id="9f81dbfa-3936-41c8-96dd-0ab0c6456888" class="numbered-list" start="3"><li>executor가 제안한 virtual state root 가 invalid한 값일 경우. 누구나 challenge 신청 가능. challenge가 성공하면 executor는 예치한 담보물을 잃음.
+새로 제안한 virtual state root가 challenge 없이 성공적으로 confirm되면 executor 는 일정 금액을 보상으로 얻음. State-minimised contract의 virtual state root 값은 변경 됨.</li></ol><p id="a13b97ba-6a26-4138-aee0-0ea3c8ccd4f0" class="">Virtual tx는 witness를 함께 보내지 않음.</p><p id="de159269-b71a-4bad-8db9-c5203801575e" class="">Virtual tx는 기존의 stateful한 node에서 실행되는 tx를 기반으로 만들어지기 때문.</p><p id="8558865c-2cbf-4862-91ea-efb5756172b9" class="">Executor는 가장 tx에 대한 tx를 자신의 node, 즉 stateful한 node에서 실행하여 witness 없이도 상태에 접근 가능하게 함.</p><p id="86dae9a9-f7db-4cfe-95ff-c3bd836b67e5" class="">유저는 단지 virtual tx를 보내기만 하면 됨.</p><p id="846ea487-09e8-4038-92c5-ff438f183f4a" class="">본래 제안된 Stateless client 는 stateless client에 tx를 보낼 때, 항상 witness가 필요했음.</p><p id="6f583bff-13ec-453b-9cae-17c5c72fbba1" class="">State-minimised execution 모델에서 log shard가 저장하고 있는 log로부터 data availability를 확보하고 있으며, 담보물을 걸고 virtual state root를 제안하는 것과 같은 방식의 cryptoeconomic인 execution 모델로 데이터 유효성(validity)를 확보하는 것을 확인 할 수 있음. 그리고 tx를 보낼 때, witness가 필요하지 않음.</p><p id="3e05c5b2-19b1-47af-adff-c7f33fab084d" class="">
+</p><p id="b9e0b745-da93-441a-b3e3-9a39f7ef00f7" class="">Executor는 validator와 달리 각각의 shard chain에 shuffling되어 배정되지 않음. Executor가 하는 일은 state-minimised contract에 대한 컨펌되지 않은 virtual  state root를 제공하는 것. Executor는 자신이 관리하는 state-minised contract가 속해 있는 특정 shard에서만 활동. (Eth 2.0 에서의 각각 shard chain들은 완전히 별개의 account들로 관리). Executor들은 log shard chain에서 발생하는 virtual tx에 대해 특정 state-minimised contract와 관련이 있는 것만 처리하여 virtual state root에 제공.</p><p id="a08128ed-f182-4cfa-b562-6ab8dd34fa3e" class="">
+</p><blockquote id="2142dae3-a065-404d-9fac-807a1037b62d" class="">Double-batched Merkle Log Accumulator와 State-minised 실행 모델이 shard protocol 레벨에서 구현될 수 있다고 함.
+이를 기반으로 stateless client가 만들어진다면 validator shuffling이 더욱 빨라질 것이고, stateless client 기반 light node 대중화를 이끌 수 있음.
+- Justin Drake</blockquote></div></article></body></html>

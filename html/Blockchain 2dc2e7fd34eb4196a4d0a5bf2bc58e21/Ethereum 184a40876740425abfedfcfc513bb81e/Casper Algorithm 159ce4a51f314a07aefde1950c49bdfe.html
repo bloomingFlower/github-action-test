@@ -1,0 +1,699 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Casper Algorithm</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="159ce4a5-1f31-4a07-aefd-e1950c49bdfe" class="page sans"><header><h1 class="page-title">Casper Algorithm</h1></header><div class="page-body"><h1 id="2375b5c5-8022-478f-816b-184e11b604a8" class="">[Casper Algorithm]</h1><p id="406bb27f-f192-4173-bb5b-09f61b50ea5e" class="">문수복, 이종수</p><h1 id="8b9bb581-376e-44d4-aa43-5a2843a67edb" class="">CasperFFG</h1><p id="9b86f5f5-2475-464a-86c1-c0bba5a80acf" class=""><a href="https://arxiv.org/pdf/1710.09437.pdf"><strong>Casper the Friendly Fianlity Gadget</strong></a></p><p id="0d0892bf-7f40-45f4-b2e3-895fc5ff1990" class=""><a href="https://medium.com/onther-tech/casper-ffg-overview-e09fbe4f7d2c">https://medium.com/onther-tech/casper-ffg-overview-e09fbe4f7d2c</a></p><p id="96583bd1-d7bb-4e50-ade4-df65df51ef9c" class=""><a href="https://github.com/ethereum/casper/blob/75639081fc26a251cfc1f191f8426fc31dc84795/casper/contracts/simple_casper.v.py#L561:63">https://github.com/ethereum/casper/blob/75639081fc26a251cfc1f191f8426fc31dc84795/casper/contracts/simple_casper.v.py#L561:63</a></p><p id="488048e4-194d-43c3-8a34-bc2f3bf4de9f" class=""><a href="https://github.com/ethereum/casper/blob/master/VALIDATOR_GUIDE.md">https://github.com/ethereum/casper/blob/master/VALIDATOR_GUIDE.md</a></p><h3 id="5646ca9a-264d-4288-ad33-34c9951b9c99" class="">1. Chain-based PoS</h3><p id="50e3465f-a561-4e66-87c6-2d5f5b6d34e0" class="">지분에 따른 작업증명 난이도 차별. 지분이 많을 수록 작업증명 난이도 감소. 지분이 작을 수록 난이도 상대적 증가.</p><p id="716c3110-c0b5-4dd2-8eeb-20ba27c15419" class="">
+</p><h3 id="37c2f6de-3ad5-4167-a0cd-aaa7d419a389" class="">2. BFT-based PoS</h3><p id="c4789620-b425-40ba-a667-52cb5f9742b0" class="">Bizantine Fault Tolerance. 투표에 의해 한가지 값을 전체 노드가 합의하는 방안에 관한 연구. PBFT는 비동기 네트워크에서 전체 노드의 2/3 이상이 정직하면 합의에 이를 수 있다는 수학적 증명. 하이퍼렛저, 테더민트 등 여러 블록체인에 활용. 캐스퍼도 같음.</p><p id="b27c36ae-2dca-48a3-934e-c2a36971c907" class="">
+</p><h3 id="812fd0ed-731a-47ea-b479-29e5a0803bba" class="">BFT에 4가지 개념 추가</h3><ol type="1" id="0b4a11d9-43d6-4757-8833-031856248d34" class="numbered-list" start="1"><li>Accountability
+: 검증자는 캐스퍼 프로토콜이 정의한 책임과 의무를 따를 필요가 있음. 의무에 위배 시, 스테이킹 보증금 전액 패널티로 삭감.</li></ol><ol type="1" id="c87f8915-199e-4e13-9343-c41d5d4f7f8a" class="numbered-list" start="2"><li>Dynamic Validators
+: EOS의 위임지분증명(DPoS)는 대표자 21명 끼리 블록체인을 운영하며 블록을 검증.
+테더민트는 PBFT기반 지분증명으로 100명의 검증인만 참여.
+이더리움은 누구나 검증인이 될 수 있으며 언제든 참여하거나 이탈할 수 있음. 따라서 이를 동적으로 관리할 필요가 있음.</li></ol><ol type="1" id="5c860385-e20d-46f3-83cf-4dc6d04d5580" class="numbered-list" start="3"><li>Defenses
+: 지분증명은 작업증명과 다른 공격의 가능성에 노출되어 있으며 이에 대한 방어책이 있음</li></ol><ol type="1" id="2814901f-0ae5-464c-9990-8396142a188a" class="numbered-list" start="4"><li>Modular Overlay
+: 작업증명을 사용하는 어떤 블록체인도 캐스퍼 알고리즘을 도입하면 작업증명과 지분증명을 하이브리드 방식으로 사용 가능.</li></ol><p id="83d69de1-581a-4ae5-8c71-5a68f4a990ea" class="">
+</p><h3 id="6614bd7a-a111-4ddc-81d7-2c210fb09550" class="">분기선택규칙(Fork Choice Rule)</h3><p id="34ab1d3a-314a-40e8-bfa3-ab3afbbba669" class="">블록체인에서는 분기가 필연적으로 발생. (네트워크 지연과 많은 노드 수로 인해)</p><p id="1a534a11-83e6-4d40-8642-ad5a9aa21590" class="">작업 증명의 경우 Longest Chain을 실제 블록체인으로 기록. 어려운 작업 증명 과정을 거쳐 형성된 체인 중 가장 높이가 높기 때문에 블록이 번복될 가능성이 적음.</p><p id="57466baa-27ca-4c7f-abd5-7baef570e1af" class="">
+</p><h3 id="1b0c01e4-53b3-4285-b02d-f74a43e1baf8" class="">캐스퍼 프로토콜 용어</h3><ol type="1" id="1faa79b9-9e58-4fae-9e9d-7920d8153783" class="numbered-list" start="1"><li>체크포인트
+:  100번째 마다 생성되는 블록(블록높이 % 100 = 0). 제네시스 블록 포함. 검증인들은 생성된 체크 포인트에 투표. 생성되는 모든 블록마다 투표하면 자원 소모가 크고 합의 과정이 느려지기 때문. (—&gt; 블라드 짐라크가 <a href="https://github.com/cbc-casper/cbc-casper-paper/blob/master/cbc-casper-paper-draft.pdf">CBC Casper</a>에서 DAG을 이용한 다른 방안 제시)</li></ol><ol type="1" id="2a257093-62c8-43a0-952c-79a575306bde" class="numbered-list" start="2"><li>투표
+: 검증인이 보내는 투표 트랜잭션은 투표하고자 하는 체크포인트 + 투표하려는 블록 이전에 생성된 블록 정보를 포함 검증인 끼리 투표 메시지를 공유. (이전 블록 + 현재 블록 정보). 검증인이 투표하는 것은 블록이 아닌 블록과 블록 사이의 연결성.
+이전 체크포인트 블록은 반드시 Justified or Finalized 상태야 함. 2/3넘는 검증인이 같은 블록에 투표하면 절대적 다수 링크 생성하고 블록은 안정 or 마감됨.</li></ol><ol type="1" id="5ae6131a-ef53-47c7-b5b6-a666ee70e064" class="numbered-list" start="3"><li>절대적 다수 링크(s→t)
+: 2/3이 넘는 검증인이 같은 블록 연결성에 투표한 결과. 두 개의 분기가 발생 시, 각각 절반의 검증인이 1/2씩 투표하면 절대적 다수 링크 생성하지 않음. 다음 체크포인트 블록 생성까지 기다림. A→C</li></ol><ol type="1" id="e9cca7b8-e48c-432c-a1dc-e610b0ce1f64" class="numbered-list" start="4"><li>안정된 블록(Justified Block)
+: 제네시스 블록 혹은 절대적 다수 링크 이전 블록 → 이후 블록이 존재. 이전 블록이 안정된 블록이면 이후 블록 또한 안정적. 새로운 다수 링크를 생성할 수 없음.</li></ol><ol type="1" id="96786e8b-a574-47c1-9012-715458ccacf2" class="numbered-list" start="5"><li>마감된 블록(Finalized Block)
+: 절대적 다수 링크가 존재. 이후 블록이 바로 이전 안정화 된 체크포인트 블록의 자식이면 이전 체크 포인트 블록은 마감된 블록.</li></ol><ol type="1" id="f6ae3c30-21ca-48d8-8907-5d0ef58b8094" class="numbered-list" start="6"><li>충돌(Conflict)
+: 두 개의 체크포인트가 같은 높이에 서로 다른 분기에 존재하면 두 체크포인트는 충돌 상태.</li></ol><p id="499793de-dfb4-40af-b4b2-46e96611fd5f" class="">
+</p><h3 id="c2de3437-f928-4260-906b-8bbfbb5eac05" class="">검증인의 의무와 처벌</h3><ol type="1" id="9c33dd7e-1ba1-4246-a6e5-a4b3ca9eb6c9" class="numbered-list" start="1"><li>같은 블록 높이에 중복 투표하지 말 것
+: 지분증명은 블록 생성에 소모하는 컴퓨팅 자원이 매우 작아 수많은 블록을 생성할 수 있음. 이를 억제하기 위해 패널티로 보증금 전액 차감을 채택. h(x) 함수 이용. x는 체크포인트이며 함수는 블록 높이를 반환.</li></ol><ol type="1" id="f686d2d0-ed4a-4f5d-b0ac-a0df67193198" class="numbered-list" start="2"><li>Nested Voting Prohibition
+: 서로다른 분기에 마감된 블록 생성을 방지. 검증인의 33% 미만이 악의적익 검증인이라도 네트워크 문제 방생을 방지. 즉, 전체 검증인의 33%미만이 위 두 규칙을 어겨도 다른 분기에 동시에 마감 블록이 생성되지 않음. (보증금 전액 차감 패널티)</li></ol><figure id="1a902005-55a8-4bbb-b96a-40b928541c74" class="image"><a href="https://miro.medium.com/max/1200/1*HoLCvx9V2mRKxlPt8eVH4Q.png"><img style="width:576px" src="https://miro.medium.com/max/1200/1*HoLCvx9V2mRKxlPt8eVH4Q.png"/></a></figure><ol type="1" id="62ee4ced-f0a8-408a-b8a2-f6d00fe5953f" class="numbered-list" start="1"><li>분기 선택 규칙
+: 검증자 그룹의 투표가 2/3를 도달하지 못하는 상황이 계속 발생하여 블록이 생기지 않을수도 있음. 이를 위해 가장 높이가 큰 안정화 블록이 존재하는 분기를 선택.</li></ol><ol type="1" id="d5f6d00c-3013-42a7-94f8-fe8d3be8581c" class="numbered-list" start="2"><li>Dynasty
+: 검증인 합류와 이탈 발생 시, 투표권의 생성과 상실 기준을 정의하는 수치.
+특정 블록의 dynasty란 제네시스 블록부터 특정 블록까지의 이전 블록까지 존재하는 마감 블록의 수. 모든 블록은 dynasty 값을 가짐.</li></ol><ul id="0aa44444-9884-4d8a-96e3-3a67c706985b" class="bulleted-list"><li style="list-style-type:disc">새로운 검증자는 보증금 예치 메시지가 포함된 블록 x’로 부터 D(x’) + 2 가 되는 시점부터 투표권을 가진다. (D(x) 함수는 특정 블록 x의 dynasty를 반환한다.)</li></ul><ul id="b34d0d98-cba4-4f05-9629-46c494d7c7c6" class="bulleted-list"><li style="list-style-type:disc">기존 검증자는 보증금 출금 메시지가 포함된 블록 y’로 부터 D(y’) + 2가 되는 시점부터 투표권을 상실한다.</li></ul><ul id="991e8d0f-5a8c-4246-811f-2e9b242eac97" class="bulleted-list"><li style="list-style-type:disc">기존 검증자는 투표권을 상실한 이후 약 4개월 이후에 예치한 보증금을 돌려받는다. 이를 출금 지연(Withdrawal Delay)이라 부른다. 검증가들이 출금을 신청하면 바로 받지 못하고 4개월 이후 예치한 보증금을 돌려받는 정책. 검증인들이 이탈한 직후 과거 블록 내용을 바꾸는 것을 방지하기 위함.</li></ul><p id="3342dd45-4e71-45f4-8aba-881092176ba5" class="">
+</p><h3 id="5ac52a60-a665-4e2d-8baf-00f69ca6c3fd" class="">장거리 수정 공격(Long Range Revision Attack)</h3><p id="a0f9dcf4-d937-431e-a1a6-556ea8d52bda" class="">악의적인 검증자가 검증자 그룹 이탈 직후, 과거 블록으로 돌아가 투표하는 행위. </p><figure id="27456fa9-b934-4cb8-b4dc-4a4fba34405d" class="image"><a href="https://miro.medium.com/max/1400/1*AS94xxozwjde2Fc-Kp81ag.png"><img style="width:624px" src="https://miro.medium.com/max/1400/1*AS94xxozwjde2Fc-Kp81ag.png"/></a></figure><p id="2c739ed6-a2b5-4dae-8bfd-6353060b991d" class="">모든 지분증명 알고리즘이 겪는 공통적 문제이며 각각의 PoS채택 블록체인은 각각의 해결법을 가지고 있음.</p><ul id="cf015400-2339-4472-a38e-626f69f02d10" class="bulleted-list"><li style="list-style-type:disc">보증금을 돌려받지 않은 상태에서 과거 블록에 투표하면 보증금 전액 차감</li></ul><ul id="f8722be4-c5ab-4721-83db-f0cd99712060" class="bulleted-list"><li style="list-style-type:disc">4개월 후 보증금을 돌려받고 4개월 이전의 블록 내용을 수정하면 출금 지연 정책에 따라서 그 변경 내용은 수상한 것으로 여겨 그 블록은 받아들이지 않음.</li></ul><ul id="aa984551-7d75-4eef-8ce8-8b0114fc5e91" class="bulleted-list"><li style="list-style-type:disc">4개월 후 보증금을 돌려받고 4개월 이전이 되기 전까지 블록(e.g., 1개월 전 블록)에 투표 하려 하나 투표권이 없어 투표 불가.</li></ul><h3 id="f29f6da0-d5d2-4376-9485-b87000521af2" class="">파괴적 충돌(Castastrophic Crashes)</h3><p id="5952faef-0e2a-4237-a712-4afcc95a3138" class="">검증인의 1/3 이상이 오프라인 상태가 되는 경우. 2/3 이상의 합의를 이루어 낼 수 없기 때문에 전체 거래기록은 무한정 연기하는 상황 발생 (?? 앞서 1/2 무한 합의에 따른 길이 기준 선택이 있지 않았던가?!) 캐스퍼 프로토콜에서 2/3 이상의 합의란 검증인 수가 2/3 이상이  아닌 검증인이 예치한 보증금의 숫자가 2/3이상인 경우를 의미. 오프라인 상태의 검증인(투표하지 않는 검증인)은 보증금을 조금씩 삭감하는 방식 제안. (삭감 방식은 도입되지 않을 가능성이 높음.(현재는??) </p><p id="a5a29490-2d30-4f7f-8536-4bca6288a327" class="">
+</p><h1 id="16a60329-8d79-483c-ab92-a5da5e8c5537" class="">CBC(Correct by construction) Casper</h1><h2 id="543f534b-0026-4900-b4f4-08b3c2160046" class="">1. Estimate Safety Consensus Protocol</h2><p id="732c7079-cc9e-4460-b123-2460ec54d992" class="">Estimate Safety Consensus Protocols는 (𝐶,𝐿_𝐶,Σ,E) 로 이루어져있습니다.</p><ul id="45be50b6-9f4f-4f62-a7cb-8c5d4a3535fe" class="bulleted-list"><li style="list-style-type:disc">Consensus Value: 합의의 대상</li></ul><ul id="d7c8a908-80eb-4373-96fc-ab3145bacad9" class="bulleted-list"><li style="list-style-type:disc">Estimate: consensus value가 올바른지 아닌지에 대한 명제. {True, False}로 가는 map.</li></ul><ul id="33d10c00-8157-4de6-8ca8-d9e50a532e9b" class="bulleted-list"><li style="list-style-type:disc">Logic: estimate의 집합. 어느 estimates를 이용하여 합의를 이루었는가.</li></ul><ul id="f9fa9e2b-e087-49cb-bac1-8e4af61bab70" class="bulleted-list"><li style="list-style-type:disc">Protocol states: 합의를 이루는 노드들의 상태. 검증자가 보낸 프로토콜 메시지에 따라 결정. Protocol message의 집합으로 정의</li></ul><ul id="af96d8be-6e8a-437b-bf8f-156525456874" class="bulleted-list"><li style="list-style-type:disc">Estimator: protocol states에서 estimate로 가는 map.</li></ul><ul id="a7a85b7a-50f9-4ed0-b49e-9a167a0ae030" class="bulleted-list"><li style="list-style-type:disc">Protocol message: consensus values, validators, protocol states의 tuple.</li></ul><h3 id="00ed156b-0186-47e7-922e-da5ec585aedf" class="">1.1 Estimate Safety<strong><strong>(𝑆(𝑝,𝜎)S(p,σ))</strong></strong></h3><p id="dbeab0d1-9bb6-4fcd-8b25-3cb6d7096832" class="">proposition 𝑝가 프로토콜 상태 𝜎에서 safe하다는 의미이며, 𝑆(𝑝,𝜎)로 나타냄.</p><h3 id="dafaa431-18bb-4791-86ba-2f37cf540296" class="">1.2 Consensus Safety</h3><p id="295c0e79-593b-4808-bd0f-b78fe6f93751" class="">각 노드들이 estimate safety를 가지는 common future protocol state를 개별적으로 판단할 수 있음. 두 노드가 각각 protocol state에 있을 때, 각 노드가 개별적으로 내린 결정들은 서로 일관성이 존재.</p><ul id="21a4f4c2-12c5-4046-9715-d01f00e56e80" class="bulleted-list"><li style="list-style-type:disc">Lemma 1: Forward Safety: estimate safety가 모든 future state를 포함</li></ul><ul id="773653d6-3d7f-480b-acce-7589fe27cdf6" class="bulleted-list"><li style="list-style-type:disc">Lemma 2: Current Consisstency: 상반되는 두 proposition가 동시에 safe할 수 없음.</li></ul><ul id="8bdbdb4a-3b71-45d8-902e-e89e2ca7966a" class="bulleted-list"><li style="list-style-type:disc">Lemma 3: Backward Consistency: protocol state o’에서 safe한 estimate p의 반대 -p가 previous state o에서 safe하지 않음.</li></ul><ul id="13413d68-5dbe-4716-a8ff-0ebe0df8817f" class="bulleted-list"><li style="list-style-type:disc">Lemma 4: Distributed Consistency: 노드가 safe estimate를 기반으로 내린 개별적인 결정(decision)는 다른 노드가 내린 결정과 일관성을 가짐.</li></ul><p id="5dc81836-0436-48de-b566-f41c9cd45681" class="">Non-triviality</p><p id="1d2319e6-5d94-44ad-9480-dc3ff8173dc0" class="">Common future state가 존재하지 않는 경우. Blockchain fork 발생 혹은 byzantin 노드가 내린 결정에 따르지 않는 상황 등.</p><p id="c9a82af3-d3f6-4643-97a1-24768df1a27c" class="">이 경우에도 두 protocol states에 대해 safety를 보장해야 함.</p><ul id="eb1eb7b5-863f-4c95-8d1b-4ed047c4932c" class="bulleted-list"><li style="list-style-type:disc">Lemma 5: Maintaing a shared future is non-trivial: non-triviality 때문에 common future state가 항상 존재하지 않음.</li></ul><ul id="90fb70cd-977e-4b25-91f3-b1ffda1cc597" class="bulleted-list"><li style="list-style-type:disc">Lemma 6: Consensus Failure: non-triviality로 인해 common future state를 가지지 않는 상황. 두 개의 분기가 존재. 각 분기별로 두 개의 future states로 나뉨.</li></ul><figure id="a3941998-7344-413a-8f54-65b016a331d7" class="image"><a href="Casper%20Algorithm%20159ce4a51f314a07aefde1950c49bdfe/Untitled.png"><img style="width:540px" src="Casper%20Algorithm%20159ce4a51f314a07aefde1950c49bdfe/Untitled.png"/></a></figure><h1 id="200dba48-541e-4e2a-b650-157f95fd6874" class="">Casper the Friendly Binary Consensus</h1><p id="f15bdf98-736d-4482-a471-81c0f42a5e85" class="">프로토콜이 어떻게 byzantine fault tolerant 할 수 있는지. Binary Consensus와 Blockchain Consensus 예시로 확인.</p><ul id="2b86133d-e5cd-46dd-8b9c-3734d4cf263a" class="bulleted-list"><li style="list-style-type:disc">Protocol states: t 이하의 byzantine fault를 보이는 protocol message의 집합.</li></ul><ul id="5ffcd69e-26ad-4f26-87c6-50d82897cc19" class="bulleted-list"><li style="list-style-type:disc">Protocol messages: estimate, sender, justification 의 집합.</li></ul><ul id="aab92bed-7d72-4c80-a72a-dc9831a6fc44" class="bulleted-list"><li style="list-style-type:disc">Estimate(p): {0, 1} 중 하나</li></ul><ul id="d090b5c1-d202-4d24-9649-996313206a88" class="bulleted-list"><li style="list-style-type:disc">Estimator는 protocol messages를 0, 1 혹은 0/ 중 하나의 값으로 보내는 map.</li></ul><ul id="6ae8f691-1d30-492e-8bfb-6231b09bb4d9" class="bulleted-list"><li style="list-style-type:disc">Sender: validator(v∈V)</li></ul><ul id="d23a215d-037a-43e6-9588-598749e7c395" class="bulleted-list"><li style="list-style-type:disc">Justification: Protocol messages</li></ul><p id="83c8befa-a512-463e-bc6f-c4ee4772ff48" class="">Protocol message의 estimator를 justification에 적용한 결과가 estimate와 동일할 때 유효.</p><p id="83169970-3767-498b-a704-bf951cd1b532" class="">Protocol message의 justification은 특정 검증자의 protocol state를 확인하는 용도로 사용.</p><p id="2e8cbb0e-c10e-47a1-9750-f6eefbe3f464" class="">Protocol message를 받은 노드는 해당 검증자의 protocol state를 justification으로 파악한 이후 common future state를 찾을 수 있음.</p><p id="62ec63e3-9af6-4647-8d31-7d62a86ebab0" class="">Consensus safety 정리를 적용할 수 있는지 각 노드가 개별적으로 파악 가능.</p><p id="6fbf6939-d536-474e-8450-8fe60744be4e" class="">
+</p><ul id="ea8437ee-1269-45e2-b4dd-124ce8b24a30" class="bulleted-list"><li style="list-style-type:disc">equivocation: 한 검증자가 생성한 두 메시지가 dependency를 가지지 않는 메시지 쌍의 성질.
+non-triviality 관점에서 보면 common future state를 가지지 않는 o1, o2를 justification으로 사용하는 protocol message는 항상 equivocation 함.
+equivocation은 합의할 수 없는 두 protocol states를 판별하고 최종적으로 byzantine validator의 메시지를 검열하는데 사용.</li></ul><ul id="60a7e859-57f7-42a0-9256-7bb20867d9fc" class="bulleted-list"><li style="list-style-type:disc">Equivocate한 검증자를 byzantine하다고 부르거나 집합 M에서 byzantine fault를 보였다고 함.</li></ul><ul id="9d70dcb0-9bde-438d-a337-00016043eab7" class="bulleted-list"><li style="list-style-type:disc">Protocol executions: protocol message 집합 o, o’( E 간 transition. 
+protocol execution은 o, o’ 가 improper subset 관계를 가짐. 
+= protocol execution은 composition에 대해 닫혀있다.</li></ul></div></article></body></html>

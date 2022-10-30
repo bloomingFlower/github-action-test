@@ -1,0 +1,681 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Compound Protocol</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="361057ed-f2cf-4c9a-95fe-0614bf3bc6ff" class="page sans"><header><h1 class="page-title">Compound Protocol</h1></header><div class="page-body"><figure id="a598d722-43e8-4cb7-b507-08299690df78"><a href="https://medium.com/decon-lab/%EC%A4%91%EA%B0%9C%EC%9D%B8-%EC%97%86%EB%8A%94-%EB%8B%A8%EA%B8%B0%EB%8C%80%EC%B6%9C%EC%8B%9C%EC%9E%A5%EC%9D%98-%EB%93%B1%EC%9E%A5-%EC%BB%B4%ED%8C%8C%EC%9A%B4%EB%93%9C-%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C-a2058305b436" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">중개인 없는 단기대출시장의 등장: 컴파운드 프로토콜</div><div class="bookmark-description">암호화폐 시장은 침체임에도 불구하고 암호화폐 담보대출에 대한 수요는 점점 늘어나고 있습니다. 미국 증권 경제 미디어 블룸버그통신은 &quot;암호화폐 시장이 약세로 전환되면서 암호화폐 담보대출이 인기&quot;라고 보도하기도 했습니다. 블록보드(Bloqboard) 리서치에 의하면, 2018년에는 약 2.51억 달러 어치의 ETH, DAI, REP 등이 대출되었다고 합니다. 암호화폐 담보대출은, 차입자가 암호화폐를 담보로 제공하고 법정화폐(예: USD) 혹은 다른 암호화폐를 차입하는 대출방식을 의미합니다.</div></div><div class="bookmark-href">https://medium.com/decon-lab/%EC%A4%91%EA%B0%9C%EC%9D%B8-%EC%97%86%EB%8A%94-%EB%8B%A8%EA%B8%B0%EB%8C%80%EC%B6%9C%EC%8B%9C%EC%9E%A5%EC%9D%98-%EB%93%B1%EC%9E%A5-%EC%BB%B4%ED%8C%8C%EC%9A%B4%EB%93%9C-%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C-a2058305b436</div></div><img src="https://miro.medium.com/max/1200/1*vYK9vkm9C8ZeJpMv5Yo3AQ.jpeg" class="bookmark-image"/></a></figure><h3 id="0828920a-7ba3-4334-91c8-639f2fd1e785" class="">암호화폐 담보대출</h3><p id="2a09482c-3caa-480d-b93b-2200949773eb" class="">: 차입자가 암호화폐를 담보로 제공. 법정화폐 혹은 다른 암호화폐를 차입하는 대출 방식.</p><ul id="152480b4-1564-48a0-821c-76bf20e325c9" class="bulleted-list"><li style="list-style-type:disc">수탁형(custody): 기존 금융기관과 같이 중앙화된 수탁자 혹은 제 3자로부터 대출 진행</li></ul><ul id="487974e9-8c60-43f3-8bc2-7d4676d104be" class="bulleted-list"><li style="list-style-type:disc">비수탁형(non-custody): 분산화된 대출 프로토콜로부터 대출 진행. 중개인을 완전히 배제. 중개수수료를 낮추고 중개인 리스크 방지.</li></ul><p id="c3062e1f-bd3b-48cd-aefb-268dfd27f512" class="">비수탁형 대출의 유동성 문제 ⇒ 단기금융시장(money market) 시스템으로 해결</p><p id="9eac111c-9f2e-4e5c-b71e-1bf490e5e9ac" class="">
+</p><h2 id="fecd138f-eefc-487d-b367-9080c3894731" class="">1. P2P 대출 문제</h2><p id="b2bac1c2-0840-40fb-88a1-d716c399f3ee" class="">: P2P: 온라인 플랫폼을 통해 대출자(lender)와 차입자(borrower)를 연결함으로서 제 1금융권 대출을 받기 어려운 개인 혹은 기업이 중금리(8~12%)로 대출을 받을 수 있게 하는 것.
+국내 대다수 P2P대출 서비스는 ‘대출형 크라우드 펀딩&#x27;. 다수의 개인으로부터 모아진 대출 자금을 제공.</p><figure id="483ab35e-88cb-48a4-a333-11e396280dad" class="image"><a href="Compound%20Protocol%20361057edf2cf4c9a95fe0614bf3bc6ff/Untitled.png"><img style="width:898px" src="Compound%20Protocol%20361057edf2cf4c9a95fe0614bf3bc6ff/Untitled.png"/></a></figure><p id="01e2a16d-1934-4bcb-ae96-999037b592b4" class="">1) 대출심사 및 신용/담보평가 불투명성 (Opacity/ Lack of Transparency)</p><ul id="e36294b2-d182-4659-a8f8-13ef07bcbfb8" class="bulleted-list"><li style="list-style-type:disc">P2P 대출 회사가 차입자와 짜고 허위 대출 시행. 신용 및 담보평가 부실화로 투자자가 원금 회수 불가능.</li></ul><p id="26e093cc-dacb-45e5-b4bc-1d43419a4476" class="">2) 자산 수탁자/ 업체에 대한 위험 (Counterparty Risk)</p><ul id="74dfc55a-64a1-43d0-a6b4-ae86ac4eeb0e" class="bulleted-list"><li style="list-style-type:disc">P2P 대출 회사가 수탁 관리하던 투자금 및 담보 등이 중간에 횡령. P2P 대출 회사 자진 폐업 시, 투자자는 잔금 상환 받기 어려움.</li></ul><h2 id="40fbe534-1e38-4616-862d-68b6be44d715" class="">2. 비수탁형 1:1 매칭 암호자산담보대출 과 유동성 문제</h2><p id="e9ac1ae1-c7cc-4f7e-88f9-7d38635f4042" class="">1) 수탁형 대출(Custodial Loan) vs 비수탁형 대출(Non-custodial Loan)</p><p id="f93f4568-9292-4aea-823f-20a1d26c2622" class="">P2P는 수탁형 대출. 신뢰비용이 낮다는 장점.</p><blockquote id="90b6e0fb-a941-4fbb-8d15-a8d9e70df6d2" class="">신뢰비용: 서로 신뢰할 수 없는 대출자와 차입자간 거래 시, 정상적인 거래가 발생하지 않을 것을 우려하여 발생하는 비용. (e.g., 스트레스)</blockquote><p id="bf374ab0-6fc5-4af7-82cd-f43b5dab23a4" class="">블록체인은 비수탁형 대출 구현 가능. SC로 대출금, 담보자산의 관리 및 전달이 자동화. 거래 내역은 조작 불가능한 공동 장부에 기록.</p><figure id="d0e06e6d-143a-4958-a983-982476b4cc27" class="image"><a href="Compound%20Protocol%20361057edf2cf4c9a95fe0614bf3bc6ff/Untitled%201.png"><img style="width:1141px" src="Compound%20Protocol%20361057edf2cf4c9a95fe0614bf3bc6ff/Untitled%201.png"/></a></figure><p id="02e87253-e2e7-4a2b-9eaa-f67a2ea029dd" class="">Smart Contract를 통한 비수탁형 대출 예시</p><p id="c9a7e1f5-1012-4b30-9654-a635acc9e546" class="">30일 만기 담보 대출 계약</p><p id="6fd16554-c88a-468b-9553-3dd3486a80f0" class="">대출자는 대출금을 예치, 차입자가 계약 조건에 부합하는 담보자산을 예치 시, 대출금은 차입자에게 자동으로 이전. 차입자가 30일(만기) 이내에 대출금을 갚기 위해 원금 및 이자를 예치하면 담보를 되돌려 받을 수 있음. 이 모든 기능은 smart contract에 의해 동작.</p><p id="d1fbe656-631e-4902-b3e5-fd95c70bf4cb" class="">2) 비수탁형 대출의 장단점</p><ul id="2e08b3a5-6c7e-495d-bc29-d5c1d32dfda5" class="bulleted-list"><li style="list-style-type:disc">장점: 중개인 제거로 중개인 리스크 제거, 중개 수수료 줄일 수 있음</li></ul><ul id="f7f28273-0c33-454d-9b8b-516985d7f007" class="bulleted-list"><li style="list-style-type:disc">단점: 
+대출자는 오더북에 올라온 대출 요청 건 중 자신의 조건에 맞는 것을 직접 찾아야 함.
+유동성 문제. 유통되는 통화량이 부족한 경우. 평소보다 높은 이자를 지불해야 하는 문제점.</li></ul><h2 id="45e9c9a7-e229-40ba-884c-1a8f3558d440" class="">3. Compound Protocol(유동성 문제 솔루션)</h2><p id="d631c787-a9ec-4b47-884c-df44f40b65e3" class="">: 컴파운드 프로토콜은 1:1 매칭이 아닌 money marktet 시스템.
+기존 금융수탁기관처럼 유동성 풀을 가지지만 개인은 유동성풀의 자기 자산으 스스로 통제 가능! 사용자는 개인 키 및 퍼블릭 키를 통해 프로토콜에 자산 관리 권한 통제 가능(무슨 상관 ???)</p><p id="a6dd4a84-f019-4f5e-9f2b-9a8ac6126f23" class="">1) Money market Fund</p><figure id="fd1eca51-c233-4b9a-a6d1-99083fc87bcf" class="image"><a href="Compound%20Protocol%20361057edf2cf4c9a95fe0614bf3bc6ff/Untitled%202.png"><img style="width:793px" src="Compound%20Protocol%20361057edf2cf4c9a95fe0614bf3bc6ff/Untitled%202.png"/></a></figure><p id="fb6315e2-fbae-4e21-9221-5a8d8dd26f8b" class="">: 상환 만기를 1년 이내로 자금을 운용하는 단기 금융 시장.
+은행, 증권사와 같은 금융 기관 혹은 우량 기업이 일시적으로 자금 부족시 단기 채권을 발행하여 신속하게 유동성을 공급 받기 위한 곳.</p><p id="82619181-a2ee-46a8-8b0f-90b3b15265f5" class="">펀드는 투자를 위해 모인 자금.</p><p id="7b89304c-a630-494f-a401-d203ac96e708" class="">2) MMF of Compound Protocol</p><figure id="5b1eaae1-e29b-48ec-b496-b23f1aa548b1" class="image"><a href="Compound%20Protocol%20361057edf2cf4c9a95fe0614bf3bc6ff/Untitled%203.png"><img style="width:1126px" src="Compound%20Protocol%20361057edf2cf4c9a95fe0614bf3bc6ff/Untitled%203.png"/></a></figure><p id="63f0344d-ff4f-4479-85ff-c361e1cd62bf" class="">암호자산을 누구나 원할 때 바로 단기 대출 받을 수 있는 머니마켓.</p><p id="60d910aa-48c8-4e60-a121-fc392ce2f9c1" class="">암호화폐별 머니마켓 존재</p><p id="5551a577-b148-432a-8b2c-43a272342606" class="">특정 암호화폐에 대한 머니마켓 별 유동성 풀 구축</p><p id="1853141c-aed5-4265-ab59-15d2bc30c8d7" class="">3) 작동 방식</p><figure id="999508d8-8d79-46c4-bff9-0b73ba1b36e7" class="image"><a href="Compound%20Protocol%20361057edf2cf4c9a95fe0614bf3bc6ff/Untitled%204.png"><img style="width:659px" src="Compound%20Protocol%20361057edf2cf4c9a95fe0614bf3bc6ff/Untitled%204.png"/></a></figure><p id="81edeed3-06ea-4382-b002-f46c9823f736" class="">차입자는 대출자산 총 가치의 1.5배 이상이 되는 암호자산을 컴파운드 머니마켓에 맡기면 해당 암호자산으로 담보 대출 시행.</p><p id="6699ad69-1a34-4e99-a65b-d0d20d426a00" class="">대출을 통해 발생한 이자는 암호자산을 맡긴 사람에게 분배. 담보에도 이자가 쌓임.</p><p id="3ec58a49-64dd-4a98-80d2-fed287873c49" class="">장점</p><ul id="7b8bfba5-a77e-47a2-ac44-6e2feb40afb2" class="bulleted-list"><li style="list-style-type:disc">상시 이자 제공: 15초 간격(erc20 기준) 이자 쌓임(연 이자율의 1/2102400)</li></ul><ul id="d11debd4-3bcd-4872-a4b3-aecf7d43e501" class="bulleted-list"><li style="list-style-type:disc">대출계약 시 마찰 제거: 알고리즘으로 이자율은 자동 결정. 대출자-투자자 간 협의 없음.</li></ul><ul id="df8278b2-4bc0-479f-b6d4-52a45e7ba930" class="bulleted-list"><li style="list-style-type:disc">최소 지급 금액 없음: 차입자가 원하는 금액에 맞춰 빌려 줄 필요 없이 원하는 만큼 자유롭게!</li></ul><ul id="e9a7eda4-e852-485f-806e-3121e481b699" class="bulleted-list"><li style="list-style-type:disc">수시 입출금 가능: 투자자는 원래 차입자가 대출금 상황하기 전까지 투자금 회수가 어려우나 이건 언제나 가능!</li></ul><p id="9816a419-cea9-4810-b1f8-42b633e2aef6" class="">4) Compound Protocol 유동성 조절 메커니즘</p><p id="da1fd391-7c6e-4c8a-94e2-6a6083751742" class="">잠재적 유동성 부족 문제</p><ul id="fdbbc3a6-a21a-4d82-94b5-3efe0fca3aa1" class="bulleted-list"><li style="list-style-type:disc">머니마켓내 대출 가능 자금 대비 대출 수요가 월등히 높을 때</li></ul><ul id="dc16fdc9-d2c9-43ec-8748-3864ec862dec" class="bulleted-list"><li style="list-style-type:disc">이용자가 차입금을 갚지 않거나 담보 부실로 담보를 통한 원금회수가 어려운 경우 빈번히 발생할 때.</li></ul><p id="5cd3f2b8-5db7-42bf-92b3-3dc8bba1d3eb" class="">해결</p><ul id="87a929bf-4cd5-4a0a-8980-ebf88ef097c8" class="bulleted-list"><li style="list-style-type:disc">알고리즘을 통한 자율 조절</li></ul><ul id="4b88ced4-8292-41dc-95b1-4f0abe923a85" class="bulleted-list"><li style="list-style-type:disc">담보 자산 청산</li></ul><p id="b7eca58e-df76-4b93-ab13-ce94cade982f" class="">
+</p><p id="e572ab52-b430-4b40-bdc8-283f619ed4a5" class="">알고리즘</p><figure id="8131feb5-6e43-4f39-8c66-d35aeeb97b67" class="image"><a href="Compound%20Protocol%20361057edf2cf4c9a95fe0614bf3bc6ff/Untitled%205.png"><img style="width:1015px" src="Compound%20Protocol%20361057edf2cf4c9a95fe0614bf3bc6ff/Untitled%205.png"/></a></figure><p id="c9d2792d-393d-4284-a3f3-2a0e3d36774a" class="">Utilization Rratio: 대출 여력 수치</p><p id="87eda7f8-1918-4764-ad6e-91ad159e7496" class="">S(spread): 컴파운드 프로토콜의 수수로율(10~15%). 수수료 축적 후 차입자가 제대로 대출금을 갚지 못해 유동성 위기가 올때 활용.</p><p id="ea677205-ab09-4ece-9118-ccb65f48f126" class="">
+</p><p id="75bab2bd-7956-407d-9a1b-1538f4e71102" class="">담보 자산 청산을 통한 담보 부실화 방지</p><p id="a3179135-ba08-4a8c-a509-60ea8546240c" class="">최소 담보대출 비율(collateral ratio)를 맞추지 못하면 이용자 계정의 담보 청산.</p><p id="0f28beaa-c3a4-479c-9cca-5bd0e46aa68e" class="">담보대출 비율: 담보물의 가격과 대출금액의 비율.</p><p id="626b15b3-a1bb-48b2-8c72-f45d325814db" class="">컴파운드의 최소 담보대출 비율은 150%.</p><p id="bf91cac1-df58-476d-8c67-6f1a0d401124" class="">가격 오라클이 상위 10개의 거래소의 가격 정보를 가져와 자산 가치 결정.</p><p id="0216e48c-6811-43e5-9520-dc7db672d9de" class="">담보자산의 가치가 하락하거나</p><p id="410bd844-d556-4ec7-a9cf-fde08b241783" class="">차입한 자산의 가치가 상승하면</p><p id="43f5b2fb-c382-47bc-8956-c6a85e486a13" class="">담보부실화 발생으로 청산 발생 및 원금 회수가 어려워짐.</p><p id="b0117820-7857-49a4-a553-09f2f0d55154" class="">계정 유동성(전체 공급 자산 - 전체 차입액 * 담보대출비율)을 이용자에게 알림. 0이면 최소담보대출비율에 맞춘다는 것. 마이너스이면 추가로 담보를 제공하거나 담보를 청산하여 차입액을 갚아야 함. 유동성 적자 전환 시, 해당 계정의 담보 일부를 5% 할인된 가격에 처분하여 차입금 일부를 상환.</p><p id="b3e8f1b4-ec12-45d5-a69f-1cb48e3360f6" class="">
+</p><h3 id="2704142c-237f-4c15-83c4-85efb0710c82" class="">단점</h3><ol type="1" id="21565808-7d7a-403e-9790-d3dfa1a55a05" class="numbered-list" start="1"><li>위원회에 높은 의존성
+: 담보자산과 차입자산간 교환 비율 결정 및 담보 청산 행위를 모두 컴파운드 프로토콜 위원회에서 이루어짐.
+: 특정 머니마켓을 중단 시킬 수 있음(탈중앙화 할 것이라고 함)</li></ol><ol type="1" id="acd451a1-dcf5-43b8-af3e-a057af5de646" class="numbered-list" start="2"><li>모든 종류의 암호자산 대출 제공하지 않음.</li></ol><ol type="1" id="c01b1596-7afb-44e1-95c4-4da8818b57b3" class="numbered-list" start="3"><li>예금이자율이 0일 수 있음.
+: 공급 대비 대출 수요가 지극히 없는 경우.</li></ol><figure id="0b349050-1049-45bb-8af6-3c674fb17729" class="link-to-page"><a href="Compound%20Protocol%20361057edf2cf4c9a95fe0614bf3bc6ff/%E1%84%85%E1%85%A9%E1%84%8C%E1%85%B5%E1%86%A8%20%E1%84%87%E1%85%AE%E1%86%AB%E1%84%89%E1%85%A5%E1%86%A8%20-%20%E1%84%8B%E1%85%A8%E1%84%80%E1%85%B3%E1%86%B7%20%E1%84%8E%E1%85%AE%E1%86%AF%E1%84%80%E1%85%B3%E1%86%B7%200b349050104945bb8af63c674fb17729.html">로직 분석 - 예금. 출금</a></figure></div></article></body></html>

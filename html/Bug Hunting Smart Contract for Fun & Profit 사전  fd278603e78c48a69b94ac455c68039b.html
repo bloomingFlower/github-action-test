@@ -1,0 +1,673 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Bug Hunting Smart Contract for Fun &amp; Profit 사전 자료</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="fd278603-e78c-48a6-9b94-ac455c68039b" class="page sans"><header><img class="page-cover-image" src="Bug%20Hunting%20Smart%20Contract%20for%20Fun%20&amp;%20Profit%20%E1%84%89%E1%85%A1%E1%84%8C%E1%85%A5%E1%86%AB%20%20fd278603e78c48a69b94ac455c68039b/P1046969.jpg" style="object-position:center 78.73%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">☕</span></div><h1 class="page-title">Bug Hunting Smart Contract for Fun &amp; Profit 사전 자료</h1></header><div class="page-body"><nav id="4f06b735-b368-4608-ae39-322eb325454a" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7df46175-0941-433d-826c-64d410fcacbf">공지사항</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#5ae0d971-4551-4ffc-a5be-8a574f70fe79">사전 자료</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#203ede9e-c2e6-4d19-b227-1a5ad45e6e8c">발표 자료</a></div></nav><h2 id="7df46175-0941-433d-826c-64d410fcacbf" class="">공지사항</h2><ul id="66d24c8c-f7a9-4fa6-83fc-34e02795edef" class="bulleted-list"><li style="list-style-type:disc">세미나 장소 : 서울특별시 강남구 테헤란로 126 지하1층, 수호아이오</li></ul><ul id="4c190fe2-f7dc-4277-aad5-aa956e31920d" class="bulleted-list"><li style="list-style-type:disc">주차 : 세미나 장소 내 주차는 어려우므로, 가급적 대중교통 혹은 근처 유료 주차장을 이용해주시기 바랍니다. (그레이스타워, 한국과학기술회관, 한국지식재산센터 등)</li></ul><ul id="750d73ba-79b0-40fa-8f4b-9cef9c5615e8" class="bulleted-list"><li style="list-style-type:disc">Session 03 시간 : 2022년 8월 12일 19:30 ~ 21:00</li></ul><ul id="e3246bc1-53d5-4698-8336-9b685426d153" class="bulleted-list"><li style="list-style-type:disc">노트북 지참을 권장드리며, 기기 사양이나 종류는 상관 없습니다. (인원이 많은 관계로 카페 내 배터리 충전이 어려울 수 있습니다.)</li></ul><ul id="a06e097b-a9ba-431b-b33c-199fddcc237c" class="bulleted-list"><li style="list-style-type:disc"><a href="https://discord.gg/v4XksasYtr">사전/사후 질문 및 보안 연구팀 참여 관련 디스코드</a></li></ul><ul id="bc1e2320-02af-4a30-a60a-30162cce0821" class="bulleted-list"><li style="list-style-type:disc"><a href="https://calendly.com/henleykim/coffeechat">MATZIP or 수호 채용 관련 커피챗 신청</a></li></ul><p id="9558c6ca-6baa-47ea-8d21-a8bd87132f75" class="">
+</p><h2 id="5ae0d971-4551-4ffc-a5be-8a574f70fe79" class="">사전 자료</h2><ul id="74259107-06b9-4657-a80d-d105421e5621" class="toggle"><li><details open=""><summary><mark class="highlight-yellow_background"><strong>Session 01 : Introduction to Web3 and Smart Contract</strong></mark></summary><ul id="8fe0eff7-2078-4856-9cfc-4530849b4700" class="bulleted-list"><li style="list-style-type:disc">Session 01의 목표는 <strong>Ethereum과 Solidity에 대해 알고, Hardhat 사용법을 익히는 것</strong>입니다.</li></ul><ul id="bc6661c4-06cf-4a7b-a70b-cabfdf64e5b8" class="bulleted-list"><li style="list-style-type:disc">Ethereum과 Solidity에 대해 잘 알고, Hardhat을 사용할 줄 아시는 분들께는 본 세션이 다소 지루할 수 있습니다.</li></ul><ul id="f876978f-6c2e-4e91-aaa6-f91f48805c19" class="bulleted-list"><li style="list-style-type:disc"><strong>Javascript / Typescript</strong>을 알고 계셔야 실습과 시연을 정확히 이해하실 수 있습니다. (모르셔도 테스트를 돌려 볼 수 있도록 코드는 제공해 드릴 예정입니다.)</li></ul><ul id="01a3fb0d-f608-4f5c-bb72-19fb7afcabc1" class="bulleted-list"><li style="list-style-type:disc"><strong>Node.js를 실습환경에 사전에 세팅해오셔야 실습이 가능합니다.</strong><ul id="8f578165-68a9-47d1-a8f3-e1d48700ee67" class="bulleted-list"><li style="list-style-type:circle"><a href="https://hello-bryan.tistory.com/95">Node.js와 NPM 설치 (Windows)</a></li></ul><ul id="7037d552-05ce-4e42-bcae-ad01f97649f4" class="bulleted-list"><li style="list-style-type:circle"><a href="https://memostack.tistory.com/274">Node.js와 NPM 설치 (MacOS)</a></li></ul></li></ul><ul id="da4ca7b3-ffc2-4c0c-948b-4375e261a13a" class="bulleted-list"><li style="list-style-type:disc"><a href="https://github.com/astean1001/2022_seminar_tutorial">실습/시연 코드 Github 저장소</a><ul id="4ae821ea-31da-4a90-bda5-9c9244522a0f" class="bulleted-list"><li style="list-style-type:circle">실습 내용 : Hardhat으로 ERC20 코드 테스트 해보기 + SimpleSwap 코드 테스트 해보기 (<a href="https://hardhat.org/hardhat-runner/docs/guides/project-setup">Hardhat 세팅하기</a>)</li></ul><ul id="22dfce99-862c-4464-97e1-23c380fb2a2d" class="bulleted-list"><li style="list-style-type:circle"><a href="https://drive.google.com/file/d/1bwowoUX9Ego8crL61OdMQchDrmqdwdPV/view?usp=sharing">실습 영상 1 (Compile)</a>, <a href="https://drive.google.com/file/d/1DSK-kkzF8k_qWt7UGc6XTWD8C4iEnO1y/view?usp=sharing">실습 영상 2 (Test)</a></li></ul></li></ul><ul id="1d6b73de-2031-47e4-afe4-5814fe78cc03" class="bulleted-list"><li style="list-style-type:disc"><strong>사전 참고 자료</strong><ul id="4172d97d-c0d6-4114-ae03-816c0abf9f71" class="bulleted-list"><li style="list-style-type:circle"><a href="https://academy.binance.com/ko/articles/what-is-ethereum">Ethereum이 무엇인가요?</a></li></ul><ul id="3378189d-53a5-4ca2-9c59-321c6649d5f8" class="bulleted-list"><li style="list-style-type:circle"><a href="https://brunch.co.kr/@c6086b58f6724c5/8">Smart Contract란 무엇인가요?</a></li></ul><ul id="e4ee0702-c186-44e1-9e1d-613c4c7a0287" class="bulleted-list"><li style="list-style-type:circle"><a href="https://docs.soliditylang.org/en/v0.8.15/">Solidity 언어 공식 문서</a></li></ul><ul id="76ae3f3e-4d4d-49e1-b8f7-220bef1e375d" class="bulleted-list"><li style="list-style-type:circle"><a href="https://solidity-by-example.org/">Solidity by Example</a></li></ul><ul id="c48dd17d-f293-48c8-aa40-a56c449ee507" class="bulleted-list"><li style="list-style-type:circle"><a href="https://hardhat.org/docs">Hardhat 공식 문서</a></li></ul><ul id="351c3925-e3fe-474d-93a7-f6a6f73af4ff" class="bulleted-list"><li style="list-style-type:circle"><a href="https://betterprogramming.pub/the-complete-hands-on-hardhat-tutorial-9e23728fc8a4">The Complete Hands-On Hardhat Tutorial</a></li></ul><ul id="997b75de-19be-491b-ae7c-96116d868327" class="bulleted-list"><li style="list-style-type:circle"><a href="https://docs.ethers.io/v5/">Ethers.js 공식 문서</a></li></ul><ul id="a5d3296b-6d34-4163-9d68-3f666554a753" class="bulleted-list"><li style="list-style-type:circle"><a href="https://www.chaijs.com/">Chai 공식 문서</a></li></ul><ul id="03cfbb72-8b05-46e2-ac50-feadd472d671" class="bulleted-list"><li style="list-style-type:circle"><a href="https://github.com/tinchoabbate/damn-vulnerable-defi/tree/master">Damn Vulnerable DeFi</a></li></ul></li></ul></details></li></ul><ul id="79af205f-4c73-485e-a5c1-a8e4cd8bf946" class="toggle"><li><details open=""><summary><mark class="highlight-orange_background"><strong>Session 02 : Common Vulnerabilities and Case Study </strong></mark></summary><ul id="d71e62bb-9758-4469-88ef-3c661f3fa3b4" class="bulleted-list"><li style="list-style-type:disc">Session 02의 목표는 <strong>EVM-호환 Smart Contract 환경에서 발생할 수 있는 취약점들을 이해</strong>하고 실사례 코드로 확인하는 것입니다.</li></ul><ul id="7be036a0-42b2-45a4-83fe-b9ab519615a9" class="bulleted-list"><li style="list-style-type:disc"><strong>Solidity를 읽고 이해하는데 어려움이 없으셔야</strong> 세션을 원활히 이해하실 수 있습니다. </li></ul><ul id="efe4f7ac-d5c1-456a-9bae-771685f2891b" class="bulleted-list"><li style="list-style-type:disc"><strong>사전 참고 자료</strong><ul id="eb5bd326-cef2-4adf-9d9a-c4879248cab8" class="bulleted-list"><li style="list-style-type:circle"><a href="https://academy.binance.com/ko/articles/what-is-uniswap-and-how-does-it-work">Uniswap이 무엇인가요?</a></li></ul><ul id="517c61c1-3afe-4a6f-864d-6232177a60a7" class="bulleted-list"><li style="list-style-type:circle"><a href="https://velog.io/@wrjang96/Uniswap-Core">Uniswap 코드 분석</a></li></ul><ul id="47cbc2fc-28c0-4707-8b95-a3ce5db2d0aa" class="bulleted-list"><li style="list-style-type:circle"><a href="https://swcregistry.io/">Smart Contract Weakness Classification</a></li></ul><ul id="de954dbc-0a23-4840-b16d-b16706bdd30c" class="bulleted-list"><li style="list-style-type:circle"><a href="https://secureum.substack.com/p/security-pitfalls-and-best-practices-101?s=r">Security Pitfalls &amp; Best Practices 101</a></li></ul><ul id="e453a361-5fa2-4cef-9d38-dd6100fe1263" class="bulleted-list"><li style="list-style-type:circle"><a href="https://rekt.news/">Rekt.news</a></li></ul><ul id="4859ff01-c3bd-4e98-8b45-50c74a2ef66f" class="bulleted-list"><li style="list-style-type:circle"><a href="https://hacked.slowmist.io/">Slowmist Hacked</a></li></ul><ul id="503578df-6382-483d-93db-537a12d3ca37" class="bulleted-list"><li style="list-style-type:circle"><a href="https://github.com/PunkFinance/punk.protocol/blob/1654cc66d47ce234d339d4437cf1420a4bbbc4b8/contracts/models/CompoundEthModel.sol">Punk.Finance Code</a></li></ul><ul id="4263ed96-a26b-4219-9045-b80f637201b7" class="bulleted-list"><li style="list-style-type:circle"><a href="https://twitter.com/PeckShieldAlert/status/1554423041232629761">Reaper Farm Exploit Analysis</a></li></ul><ul id="64115b1f-a38a-4451-bf1d-b44acfac4db6" class="bulleted-list"><li style="list-style-type:circle"><a href="https://github.com/Byte-Masons/reaper-core/tree/master/contracts">Reaper Farm Contract</a></li></ul><ul id="521554c3-ce8d-4535-814b-b86d4981028e" class="bulleted-list"><li style="list-style-type:circle"><a href="https://eips.ethereum.org/EIPS/eip-4626">EIP-4626</a></li></ul><ul id="8d861f71-aebf-4b18-a6b4-3b7e7abcc1fc" class="bulleted-list"><li style="list-style-type:circle"><a href="https://elephant.money/">Elephant.Money</a></li></ul><ul id="484ce43d-187b-4765-8311-cb43203da39e" class="bulleted-list"><li style="list-style-type:circle"><a href="https://twitter.com/BlockSecTeam/status/1513966074357698563">Elephant Finance Incident Analysis</a></li></ul><ul id="f909f1d4-c2a6-4a0c-a03a-01ed0c9489bc" class="bulleted-list"><li style="list-style-type:circle"><a href="https://certik.medium.com/fei-protocol-incident-analysis-8527440696cc">Fei Protocol Incident Analysis</a></li></ul><ul id="58954dca-bc70-41ed-86d7-29603a96be04" class="bulleted-list"><li style="list-style-type:circle"><a href="https://medium.com/hashed-kr/investment-in-bzx-kr-3a739e157e29">bZx 소개</a></li></ul><ul id="e1655cca-b685-4da4-b916-90e8a744452a" class="bulleted-list"><li style="list-style-type:circle"><a href="https://blog.openzeppelin.com/exploiting-uniswap-from-reentrancy-to-actual-profit/">EIP-777 Reentrancy</a></li></ul><p id="e76741c7-ffd3-4a50-ae19-abf8ba61ce92" class="">
+</p></li></ul></details></li></ul><ul id="937ac206-e076-4bbc-9d83-7d3008900253" class="toggle"><li><details open=""><summary><mark class="highlight-teal_background"><strong>Session 03 : How to find real-world bugs?</strong></mark></summary><ul id="be0c7b92-b5a1-4430-9572-215412c9be14" class="bulleted-list"><li style="list-style-type:disc">Session 03의 목표는 실제 Bug Bounty 상황을 가정하고 주어진 <strong>임의의 프로젝트를 분석하여 취약점을 찾는 방법</strong>을 익히는 것입니다.</li></ul><ul id="0a0a1b6d-7ad9-4ff8-9f68-0d987a4a0f1c" class="bulleted-list"><li style="list-style-type:disc"><strong>Solidity를 읽고 이해하는 것과, Javascript / Typescript 코드를 작성하시는 것에 어려움이 없으셔야</strong> 세션을 원활히 이해하실 수 있습니다. </li></ul><ul id="f013f244-e27e-45b4-9fb5-13969560c7b4" class="bulleted-list"><li style="list-style-type:disc"><strong>Node.js를 실습환경에 사전에 세팅해오셔야 실습이 가능합니다.</strong></li></ul><ul id="3f5b2c66-d92e-4691-9c91-8e991843eb83" class="bulleted-list"><li style="list-style-type:disc"><a href="https://github.com/astean1001/2022_seminar_tutorial">실습/시연 코드 Github 저장소</a></li></ul><ul id="742f0767-8ba4-40b2-8ebd-b0aeebb93b02" class="bulleted-list"><li style="list-style-type:disc"><strong>사전 참고 자료</strong><ul id="53a2bc88-52f8-4dae-96b6-d846df2e21e4" class="bulleted-list"><li style="list-style-type:circle"><a href="https://code4rena.com/">code4rena</a></li></ul><ul id="2e5968f3-af95-4027-a2e5-fd8a9cf9c304" class="bulleted-list"><li style="list-style-type:circle"><a href="https://immunefi.com/">immunefi</a></li></ul></li></ul></details></li></ul><p id="07697e31-3d39-4e67-b6c3-189f1bfe2862" class="">
+</p><h2 id="203ede9e-c2e6-4d19-b227-1a5ad45e6e8c" class="">발표 자료</h2><p id="9d8b669e-d9dc-482b-a1e2-6f1828e5568a" class="">*좌석 위치에 따라 화면 내 코드가 잘 안 보일 수 있으므로, 발표 자료를 미리 다운 받아 노트북을 지참해주시면 감사드리겠습니다. (발표 자료는 세미나 당일 업로드 될 예정입니다.)</p><p id="c29e262c-91db-4664-a2d3-00be6375b495" class=""><strong>Session 01</strong></p><figure id="bb668135-660c-4758-a211-9e97f170877c"><div class="source"><a href="Bug%20Hunting%20Smart%20Contract%20for%20Fun%20&amp;%20Profit%20%E1%84%89%E1%85%A1%E1%84%8C%E1%85%A5%E1%86%AB%20%20fd278603e78c48a69b94ac455c68039b/SESSION01_Intro.pdf">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ba5a474f-c810-45c3-a7ba-e73e6950bff5/SESSION01_Intro.pdf</a></div></figure><figure id="a2b31478-136f-43a4-aeb5-2bcacb6432a0"><div class="source"><a href="Bug%20Hunting%20Smart%20Contract%20for%20Fun%20&amp;%20Profit%20%E1%84%89%E1%85%A1%E1%84%8C%E1%85%A5%E1%86%AB%20%20fd278603e78c48a69b94ac455c68039b/SESSION01_01_COMPILE.mp4">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/99f78812-7644-44d0-add3-e7a325f8986a/SESSION01_01_COMPILE.mp4</a></div></figure><figure id="956fba13-a645-42a6-abc9-1389573285f3"><div class="source"><a href="Bug%20Hunting%20Smart%20Contract%20for%20Fun%20&amp;%20Profit%20%E1%84%89%E1%85%A1%E1%84%8C%E1%85%A5%E1%86%AB%20%20fd278603e78c48a69b94ac455c68039b/SESSION01_02_TEST.mp4">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8f77e99a-fea0-4703-9cd2-6c62081e3885/SESSION01_02_TEST.mp4</a></div></figure><p id="32d7688d-db57-4aea-9907-5374989c79bc" class=""><strong>Session 02 </strong></p><figure id="3bfc8961-cb4e-472a-9e91-b9fb26fee5fe"><div class="source"><a href="Bug%20Hunting%20Smart%20Contract%20for%20Fun%20&amp;%20Profit%20%E1%84%89%E1%85%A1%E1%84%8C%E1%85%A5%E1%86%AB%20%20fd278603e78c48a69b94ac455c68039b/SESSION02_Vulns.pdf">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fceed200-32d4-4aa1-abf7-dc20686fcc17/SESSION02_Vulns.pdf</a></div></figure><p id="9f5e4071-b48c-48b0-9bf3-6b0ae386dab6" class=""><strong>Session 03</strong></p><figure id="ee53d2d4-075e-4bc7-a808-e8df539fd829"><div class="source"><a href="Bug%20Hunting%20Smart%20Contract%20for%20Fun%20&amp;%20Profit%20%E1%84%89%E1%85%A1%E1%84%8C%E1%85%A5%E1%86%AB%20%20fd278603e78c48a69b94ac455c68039b/SESSION03_Real.pdf">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/964a70b6-b217-45e7-ae9d-378dbcdc302c/SESSION03_Real.pdf</a></div></figure><p id="05a501d5-26e8-45fd-bd18-0cfafdfde385" class="">
+</p><p id="d0652c01-91a2-4f4c-b5f6-4c04ba927a6c" class="">safetransfer 주석 해제하고 한 번 테스트해보시길..!!</p><p id="c701cea8-0914-48bb-a2b3-16de5a44408c" class="">takeaway framework를 따라가면 왠만한 취약점은 다 잡을 수 있을 것이라 봄. </p><p id="c83fe8ac-07d9-43c1-99f4-f8f6b58bafe8" class="">바이트 단위 취약점 프록시 덮어씌우기 같은 취약점은 버그헌팅하면서 다른 사람이 찾은거보고 경험과 짬으로 채워나가면 될 거라 봄.</p></div></article></body></html>

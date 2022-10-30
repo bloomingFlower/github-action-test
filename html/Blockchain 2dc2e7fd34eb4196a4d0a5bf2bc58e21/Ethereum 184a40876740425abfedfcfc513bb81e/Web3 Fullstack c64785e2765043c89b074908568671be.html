@@ -1,0 +1,717 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Web3 Fullstack</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c64785e2-7650-43c8-9b07-4908568671be" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🔬</span></div><h1 class="page-title">Web3 Fullstack</h1></header><div class="page-body"><figure id="1c200e57-ede0-49c9-91f9-338fd584cea3"><div class="source"><a href="https://youtu.be/gyMwXuJrbJQ">https://youtu.be/gyMwXuJrbJQ</a></div></figure><p id="92f6e8c6-9156-48fb-b040-3dfcca58ac7c" class="">EVM can access and store information..</p><ol type="1" id="3e0f4e34-24cf-4d97-beb3-a362931ade90" class="numbered-list" start="1"><li>Stack</li></ol><ol type="1" id="1cb26197-fbfc-4efc-9a05-4f9d07087bfd" class="numbered-list" start="2"><li>Memory: temporally and can be modified</li></ol><ol type="1" id="318b116b-6bd5-48ca-bd2c-093d10296338" class="numbered-list" start="3"><li>Storage</li></ol><ol type="1" id="5bb548f8-c13c-4ae5-bb13-d562195c0704" class="numbered-list" start="4"><li>Calldata: temporally and can not be modified</li></ol><ol type="1" id="0512cfae-200f-4d14-a88c-067ef6e63012" class="numbered-list" start="5"><li>Code</li></ol><ol type="1" id="87de7dff-a127-4461-b79a-381249737b24" class="numbered-list" start="6"><li>Logs</li></ol><p id="d5dba29a-22b4-42bb-85a9-b858ae675dda" class="">
+</p><p id="8a788f2e-682b-4d40-8ac9-4338e550fde3" class="">
+</p><p id="aa70efc7-fce0-4366-853a-b9363146a5f8" class="">비트코인은 블록체인이라는 혁신적인 기술로 탄생한 첫번째 프로토콜</p><p id="0ef6fea7-ff26-4c92-b1bb-04473802605d" class="">Superior Digital Store of Value(Gold)</p><p id="94c89b14-396e-41b2-9303-b8074cb8ca96" class="">view, pure</p><p id="d6d3570b-0948-422f-880c-286d3c11ede4" class="">calldata, memory, storage</p><p id="9cb560ff-c4d1-4be9-85ff-633914ac1998" class="">
+</p><p id="a13beb1f-98f6-4d34-87d1-0f312a09e6c1" class="">3:05:36 / Remix Storage Factory</p><p id="a1d5d248-57c1-4580-a566-c5e14baea748" class="">
+</p><p id="7273db82-c31b-40ce-a323-a205811319ae" class="">mapping type으로 존재하지 않는 index로 찾을 시 0이 리턴.. 이건 따로 처리할 필요있음!</p><p id="53b4b486-6745-4a9e-b3b0-e532df465e8c" class="">
+</p><p id="1a946109-c257-40cb-9a8a-cdfc80f23d8a" class="">virtual - override</p><p id="9ff4b6ac-8c80-4433-85a6-2e06a1278792" class="">
+</p><p id="1a6eadb8-f885-4737-8629-4d56d5e3bdb8" class="">Transaction Fields</p><ul id="a582af35-4f39-43a0-8479-632dfec1770a" class="bulleted-list"><li style="list-style-type:disc">Nonce: tx count for the account</li></ul><ul id="3177f9c5-5297-4099-992d-06db1681459c" class="bulleted-list"><li style="list-style-type:disc">Gas Price: price per unit of gas(wei)</li></ul><ul id="5fcd13fb-c676-45b3-828c-b6526f4184a6" class="bulleted-list"><li style="list-style-type:disc">Gas Limit: max gas that this tx can use</li></ul><ul id="29540807-b00c-4110-956c-3fb1690d461d" class="bulleted-list"><li style="list-style-type:disc">v, r, s: components of tx signature</li></ul><ul id="b33f2a7e-e06a-4f40-b91a-b369e0d1f86a" class="bulleted-list"><li style="list-style-type:disc">To</li></ul><ul id="823df417-da91-4a14-92ab-2555a2a02dde" class="bulleted-list"><li style="list-style-type:disc">Value</li></ul><ul id="611409e4-1505-4ce3-81d7-fab316a670d5" class="bulleted-list"><li style="list-style-type:disc">Data: what to send to this To address</li></ul><p id="ae433d71-bcbb-4076-8559-3e5d7af09332" class="">
+</p><p id="d65c7bbd-3631-4f16-a407-fd0c66a5446d" class="">5 Steps To Solve ANY Coding Problem</p><ol type="1" id="d708c5f2-91c0-4cf4-80b3-0e1659ad9396" class="numbered-list" start="1"><li>Tinker and Experiment<ol type="a" id="3fba3376-9804-4668-994f-74d3e90bebff" class="numbered-list" start="1"><li>Observation/question → Research topic area → Hypothesis → Test with experiment → Analyze data → Report conclusions </li></ol></li></ol><ol type="1" id="2532639d-56e4-4b79-baa5-d5afba9f4eb2" class="numbered-list" start="2"><li>Check the Docs.(ethers) </li></ol><ol type="1" id="0b249b3c-fce1-449f-8a3e-2db14ed4914c" class="numbered-list" start="3"><li>Search the Internet.(StackOverflow, GitHub, Quora, Reddit, Discord)<figure id="f1213412-6f43-4988-af45-8650b5964485" class="image"><a href="Web3%20Fullstack%20c64785e2765043c89b074908568671be/Screen_Shot_2022-08-16_at_22.52.16.png"><img style="width:3012px" src="Web3%20Fullstack%20c64785e2765043c89b074908568671be/Screen_Shot_2022-08-16_at_22.52.16.png"/></a></figure></li></ol><p id="20579111-37ab-49ee-99f3-ee4b2df4b6ec" class=""> r/ethdev</p><p id="ecd1a19a-5168-470b-8e61-bdacd0db861d" class="">
+</p><figure id="2403c939-5d74-4c5a-850c-4cc9fb65767b"><a href="http://ethereum-json-rpc-specification.org/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">OPEN-RPC Playground</div></div><div class="bookmark-href"><img src="https://playground.open-rpc.org/favicon.ico" class="icon bookmark-icon"/>http://ethereum-json-rpc-specification.org/</div></div></a></figure><figure id="d9b41593-54ab-482b-809e-f10bcb1833ee"><a href="https://ethervm.io/decompile" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Online Solidity Decompiler</div><div class="bookmark-description">There are many contracts deployed on the Ethereum network with no source or ABI publicly available. This makes verifying their security and understanding their behaviour a difficult task without the right tools, such as a decompiler. This tool decompiles Ethereum contract bytecode into more readable Solidity-like code, allowing for better understanding of such contracts.</div></div><div class="bookmark-href">https://ethervm.io/decompile</div></div><img src="http://static.ethervm.io/img/og_thumb.png" class="bookmark-image"/></a></figure><p id="c52ba9b2-60c5-4f14-9341-167b232dbb19" class="">yarn add dotenv</p><p id="6142fbc3-918c-40f7-af7f-597fed92cf4c" class="">
+</p><p id="dc57dc87-74ff-4ebe-923a-691cb181b73c" class="">
+</p><h1 id="51c787fb-bb21-406f-ae42-bf0dbc195177" class=""><strong>The Pledge</strong></h1><p id="1648207b-0e49-491b-b4bf-c86d9d22a741" class="">I solemnly swear, that I will never place a private key or secret phrase or mnemonic in a <code>.env</code> file that is associated with real funds.</p><p id="41dad22d-55db-4260-bfbc-94eb20a669e7" class="">I will only place private keys in a <code>.env</code> file that have ONLY testnet ETH, LINK, or other cryptocurrencies.</p><p id="19f39950-3b24-4b5d-aeb6-3a1e6ffd2e32" class="">When I&#x27;m testing and developing, I will use a different wallet than the one associated with my real funds.</p><p id="d73e46ea-717a-4347-86ae-c895aa1be299" class="">I am aware that if I forget a <code>.gitignore</code> and push my key/phrase up to GitHub even for a split-second, or show my key/phrase to the internet for a split second, it should be considered compromised and I should move all my funds immediately.</p><p id="d176e69c-0dec-48f5-8d17-98eeeeb96272" class="">If I am unsure if my account has real funds in it, I will assume it has real funds in it. If I assume it has real funds in it, I will not use it for developing purposes.</p><p id="cad89959-7c6f-452a-a782-8f8581ee4bbe" class="">I am aware that even if I hit <code>add account</code> on my metamask (or other ETH wallet) I will get a new private key, but it will share the same secret phrase/mnemonic of the other accounts generated in that metamask (or other ETH wallet).</p><h1 id="20a50b50-6058-4f08-a6fa-1747e66376ba" class=""><strong>Pledge Additions</strong></h1><p id="4f1c3b1b-b1e4-42c5-9f02-cc57ec92d5af" class="">For this course, I will only use funds associated with a brand new never-before-used metamask (or other ETH wallet). I am aware that my account associated with my private key is the same on testnets that it is on mainnets.</p><p id="a15ab831-1231-4904-9655-f9574351b773" class="">If I must use a private key associated with real funds in the future, until I am 100% sure what I am doing I will always either:</p><ol type="1" id="cfc06e3b-bc2f-4f36-b09f-5211a6fc4543" class="numbered-list" start="1"><li>Use the encryption methods Patrick showed (ideally)</li></ol><ol type="1" id="92422840-806c-457b-93ac-cf718fc7cf41" class="numbered-list" start="2"><li>Use some better encryption stuff Patrick didn&#x27;t show</li></ol><ol type="1" id="d45c0ac9-6a88-4727-ab72-7e7d9a94a9db" class="numbered-list" start="3"><li>Use the command line way to pass private keys, and delete my command line history right after</li></ol><p id="211215ec-bf96-4825-9442-b4d74f768b9c" class="">If I never actually deploy anything to mainnet myself or work with a private key with real funds, I do not need to be concerned.</p><h3 id="e0b5b591-e92f-4f2a-9a61-38b405c98b2e" class=""><strong>EDIT</strong></h3><p id="6f582e1b-3adb-4778-9f8e-a8fa124144c1" class="">Look at all you safe people! I&#x27;d like all your comments if I could, but love how you&#x27;re all being safe!! Keep it up!</p><p id="01d33cbe-d6ea-4ded-9cbd-7e677b723a12" class="">
+</p><p id="3a340298-8231-4f43-ae84-f0c9f40826bc" class="">
+</p><p id="022f74f1-500d-48da-b70c-7023f46f3f37" class="">yarn add typescript ts-node</p><p id="c05d1655-d8d7-4462-880c-29a590686c8c" class="">
+</p><p id="f55175f3-de85-4e31-924c-12ecb6ee4450" class="">yarn hardhat run scripts/deploy.js</p><p id="af8955d4-17b3-49e9-9fa5-dcc40f6ef284" class="">yarn hardhat run scripts/deploy.js --network hardhat</p><p id="75590e07-014d-4df1-b962-07f74d79577d" class="">
+</p><p id="c5b396d1-9ea0-4da0-9456-aeb650c23d74" class="">yarn add --dev dotenv</p><p id="00060a4c-395f-46e3-937d-76b813889b8f" class="">
+</p><p id="739ca403-c211-4eb0-be2d-8fb67bc2872e" class="">get chain ID</p><figure id="f7279d06-ed21-404c-bf75-941e3ad3b91a"><a href="https://chainlist.org/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Chainlist</div><div class="bookmark-description">Chainlist is a list of RPCs for EVM(Ethereum Virtual Machine) networks. Use the information to connect your wallets and Web3 middleware providers to the appropriate Chain ID and Network ID. Find the best RPC for both Mainnet and Testnet to connect to the correct chain</div></div><div class="bookmark-href"><img src="https://chainlist.org/favicon.ico" class="icon bookmark-icon"/>https://chainlist.org/</div></div></a></figure><p id="8aea0bab-e905-482a-826a-6db85e19ac98" class="">
+</p><p id="e8ec5a1a-f6fd-421f-8517-c9d087cee710" class="">
+</p><figure id="d35352c8-8477-4d44-b509-a4f421284d9b"><a href="https://rekt.news/leaderboard/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Rekt - Leaderboard</div><div class="bookmark-description">DeFi / Crypto - Investigative journalism &amp;amp; creative commentary</div></div><div class="bookmark-href"><img src="https://raw.githubusercontent.com/RektHQ/Assets/main/images/favicon.png" class="icon bookmark-icon"/>https://rekt.news/leaderboard/</div></div><img src="https://raw.githubusercontent.com/RektHQ/Assets/main/images/banner-1200-675.png" class="bookmark-image"/></a></figure><p id="90f6eb2d-afaf-4284-9845-ae7f29b5aaa9" class="">디파이 해킹 이력</p><p id="950e048d-9eee-4025-b08d-eaf83a4347e3" class="">
+</p><p id="b5608903-a340-4ee5-b5ed-0a49b65ee70f" class="">yarn hardhat test --grep store</p><p id="7fedfcf3-af39-4682-8bb0-48dd500600b1" class="">
+</p><p id="953a5716-a675-4fef-8f8f-9fb881bace21" class="">yarn add hardhat-gas-reporter --dev</p><p id="e0c12b7c-d9bd-4b41-a1f6-faf060604d8c" class="">
+</p><figure id="0665ca45-f161-4601-944f-9996c95c5c10"><a href="https://coinmarketcap.com/api/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Most Trusted Cryptocurrency Market Data API | CoinMarketCap</div><div class="bookmark-description">A new suite of powerful, flexible, and accurate cryptocurrency market data endpoints. From demanding enterprise use cases to economical pricing plans for startups, there is a plan for you. Created by the most trusted cryptocurrency market data provider in the industry. Use the best possible crypto data to run simulations and backtest your trading or investing strategies.</div></div><div class="bookmark-href"><img src="https://coinmarketcap.com/public/media/img/favicon.ico?_=9007dc8" class="icon bookmark-icon"/>https://coinmarketcap.com/api/</div></div><img src="https://coinmarketcap.com/public/media/img/logo-square.png?_=9007dc8" class="bookmark-image"/></a></figure><p id="d0e09c76-0743-4bc3-8bed-6c04cb2c3cf9" class="">
+</p><p id="e1f0ccaf-9ee0-4605-8f42-3899e5ff929d" class="">yarn add solidity-coverage --dev</p><p id="73811b69-cb38-4fb1-959c-8657fd7b7317" class="">
+</p><p id="d6bf3a89-3707-4520-9321-ea05b69320a1" class="">README → test</p><p id="7f29116f-19a0-49f2-9b42-3641b0acadb9" class="">
+</p><figure id="9a0aa56c-bc8a-417b-9adf-668c9cf83720"><div class="source">https://github.com/othneildrew/Best-README-Template</div></figure><p id="772e5ceb-b013-487f-8bda-35ec74be1261" class="">
+</p><p id="2ec022d6-70cc-46a9-b55a-df36794b81ea" class="">typescript typechain</p><p id="e92f0375-e935-462c-90c2-e03ae1c32430" class="">
+</p><p id="2027ca08-ed20-4e5b-a060-16bd722ac756" class="">solhint</p><p id="2f295d48-1c9e-411a-b334-e531476aa77a" class="">
+</p><p id="e64ef59d-8e25-42ae-a240-a66c9ce542ab" class="">yarn add --dev @chainlink/contracts</p><p id="cefa0032-04a0-44d0-9342-1e8b10098f8e" class="">
+</p><p id="1bc9abd4-68cf-4a1d-969c-4fa04d6dd816" class="">yarn add --dev hardhat-deploy</p><p id="94fdad55-e577-4adb-bb4d-7b7c2a447188" class="">
+</p><p id="6b2bff07-7cb5-4084-a82d-5117e40d287a" class="">ethers.js</p><p id="ebb12ad8-3978-42b7-a966-0823fe72f22b" class="">yarn add --dev @nomiclabs/hardhat-ethers@npm:hardhat-deploy-ethers ethers</p><p id="f12b9ae7-7568-450f-8d02-d5c29db00eb8" class="">
+</p><figure id="d1f29cd4-6086-490e-b3a9-6151edfffb6f"><a href="https://docs.soliditylang.org/en/v0.8.16/style-guide.html" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Style Guide - Solidity 0.8.16 documentation</div><div class="bookmark-description">This guide is intended to provide coding conventions for writing Solidity code. This guide should be thought of as an evolving document that will change over time as useful conventions are found and old conventions are rendered obsolete. Many projects will implement their own style guides.</div></div><div class="bookmark-href"><img src="https://docs.soliditylang.org/favicon.ico" class="icon bookmark-icon"/>https://docs.soliditylang.org/en/v0.8.16/style-guide.html</div></div></a></figure><figure id="14117f9c-6a74-4bff-b454-8cde65f3d13a"><a href="https://docs.soliditylang.org/en/v0.8.16/natspec-format.html#natspec" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">NatSpec Format - Solidity 0.8.16 documentation</div><div class="bookmark-description">Solidity contracts can use a special form of comments to provide rich documentation for functions, return variables and more. This special form is named the Ethereum Natural Language Specification Format (NatSpec).</div></div><div class="bookmark-href"><img src="https://docs.soliditylang.org/favicon.ico" class="icon bookmark-icon"/>https://docs.soliditylang.org/en/v0.8.16/natspec-format.html#natspec</div></div></a></figure><figure id="c293bd54-5286-498e-9d93-536667eb7fa7"><a href="https://docs.metamask.io/guide/mobile-best-practices.html" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Best Practices | MetaMask Docs</div><div class="bookmark-description">If this page doesn&#x27;t answer your question, please feel free to open an issue in our repository (opens new window) . Recent Breaking Provider Changes If you are an Ethereum application developer and are looking for information about our January 2021 provider API changes, please see our Migration Guide for more details.</div></div><div class="bookmark-href">https://docs.metamask.io/guide/mobile-best-practices.html</div></div></a></figure><p id="d01acd35-633f-462e-9e7d-faed7354487c" class="">test</p><p id="37cc2f1f-dde0-4fe5-b630-626a49259794" class="">hardhat consol log</p><figure id="bebf9f56-dacf-427b-bd1c-4f998ebaebbd" class="image"><a href="Web3%20Fullstack%20c64785e2765043c89b074908568671be/Learn_Blockchain_Solidity_and_Full_Stack_Web3_Development_with_JavaScript__32-Hour_Course-0003.png"><img style="width:1920px" src="Web3%20Fullstack%20c64785e2765043c89b074908568671be/Learn_Blockchain_Solidity_and_Full_Stack_Web3_Development_with_JavaScript__32-Hour_Course-0003.png"/></a></figure><p id="389d9bd8-6c3d-447d-a633-df352147a238" class="">constant는 bytecode에 hardcoding 됨.</p><p id="da9ee393-7685-443c-b8ca-030364b4132a" class="">
+</p><p id="30262e8a-9677-4775-9f2a-4bc86944c4ee" class="">opcode cost</p><p id="145f288f-3d51-4241-9977-53ba59b0743e" class="">
+</p><p id="81082982-1710-4807-9fb9-a61e9952cf48" class="">require message 보다 error code가 gas fee가 저렴</p><p id="f8413b46-2c4b-4d74-835e-a6f44a8d532c" class="">
+</p><p id="b4fac964-6f19-45e6-9c87-e62ef47eac29" class="">When buliding Dapps, usually have 2 repos</p><p id="0f334638-bd5a-47ce-a387-e14853625774" class="">
+</p><ul id="7de9ad9f-58ae-4434-88f6-77d73743693a" class="bulleted-list"><li style="list-style-type:disc">one for the smart contract</li></ul><ul id="1ee202ac-0452-4be2-b8e5-b8ef772b4608" class="bulleted-list"><li style="list-style-type:disc">one for the front end/ website</li></ul><p id="e9afa5b0-7d8b-4487-b6f5-75aa376eaa18" class="">
+</p><p id="4a00a80e-a02b-488e-a428-de4b8f54a557" class="">index parameter(ABI)</p><p id="a9b27f22-e9fc-4fed-b4cf-b47dc683db75" class="">emit</p><p id="53bb3fd7-b9d1-4ce9-bbea-f96385b3c442" class="">
+</p><p id="87947f36-cccf-4441-ab61-e9883d4cdbab" class="">
+</p><p id="87ece94a-91ec-4da8-8cee-2726250300b4" class="">nextjs</p><p id="1bc69480-b8b1-4142-8cb6-569febda2d4c" class="">
+</p><p id="ca84c9c2-7f20-4291-993c-a9bec37e2192" class="">yarn create next-app .</p><p id="9b76182e-fae7-4af3-8097-5393148dc58d" class="">yarn run dev</p><p id="51e37421-26d7-4325-9461-dc127f91994a" class="">yarn add moralis react-moralis</p><p id="cd3d9fea-f657-475c-be8c-1784e17f2249" class="">
+</p><p id="4a130a56-bc8c-4927-9675-0540dd7f1f2f" class="">yarn add web3uikit</p><p id="de398cec-949d-4295-a9c3-e4ad895daca0" class="">tailwindcss</p><p id="48247995-21b8-4e47-8c1c-dcd016e272ef" class="">yarn add --dev tailwindcss postcss autoprefixer</p><p id="98e1d42e-8118-4ddb-8ea0-9f6d1d1fbcda" class="">yarn tailwindcss init -p</p><p id="95a9d588-e49b-4108-b545-1b2e8cd0aa27" class="">postcss</p><p id="ffac681f-fd5f-4ff1-8a42-e55a204356f7" class="">
+</p><p id="88955a0b-41a0-4fee-9fc2-2fb19259073b" class="">hostprovider</p><p id="fdf27fee-912b-470d-b0ec-fcbc4ee5f68d" class="">
+</p><p id="aeb15730-ad3f-4700-ba9b-5002c0ff7337" class="">vercel, aws, gcp</p><p id="ac9b78f3-0cf7-4ee9-be37-f3ffb991a77d" class="">
+</p><p id="3c51d4f4-46ef-472e-ab42-02b399c92953" class="">ipfs(similar to blockchain only storage no execution sc)</p><p id="dda6ace9-f037-4579-862b-bfd8a162f733" class="">our code/file →(hash it!)→ipfs://hash/</p><p id="be6cfe59-2fdf-459a-9685-ad2461a2c086" class="">FVM</p><p id="cd388fd9-b7e3-402f-86bd-1ccb8759bc74" class="">proto.school</p><p id="189dcc71-1018-4363-8404-02b86cdbbb2d" class="">NFTschool.dev</p><p id="597b15a5-bec8-4223-bd25-551b535c4265" class="">
+</p><p id="01dc7cbe-378b-4f89-bdf9-2f130b11b4a4" class="">fleek.co</p><p id="5502406a-a1f8-4a12-9c58-33d41637767b" class="">ntf.storage</p><p id="50ae6b96-7193-4a79-94ef-80c00a17d804" class="">web3.storage</p><p id="cfaff95a-62e9-4499-a757-dafc54dbfcdc" class="">textile powergate</p><p id="326abefe-89fc-427a-9eef-d6c1c60c6dc7" class="">estuary.tech</p><p id="7fd2452f-7be0-4008-8405-32bd91f091f6" class="">orbitDB</p><p id="b44f7cd4-cc4a-46d3-b463-f3299ea27fd0" class="">
+</p><p id="1b196eb5-b366-4074-8143-da66c5a8310d" class=""><code>@nomiclabs/hardhat-etherscan</code></p><p id="3c3a9a0a-9beb-4042-99af-24c1fbb09447" class="">yarn add --dev @openzeppelin/contracts</p><p id="a9f9fde0-ed45-47d1-a19b-a907326a30bc" class="">
+</p><p id="568c71cd-52ea-40f1-b56c-65b0a41e9631" class="">solmate</p><p id="5d459861-84cc-46b4-b14b-884848dff864" class="">
+</p><p id="91c43dd5-8bd4-437a-8e39-32d18bdfca09" class=""><a href="https://defillama.com/">https://defillama.com/</a></p><p id="6ecde72c-2412-4965-9929-a3abeeb68591" class=""><a href="https://speedrunethereum.com/">https://speedrunethereum.com/</a></p><p id="997e9a19-b20c-4b94-91e4-f99e474f3e79" class="">
+</p><ol type="1" id="2af2b471-ce0a-4670-94c0-a328f835b356" class="numbered-list" start="1"><li>yarn add --dev hardhat</li></ol><ol type="1" id="fdaaef6e-029f-4396-a328-c9f3b90f2ca9" class="numbered-list" start="2"><li>yarn add --dev @nomiclabs/hardhat-ethers@npm:hardhat-deploy-ethers ethers @nomiclabs/hardhat-etherscan @nomiclabs/hardhat-waffle chai ethereum-waffle hardhat hardhat-contract-sizer hardhat-deploy hardhat-gas-reporter prettier prettier-plugin-solidity solhint solidity-coverage dotenv</li></ol><ol type="1" id="6413615e-a17b-4d47-875f-abfbb6cd5b5d" class="numbered-list" start="3"><li>yarn add --dev @openzeppelin/contracts</li></ol><ol type="1" id="0b7d0629-ff6c-4e39-b31a-608c5aa3e2e0" class="numbered-list" start="4"><li>(optional)yarn add --dev @chainlink/contracts</li></ol><ol type="1" id="a31aae05-9e29-448a-b954-961924bf8580" class="numbered-list" start="5"><li>(optional)yarn add --dev @pinata/sdk</li></ol><ol type="1" id="0bd5ba0f-435e-44d0-bcdc-06c4b51ebce5" class="numbered-list" start="6"><li>yarn add --dev path</li></ol><p id="d4c48767-e0bd-41c4-b290-69aed7f2b86f" class="">
+</p><h3 id="8455e44d-4a46-41dc-85d4-f259a754cb65" class="">svg</h3><p id="7ada1dda-77fd-4114-8b46-39c6b56f2d46" class="">yarn add --dev base64-sol</p><p id="fb35fc88-ca8f-4c0a-bc92-ecf00faa5cfc" class="">
+</p><h2 id="271ef66d-688a-4f3e-a645-7029ad0ea104" class="">chainlink</h2><p id="a9e5b0ac-ca0c-47bf-9dfe-c751d2f11a6e" class="">yarn add --dev @chainlink/contracts</p></div></article></body></html>

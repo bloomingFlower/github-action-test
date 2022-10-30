@@ -1,0 +1,683 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Avalanche(AVAX)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="dfaff77c-a5c0-4935-8bc9-b18340f993a4" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/avax.png"/></div><h1 class="page-title">Avalanche(AVAX)</h1></header><div class="page-body"><p id="2d57bbf1-e4e7-48c6-882b-a86341a9f741" class="">
+</p><h2 id="cba991e4-a6ae-4d55-a756-34ab92e32565" class="">What is Avanlanche?</h2><p id="4373a4e2-50f7-4b7a-9131-8ff2bd32898c" class="">Open-source Platform</p><p id="2b9c6a8b-7dd4-48d3-a976-56cebc36eb4f" class="">4500+ TPS</p><p id="a17bf091-a096-4785-b772-806e3c825489" class="">Instantly confirm(1초 미만)</p><p id="71d0d67d-b3fa-4e69-a90b-cae2dc996b58" class="">Solidity</p><p id="9ecede05-f165-49b5-b9e0-f5f1fda92611" class="">Fast, Flexible, Secure</p><p id="c8eab19f-429a-4190-80f6-ea36b06ab54a" class="">Plug and Play</p><p id="7a53f49b-dcff-426e-9638-b63ed0cf4ac1" class="">
+</p><h3 id="20b77bc3-78ff-4d0b-b766-f7dfa742d60a" class="">Permissionless</h3><p id="7c42f22e-df52-4692-beaa-a83fa31b4ba1" class="">Permissionless, Permissioned 둘 다 지원</p><p id="5df2b644-65a3-4a46-994c-0887a05be971" class="">AVAX로 새 서브넷을 만들거나 permissionless 서브넷 검증이 가능</p><p id="181c2f03-5da7-4657-a892-58aa0631ca29" class="">private 서브넷 가능</p><p id="04b49f81-cbdc-4eaa-8339-6f83cb39be81" class="">
+</p><h2 id="802bdc9a-5d52-4f62-a2d0-67fe2f7e1042" class="">Ava Labs?</h2><p id="32d6ad33-cb81-42af-b481-baca204678af" class="">Founded by Cornell Computer scientists</p><p id="f8e7661a-5367-455f-9222-62bf5f249526" class="">The company has received funding from Andreessen Horowitz, Initialized Capital, and Polychain Capital, with angel investments from Balaji Srinivasan and Naval Ravikant.</p><h2 id="64df130b-9b86-43ed-bed1-d96fcae498ab" class="">Chains</h2><p id="f9757cbe-55b4-4663-9729-356f114cc54a" class="">X-Chain: trade</p><p id="82fedb11-bdc4-4294-88ef-98dd3ac8985b" class="">P-Chain: stake, validating the Primary Network</p><p id="f5f0d473-52da-4a63-b4f0-cb6d5b03a2e5" class="">C-Chain: smart contract, pay for gas</p><p id="81b7a972-c4d4-4a05-9720-0aa22eada27f" class="">
+</p><h2 id="bfb925ad-b9d6-4fc7-8411-2ab252dd6a4f" class="">Consensus Protocol(X-Chain)</h2><p id="af0bee67-84c1-4e5d-b704-5fb62637e40c" class="">(<a href="https://medium.com/avalancheavax/avalanche-consensus-101-99c68a3e3159">https://medium.com/avalancheavax/avalanche-consensus-101-99c68a3e3159</a>)</p><p id="440c89ba-d8ad-4e51-9031-f5848c775912" class="">(<a href="https://docs.avax.network/overview/getting-started/avalanche-consensus/">https://docs.avax.network/overview/getting-started/avalanche-consensus/</a>)</p><p id="6d054bdb-4ba2-442b-b6fa-e4175a2df635" class="">(<a href="https://www.reddit.com/r/Avax/comments/n2k7jq/want_a_full_description_of_the_snowman_consensus/">https://www.reddit.com/r/Avax/comments/n2k7jq/want_a_full_description_of_the_snowman_consensus/</a>)</p><p id="22d3aa89-e926-451a-8992-8c4e17a264ef" class="">Voting Protocol</p><p id="f19c9e51-1c00-4e04-ba26-e5e8a34018ac" class="">DAG-optimized consensus protocol(a Directed Acyclic Graph)</p><p id="a027fefe-9380-4124-afa6-c803f7bc8330" class="">high throughput(CPU-bound), paralleizable, simple to prune</p><figure id="c3da0a06-c704-4b49-b607-9632122a7a52" class="image"><a href="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled.png"><img style="width:1400px" src="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled.png"/></a></figure><p id="ed33715a-40b0-48fe-9872-1677edd3187b" class=""><a href="https://avalabs.org/whitepapers"><em>https://avalabs.org/whitepapers</em></a></p><p id="5cd470fb-ee66-477d-9647-855a235faa02" class="">probabilistic protocol(make the chance of error just as microscopic) smaller than chance of SHA-256 hash collision</p><p id="f131b1a4-d1ea-45a6-a388-54ff9fcd0a02" class="">No tx to vote on → nodes in the network don’t do anything except listen.</p><p id="86988bf7-11bc-4ecd-a815-14c65b2edca8" class="">
+</p><p id="828c89a0-c125-4d73-ac43-f1ad0680fce2" class="">투표를 하기 위해서 일정량의 토큰을 가져야함(PoS)</p><p id="1f583545-ddc2-41d6-941e-521abe23e9b3" class="">
+</p><p id="fdfff929-3326-45af-9d80-c69f6b577c72" class="">messages per node</p><p id="6397dfbc-11d9-4da0-bdf2-331270f120cc" class="">Ava(O(1))</p><p id="c07ce304-140c-415a-baf5-237378f7b4b2" class="">Classical(O(n^2))</p><p id="28e0ab50-ab7c-49ac-91ef-923690fcb6fe" class="">
+</p><p id="b63df641-0f53-48a5-bef1-10b3ad30e92d" class="">Validator: listen for tx</p><p id="c8526a75-393b-4057-abfc-064cccf4425c" class="">vote: accepted/ rejected</p><p id="04f03543-e273-4672-80b7-7f5a3d19c57a" class="">
+</p><ol type="1" id="17de4a21-85d1-4233-a556-9a96b7e6e48e" class="numbered-list" start="1"><li>A validator is presented with a set of transactions that have been issued and asked to decide which transactions to “Accept.”<figure id="3261dfb8-13f7-4302-bfbb-109af18c9629" class="image"><a href="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled%201.png"><img style="width:1400px" src="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled%201.png"/></a></figure></li></ol><ol type="1" id="b612bad0-d786-4c0e-85c8-06f5937f7f99" class="numbered-list" start="2"><li>The node client presents the virtual machines (“VMs”) with their transactions, and the VMs will provide information to help the client determine which transactions are acceptable.</li></ol><ol type="1" id="f2548274-db59-4e4c-9059-528a02907ec7" class="numbered-list" start="3"><li>The validator selects a subset of these transactions that do not conflict, marks them as preferred, and attempts to accept them over the network.</li></ol><ol type="1" id="ee15ee29-ea2e-4ce6-a358-42cde4b089ac" class="numbered-list" start="4"><li>Any nodes that query this validator receives its latest preferred choice for this decision.</li></ol><ol type="1" id="85d31ab2-755a-4934-a37d-6e79a0ad435b" class="numbered-list" start="5"><li>This validator selects K nodes from the entire validator list (probability of selection is weighted by stake amount) to query for their preferred decision.</li></ol><ol type="1" id="a3bcba56-e837-4078-82cd-30c1124ab955" class="numbered-list" start="6"><li>Each queried validator responds with their preferred decisions, the validator’s votes are updated accordingly, and confidence is built.</li></ol><ol type="1" id="066524f8-2589-475e-9648-535e27c7b7d2" class="numbered-list" start="7"><li>Meanwhile, other nodes are also selecting random validators from the validator set to be queried for their preferred response and updating their answers accordingly.</li></ol><ol type="1" id="3f671957-d1d7-4f02-ad2d-ce5b25730b76" class="numbered-list" start="8"><li>This continues for at least M rounds or until a sufficient confidence threshold is reached, whatever comes last, with K validators selected randomly each round (without replacement).</li></ol><ol type="1" id="ad02f6b4-9883-490d-9efe-a09630b4655d" class="numbered-list" start="9"><li>Once a confidence threshold is reached, the decision on the transaction is locked in as final.</li></ol><ol type="1" id="ecfa5d09-fd5e-4cbe-b8ee-31791d9da172" class="numbered-list" start="10"><li>If “Accepted”, the transaction is sent to the VM to be handled; if “Rejected”, the transaction is removed from consensus.</li></ol><h2 id="1c91a9c4-2557-431b-9ec3-c2dafdc6513b" class="">Avalanche-Ethereum Bridge</h2><p id="c74e6b59-5515-41af-8888-b4063916a241" class="">bridge.avax.network</p><figure id="81ddd134-f917-4078-aa7f-bdc748a24d88" class="image"><a href="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled%202.png"><img style="width:2604px" src="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled%202.png"/></a></figure><p id="128ce9f4-e820-4ff2-a4b9-4ff811cffed5" class="">WETH.e로 C-Chain내 전송. 바로 Eth. Network로 전송 시 소실, bridge를 꼭 통해서 가야함.</p><p id="787c87f7-65f3-4da1-a3ab-b584d3205098" class="">CoinbasePro 가 더 간편.</p><p id="0534ddfe-0335-44dc-9030-96144aeaf099" class="">.e는 WETH에서 WETH로 오전송을 막기 위한 브릿지에서 사용하는 지정자</p><p id="b4ee1411-e1f3-473e-a14b-46b17b5e8307" class="">
+</p><h3 id="b311b86d-1794-481f-a2ba-7742fb4c9065" class="">Bridge-SGX application</h3><p id="d46f2290-e96e-4409-bbd2-eb7ee64a3472" class="">
+</p><h3 id="4c6a294f-ce6d-4da1-97d8-bf9cfb24365e" class="">Bridge-Wardens</h3><p id="d20e4b09-bf56-4517-a1a3-a32df31dc09e" class="">third-party indexers and verifiers</p><p id="2fc345a5-b6ad-4f96-8c47-81be621f90ca" class="">ERC20 지원 </p><h2 id="5c5ee216-f919-4833-9cbe-10def57ba6dc" class="">Wallet</h2><p id="2b9ebc4f-b70b-4663-98a6-1c321f774013" class="">Avalanche Wallet: <a href="https://wallet.avax.network/">https://wallet.avax.network</a></p><p id="9e5f47d4-4c34-442c-a9d1-2bc366dd6c7d" class="">MetaMask(C-Chain): <a href="https://support.avax.network/en/articles/4626956-how-do-i-set-up-metamask-on-avalanche">https://support.avax.network/en/articles/4626956-how-do-i-set-up-metamask-on-avalanche</a></p><figure id="5ae71461-823e-499b-8c7e-55b6166b2d0c" class="image"><a href="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled%203.png"><img style="width:1000px" src="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled%203.png"/></a></figure><p id="907f2035-ff0e-4756-b006-2ad0231a3c83" class="">X-Chain ↔ C-Chain</p><p id="94c866fc-7566-44d1-bc86-73425c9a4399" class="">P-Chain ↔ C-Chain</p><p id="1cc0901e-fcf1-48f1-a487-ed4bddcec028" class="">X-Chain ↔ P-Chain</p><p id="bf9ff297-6b64-4892-9765-a7a5bcfa57ac" class="">by Avanlanche Wallet</p><figure id="27397245-dcd3-4acc-adb9-77b591a5b0e1" class="image"><a href="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled%204.png"><img style="width:240px" src="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled%204.png"/></a></figure><figure id="b27a0ef0-6854-4e33-be28-17b4bcc1e73d" class="image"><a href="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled%205.png"><img style="width:1279px" src="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled%205.png"/></a></figure><figure id="4a840ab1-3891-4750-bc09-df457e884a9c" class="image"><a href="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled%206.png"><img style="width:1272px" src="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled%206.png"/></a></figure><p id="a002a433-8ae8-413b-addb-f0d048b91d0a" class="">
+</p><h2 id="3ece1cba-634e-4d79-905b-1a26799f861d" class="">Stake</h2><p id="6845e7c8-a75c-4c27-bddd-62cceacdb430" class="">About 9% returns</p><p id="de9392d7-cd24-4205-b612-a25f06226775" class="">P-Chain 만 가능(최소 스테이킹 25 AVAX)</p><figure id="6fe30444-6dbb-463f-919f-1a52622ba8ca" class="image"><a href="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled%207.png"><img style="width:1504px" src="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled%207.png"/></a></figure><h2 id="69c84abe-7340-4058-bcd7-7b234a302e1c" class="">Fee</h2><p id="9aa38741-1df9-4bd5-befe-3daaccd6d2ed" class="">Ethereum to Avalanche</p><p id="25bb5484-04a0-4aad-9999-19f380fdaf6c" class="">$3 ERC20 asset (Avalanche bridge only allows transfers to the same address</p><p id="f264a0cd-e248-4326-8770-88f363390e1f" class="">
+</p><p id="25f086f9-536d-477d-b549-c7c5249eb0ce" class="">Avalanche to Ethereum</p><p id="cf250de6-2748-487e-b606-49ec3913926f" class="">expected Ethereum transaction fee.($20)</p><h2 id="5cb7807f-1a63-489f-a139-181bc3ce5a10" class="">DEX</h2><p id="2565c0f2-4f37-43ec-8dd2-182a9d1bc6f2" class="">Avalanche 자체 DEX는 없음.</p><p id="c5e38e23-996e-4521-8fb2-4bdd81a5e1f9" class="">타 DEX 서비스 이용</p><p id="992a8385-7ee0-4df3-9c1a-ff34422cbf1e" class="">
+</p><h2 id="49b03916-42b6-414d-9aab-0ecc9da42471" class="">NFT</h2><p id="3f140394-c1a8-431d-9469-4feb45dce65c" class="">AVA는 X-Chain과 C-Chain에 NFT를 가질 수 있음. 다만 X와 C-Chain 간 NFT 이동은 불가</p><ul id="cb137e69-e78d-4f0f-a4c9-52058326c142" class="bulleted-list"><li style="list-style-type:disc"><a href="https://joepegs.com/home">Joepegs</a> is a new NFT marketplace created by TraderJoe.</li></ul><ul id="e4906ced-1b70-415e-a808-2892349f9a68" class="bulleted-list"><li style="list-style-type:disc"><a href="https://nftrade.com/">NFTrade</a> is one of the larger NFT marketplaces on the Avalanche network and can get you started.</li></ul><ul id="ca675bb0-f857-442c-ab87-c12b5f107d68" class="bulleted-list"><li style="list-style-type:disc"><a href="https://marketplace.kalao.io/">Kalao</a> is also one of the larger NFT marketplaces on the Avalanche network.</li></ul><p id="da6f406b-86e5-431b-9015-db2e655da8f5" class="">
+</p><h2 id="39de8261-de2e-4f50-9396-573e7a5fbff2" class="">Bug Report</h2><p id="360907b2-27a2-4c5e-8437-f8651ad91ec9" class=""><a href="https://hackenproof.com/avalanche">https://hackenproof.com/avalanche</a></p><figure id="7913030e-deff-43ee-93ae-14b63fdffdac" class="image"><a href="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled%208.png"><img style="width:1196px" src="Avalanche(AVAX)%20dfaff77ca5c049358bc9b18340f993a4/Untitled%208.png"/></a></figure><h2 id="25e38a50-b84d-4575-85e1-4fbde86a36f1" class="">Communitiy</h2><p id="7850117e-51e5-4feb-919f-8eaa0fd12a6b" class=""><strong>Ava Labs Official Links:</strong></p><ul id="786f7339-dc74-425b-b02f-6d09d89ca879" class="bulleted-list"><li style="list-style-type:disc"><a href="https://avalabs.org/">Ava Labs Website</a></li></ul><ul id="156166c7-629d-41c0-a2c5-5e1c6b156c32" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.avalabs.org/team">Ava Labs Team</a></li></ul><ul id="48ba03be-d63e-4c4f-aafe-c4a8482636fc" class="bulleted-list"><li style="list-style-type:disc"><a href="https://medium.com/avalancheavax">Ava Labs Blog</a></li></ul><ul id="cbb95f20-a38f-4c4c-b85c-0dfbddd7874e" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.avalabs.org/whitepapers">Whitepapers</a></li></ul><p id="0dcfebe5-69d1-4693-ad72-5a6922314b07" class=""><strong>Ava Labs Social:</strong></p><ul id="d1983583-5eca-40f1-9f5e-f51cc6115f3b" class="bulleted-list"><li style="list-style-type:disc"><a href="https://github.com/ava-labs/">GitHub</a></li></ul><ul id="1c2b8511-d388-466a-b155-950cf3ee8777" class="bulleted-list"><li style="list-style-type:disc"><a href="https://twitter.com/avalabsofficial">Twitter</a></li></ul><ul id="3f1e4c69-59bb-4379-a0fe-2b624bef3b3f" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.linkedin.com/company/avalabsofficial/">LinkedIn</a></li></ul><ul id="766d685c-8c5c-4588-8b37-bc0f13b7d592" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.facebook.com/avalabsofficial/">Facebook</a></li></ul><ul id="78c153de-9eae-483b-b5b4-cf424db8a076" class="bulleted-list"><li style="list-style-type:disc"><a href="https://instagram.com/avalabsofficial/">Instagram</a></li></ul><p id="322e62d2-be87-460a-8a24-92c7363ea45b" class=""><strong>Avalanche Official Links:</strong></p><ul id="6536a591-df79-4e75-ab8d-9462ef859b3c" class="bulleted-list"><li style="list-style-type:disc"><a href="https://avax.network/">Avalanche Website</a></li></ul><ul id="bea7ecf4-0f4e-448d-9e6c-46cc263dc158" class="bulleted-list"><li style="list-style-type:disc"><a href="https://community.ava.network/">Avalanche Hub</a></li></ul><ul id="16f6bfdf-a6dd-4bba-b9ff-0e7b9643ee42" class="bulleted-list"><li style="list-style-type:disc"><a href="https://docs.avax.network/">Avalanche Documentation</a></li></ul><p id="2c9b6a53-747e-4484-90e0-62e611ba6b27" class=""><strong>Avalanche Social:</strong></p><ul id="0bb26ce2-d122-4f03-8e55-aded7602a4bf" class="bulleted-list"><li style="list-style-type:disc"><a href="https://twitter.com/intent/follow?screen_name=avalancheavax">Twitter</a></li></ul><ul id="a3cd811c-b5d3-47d0-a368-30f2cc33c5d1" class="bulleted-list"><li style="list-style-type:disc"><a href="https://chat.avalabs.org/">Discord</a></li></ul><ul id="7c5bc80f-e45a-40c0-8577-4f716770e10b" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/avalanche_announcements">Announcements Telegram</a></li></ul><ul id="abe4f38a-60ba-48f8-92c4-8a57a6972ac9" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/avalancheavax">Community Telegram</a></li></ul><ul id="7856d673-2bcd-40c1-9221-5b37d1d3e254" class="bulleted-list"><li style="list-style-type:disc"><a href="https://facebook.com/https://twitter.com/avalancheavax">Facebook</a></li></ul><ul id="2327d69b-5191-4194-9e8a-3e6dac2882ec" class="bulleted-list"><li style="list-style-type:disc"><a href="https://linkedin.com/company/avalancheavax/">LinkedIn</a></li></ul><ul id="bc203125-66f1-436b-9a64-ccc0bbaa8634" class="bulleted-list"><li style="list-style-type:disc"><a href="https://reddit.com/r/avax">Reddit</a></li></ul><ul id="9f652698-6a16-4e51-a27a-2165ecc8ac13" class="bulleted-list"><li style="list-style-type:disc"><a href="https://youtube.com/c/avalancheavax">YouTube</a></li></ul><p id="85ac8b1e-f9a2-4313-83c0-f6c96c79cab3" class=""><strong>International Social:</strong></p><ul id="8e810a23-9306-4f5b-8604-7f01854482c3" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.facebook.com/AvalancheEsp">Spanish Facebook</a></li></ul><ul id="6b8d8312-ebf0-46ee-96b8-358d5895cd4d" class="bulleted-list"><li style="list-style-type:disc"><a href="https://twitter.com/Avalanche_NL">Dutch Twitter</a></li></ul><ul id="ae58f647-eaf1-4422-aa99-22c650532342" class="bulleted-list"><li style="list-style-type:disc"><a href="https://twitter.com/Avalanche_ph">Filipino Twitter</a></li></ul><ul id="50630bb5-0093-4e44-a277-1c58bedb7167" class="bulleted-list"><li style="list-style-type:disc"><a href="https://twitter.com/avalanche_fr">French Twitter</a></li></ul><ul id="c8741e0c-8f0a-4b12-82b8-f5264ff0793b" class="bulleted-list"><li style="list-style-type:disc"><a href="https://twitter.com/avalanche_dach">German Twitter</a></li></ul><ul id="8be3201f-0589-4973-ba9c-625e0f3947af" class="bulleted-list"><li style="list-style-type:disc"><a href="https://twitter.com/AvalancheID">Indonesia Twitter</a></li></ul><ul id="79edcc37-72fe-4fdb-a655-d2659c29d2c7" class="bulleted-list"><li style="list-style-type:disc"><a href="https://twitter.com/avalanche_it">Italian Twitter</a></li></ul><ul id="000aef23-db7c-44e4-b108-da53d5d1427d" class="bulleted-list"><li style="list-style-type:disc"><a href="https://twitter.com/avalanchejp">Japanese Twitter</a></li></ul><ul id="08316571-6c61-4f71-a091-0dce00e6a7ea" class="bulleted-list"><li style="list-style-type:disc"><a href="https://twitter.com/avalanche_ko">Korean Twitter</a></li></ul><ul id="d2967c1c-4aa5-49d4-8486-c1aa35956fcb" class="bulleted-list"><li style="list-style-type:disc"><a href="https://twitter.com/avalanche_ng">Nigerian Twitter</a></li></ul><ul id="15fa0d1f-44a2-40d1-abba-943b50cded81" class="bulleted-list"><li style="list-style-type:disc"><a href="https://twitter.com/avalanche_ru">Russian Twitter</a></li></ul><ul id="8d1e29a8-5bb9-44d5-924b-dcb6dab05d11" class="bulleted-list"><li style="list-style-type:disc"><a href="https://twitter.com/avalanche_esp">Spanish Twitter</a></li></ul><ul id="64f812e9-ed96-40f8-9e05-376dfa119965" class="bulleted-list"><li style="list-style-type:disc"><a href="https://twitter.com/avalanche_tr">Turkish Twitter</a></li></ul><p id="6a2e7475-2bf0-4ba4-b419-704c5c82a7be" class=""><strong>International Community:</strong></p><ul id="7becee0f-ec51-443c-8eea-278f160e566b" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/avalanche_zh">Chinese Telegram</a></li></ul><ul id="6fbaabfb-22a7-42d5-ba43-cfd5094c6df1" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/avalanche_nl">Dutch Telegram</a></li></ul><ul id="36949e8b-ee01-4650-bc3c-9df68cf4a0f2" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/avalanche_fil">Filipino Telegram</a></li></ul><ul id="4bca2970-5514-453b-9aba-0ac6d3474f74" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/avalanche_fr">French Telegram</a></li></ul><ul id="db4c3adc-b207-4f97-b5b7-6e7daefbc147" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/avalanche_dach">German Telegram</a></li></ul><ul id="c2ffb6d6-8ac1-4d56-a6fe-688b7240c6db" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/avalanche_id">Indonesia Telegram</a></li></ul><ul id="1c27e480-3298-4bb6-894b-7f6483775737" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/avalanche_it">Italian Telegram</a></li></ul><ul id="597286a4-3a82-4bb8-85c4-62babb3368b4" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/avalanche_jp">Japanese Telegram</a></li></ul><ul id="2da4fd9c-2aad-4074-ad66-c2c564f3410e" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/avalanche_ko">Korean Telegram</a></li></ul><ul id="20e74ef8-0b37-4494-b43b-1f715181199f" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/avalanche_ng">Nigeria Telegram</a></li></ul><ul id="f49c5c0f-ca3f-4134-9585-b53fee3a146c" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/Avalanche_fa">Persian Telegram</a></li></ul><ul id="44dae60a-2b0f-4318-9aec-f2534715b0e0" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/avalanche_pt">Portuguese Telegram</a></li></ul><ul id="adab3222-8b27-452a-bc40-8215ac90f77a" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/avalanche_ru">Russian Telegram</a></li></ul><ul id="795348f1-2dee-4cf8-8693-0212ef4d780f" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/avalanche_es">Spanish Telegram</a></li></ul><ul id="d7796f02-7696-466f-9b76-017ff9105809" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/avalanche_tr">Turkish Telegram</a></li></ul><ul id="8d6c5010-b213-45b1-97e9-0e822903e74b" class="bulleted-list"><li style="list-style-type:disc"><a href="https://t.me/avalanche_vn">Vietnamese Telegram</a></li></ul><h3 id="17919ac5-52b9-4b04-aec4-62364206281d" class="">참고</h3><p id="1b065dcd-582f-4261-837a-ca69aea19635" class=""><a href="https://www.mk.co.kr/news/economy/view/2019/08/612050/">https://www.mk.co.kr/news/economy/view/2019/08/612050/</a></p></div></article></body></html>

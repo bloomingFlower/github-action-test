@@ -1,0 +1,726 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Solidity 정리</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="2d206c7d-3d96-4fff-8c7a-9f38320e30af" class="page sans"><header><h1 class="page-title">Solidity 정리</h1></header><div class="page-body"><p id="577745f5-1c4b-43ae-a943-42fa2d80d545" class="">
+</p><h2 id="8730328e-3afc-4621-a2bc-e486c6c63ff0" class=""><details open=""><summary>ABI(Application Binary Interface)</summary></details></h2><div class="indented"><figure id="f0843b25-0768-4bec-8dea-56080c4e65e2"><a href="https://medium.com/pocs/ethereum-abi%EC%99%80-%EA%B4%80%EB%A0%A8%EB%90%9C-q-a-%EC%A0%95%EB%A6%AC-40e639ee1a03" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Ethereum:: ABI와 관련된 Q&amp;A 정리</div><div class="bookmark-description">이더리움의 ABI에 대해 공부하면서 EthereumStackExchange 사이트를 정말 많이 이용하였습니다. 사이트를 돌아다니면서 ABI를 이해하는데 있어서 저에게 많은 도움이 되었던 질문 및 답변을 정리한 포스팅입니다. 0x25d8dcf2 와 같은 16진수 문자열의 정보만으로 컨트랙트 내의 함수를 어떻게 식별할 수 있을까? 함수 서명정보의 해시이다.</div></div><div class="bookmark-href">https://medium.com/pocs/ethereum-abi%EC%99%80-%EA%B4%80%EB%A0%A8%EB%90%9C-q-a-%EC%A0%95%EB%A6%AC-40e639ee1a03</div></div></a></figure><p id="ad554568-dda4-4222-87bd-2d71fa0c7afb" class="">ABI: 컨트랙트의 함수와 매개변수들을 JSON형식으로 나타낸 리스트. 스마트 컨트랙트 함수를 이ㅛㅇㅇ하기 위해서는 ABI를 사용하여 함수를 해시할 수 있어야 함. 이렇게 하면 해당 함수를 호출하기 위해 필요한 EVM바이트 코드 생성 가능. (Think of ABI as an API at a low level.)</p><p id="d3cfe7d1-40f1-4d02-a827-2a8187b7f94a" class="">The API consists of a set of routines, objects, etc. that you can use in your code to access the functionality of that external component. An ABI is very similar. Think of it as the compiled version of an API (or as an API on the low level). as you know The contract are stored as bytecode in a binary form into the blockchain under a specific address. so you can accesses the binary data in the contract through the ABI which indicates to the caller the needed information (functions signatures and variables declarations) to encode a meaningful(understood by the VM) call to the bytecode(contract). The ABI defines the structures and methods that you will use to interact with binary contract (just like the API did), only on a lower level.</p><p id="a4db6dce-bbb1-478e-9b10-9c6f717da3fa" class="">
+</p><p id="cfcaee42-043b-44de-921a-f82a546ebdf5" class="">ABI는 어떻게 바이트 코드로 저장되는가?</p><p id="a198cbb8-54bb-408c-bebc-d0ef29f96ecf" class="">Method ID를 가지고 컨트랙트의 바이트코드 안에 주소와 정확하게 연결시켜주는 작업을 컴파일러가 진행. 컴파일러는 정확하게 동작하는 EVM 바이트코드를 생성함.</p><p id="f342b3f3-e18e-4930-b644-d286e679ea11" class="">Method ID는 4byte이기 떄문에, 해시 충돌(2개의 서로 다른 함수에서) 가능. 솔리디티 컴파일러는 해시 충돌의 경우 에러를 반환. 어떠한 바이트코드도 더 이상 생성하지 않음.</p><pre id="e6f7d52c-7810-4ffe-857c-e79862157972" class="code code-wrap"><code>method_id = first 4 bytes of msg.data
+if method_id == 0x25d8dcf2 jump to 0x11
+if method_id == 0xaabbccdd jump to 0x22
+if method_id == 0xffaaccee jump to 0x33
+other code
+0x11:
+code for function with method id 0x25d8dcf2
+0x22:
+code for another function
+0x33:
+code for another function</code></pre><p id="ce46cb82-2078-44b7-9432-357f6d4eaa4d" class="">
+</p><p id="8dea06f6-81eb-40b8-b321-9e1a8e5169ea" class="">두 프로그램 모듈의 인터페이스 역할을 함. 데이터를 머신코드로 인코딩/디코딩 하기 위함. 이더리움에서 기본적으로 EVM에 솔리디티 컨트랙트 호출을 할 때 인코딩을 하거나 트랜잭션을 읽는 방법.</p><p id="90553877-6ff5-4c17-964c-4a297cd3e9de" class="">컨트랙트 내의 함수를 호출하거나 컨트랙트로부터 데이터를 얻는 방법. 컨트랙트 내에 여러 개의 함수가 있을 것. ABI는 컨트랙트 내의 어떤 함수를 호출할지를 지정하는데 필요. 우리가 생가했던 데로 함수가 데이터를 리턴한다는 것을 보장하기 위해 필요!</p><pre id="76872103-9203-4269-9bd8-2ea4e3195dba" class="code"><code>contract Foo {
+  function bar(real[2] xy) {}
+  function baz(uint32 x, bool y) returns (bool r) { r = x &gt; 32 || y; }
+  function sam(bytes name, bool z, uint[] data) {}
+}</code></pre><p id="4a2ae7f0-10c6-4ea4-a82b-25f3be459ea7" class="">baz 함수를 69와 true를 매개변수로 호출. 총 68바이트의 데이터를 사용.</p><p id="4aac3589-a6fd-4f22-ba96-8b23f35045d2" class="">메서드 식별자 4바이트 + 32바이트로 감싸진 69 + 32바이트로 감싸진 true</p><pre id="79a7b901-3f80-4c49-83f6-54c67fcdc558" class="code code-wrap"><code>0xcdcd77c0: the Method ID. This is derived as the first 4 bytes of the Keccak-256 hash of the ASCII form of the signature baz(uint32,bool). 0x0000000000000000000000000000000000000000000000000000000000000045: the first parameter, a uint32 value 69 padded to 32 bytes 0x0000000000000000000000000000000000000000000000000000000000000001: the second parameter - boolean true, padded to 32 bytes</code></pre><p id="84aa7d99-aa5c-4bbe-a2bb-63d4322cff14" class="">위 68바이트 데이터는 트랜잭션의 data필드에 기술 됨. 관련 보안 이슈로 데이터 필드에 값을 넣을 때 조심. 컨트랙트 호출 시 데이터를 함께 보내는 과정에서 부작용이 발생할 수 있음.</p><p id="f51de93e-66c1-4a0f-a8b5-8bbb79884ffe" class="">Method식별자를 추출할 때, 일반적으로 알려진 위험을 예방하려면 canonical types가 반드시 사용. uint대신 uint256을 사용하는 것과 같이!</p><p id="b2521e30-4958-467c-8a81-29f40c4ccefe" class="">솔리디티가 메서드 식별자를 계산할 때의 과정을 위 코드의 sam메서드를 예시로 들면.</p><pre id="fd283437-70cb-4a30-9372-87157191709e" class="code code-wrap"><code>bytes4(sha3(&quot;sam(bytes, bool, uint256[])&quot;)</code></pre><p id="510e3a92-8fd2-40eb-8c2f-492dd8da66a8" class="">web3.js와 같은 고수준 라이브러리 사용 시, 디테일을 놓칠 수 있음. JSON형식의 ABI 제공 필요.</p><p id="e6b96f1a-4f47-451f-8f97-8f1ad490c9d4" class="">ABI는 코어 이더리움 프로토콜에는 포함되지 않음. 누구나 자신의 컨트랙트에 대응되는 ABI를 만들 수 있음.</p><p id="57826977-07af-4097-a1b4-bb0af06312e0" class="">
+</p><p id="a65b0b5d-28b1-427c-937a-9a2c13eea425" class="">Function Selector?</p><p id="f6d33885-4bf9-4c15-972a-6cec89f14a11" class="">함수 호출시 발생하는 4바이트의 콜 데이터는 호출할 함수를 결정. 4바이트의 데이터는 Keccak256 함수로 서명정보를 해시하여 빅 엔디안 방식으로 기술 시, 첫 번째 네 바이트를 일컬음.</p><p id="6d15aeae-4eb2-408b-b5ae-5fd016eac448" class="">서명 정보는 기본적인 프로토타입에 대한 표현법으로 정의. 예로, 함수 이름과 매개변수들의 자료형이 있음. 매개변수의 자료형은 콤마로 구분. 공백구분자는 인정 안함. 리턴 타입의 경우 함수 서명정보에 포함 안됨.</p></div><h2 id="a554434b-5e0c-4f96-abd5-38cbe25cca1b" class=""><details open=""><summary>Abstract Contract</summary></details></h2><div class="indented"><p id="e7f345f1-94af-45dd-ab5b-07122ed59d92" class="">Solidity의 contract는 객체지향의 class와 유사. 영구 데이터를 포함하는 상태 변수와 상태 변수내 데이터를 변경할 수 있는 함수가 있음. Contract는 적어도 하나의 function이 implementation이 없으면 abstract contract가 된다. 결과적으로 컴파일 불가. 하지만 다른 contract에서 상속받아 사용 가능.</p><pre id="aae86722-d451-4489-9683-8cbf8b56f297" class="code"><code>pragma solidity ^0.4.24;
+
+contract Person {
+    function gender() public returns (bytes32);
+}
+
+contract Employee is Person {
+    function gender() public returns (bytes32) { return &quot;female&quot;; }
+}</code></pre><p id="b89b18aa-754c-41b2-b2e9-bb1899801c92" class="">향상된 확장성과 함께 abstract contract는 더 나은 self-documentation을 제공하고 패턴(template)을 주입. 코드 중복을 제거.</p></div><h2 id="415a7d1d-dc7f-4320-81a0-ec48a283f339" class=""><details open=""><summary>Constuctor</summary></details></h2><div class="indented"><p id="d1d207ae-724e-4449-a061-b4592491100f" class="">컨트랙트가 처음 생성 시, 혹은 인스턴스화 될 때, 변수의 값을 원하는 값으로 초기화하기 위해 사용. 컨트랙트 생성 시 단 한 번 동작. 생성자를 payable하게 작성하면 컨트랙트 생성 시 컨트랙트 계정에 이더를 보낼 수 있음.</p></div><h2 id="dc0c6646-547f-4740-9fed-075af875cc21" class=""><details open=""><summary>Event</summary></details></h2><div class="indented"><p id="3c857a13-c9ae-427e-93a1-8af1e35794ee" class="">Emit으로 TX로그에 이벤트 데이터 넣기</p><pre id="0d04aae3-8e6c-463e-ae56-cbbf2cd7492f" class="code code-wrap"><code>function withdraw(uint withdraw_amount) public {
+   msg.sender.transfer(withdraw_amount);
+   emit withdrawal(msg.sender, withdraw_amount);
+}</code></pre><p id="3674411c-6400-41fd-b522-5b4733158bec" class="">
+</p><p id="03a9a530-a321-4bc6-bcbd-5690a13a7a8c" class="">트랜잭션 로그 확인</p><pre id="d1b8b7b5-b6ca-408f-877f-4c00c0f48c0e" class="code code-wrap"><code>truffle(develop)
+&gt; 
+Faucet.deployed().then(i =&gt; {FaucetDeployed = i})
+FaucetDeployed.send(web3.toWei(1, &quot;ether&quot;)).then(res=&gt;
+    {console.log(res.logs[0].event, res.logs[0].args})</code></pre><p id="535f952e-659a-49a6-9612-0cb518d51618" class="">
+</p><p id="8d00638e-bbe6-4654-ac16-c37dd4407d08" class="">프론트 앱에서 특정 액션에 대한 이벤트를 listening함. 이벤트 실행 시 앱에 함수가 실행 됨을 알림.</p></div><h2 id="82e7159f-2b50-4aeb-83ba-d8d2f1a1238b" class=""><details open=""><summary>Interface</summary></details></h2><div class="indented"><p id="5f87b683-efd9-47ac-a8eb-d41e61ada2a6" class="">abstract contract와 유사하지만 contract ABI가 나타낼 수 있는 것으로 제한. 즉 ABI를 인터페이스로 변환하거나 그 반대로 변환할 수 있으며 정보가 손실되지 않음.</p><p id="bb28016e-1e21-41e4-b11e-a4428ffc3707" class="">서로 다른 컨트랙트 간의 상호작용을 위함.</p><p id="73cc8117-6349-47ef-a943-96656d9a791d" class="">어떤 외부 컨트랙트의 인터페이스를 코드에 포함하면, 해당 컨트랙트에 정의된 함수의 특성, 호출, 응당 내용을 알 수 있음. 외부 컨트랙트의 주소만 가져오지 않고 해당 컨트랙트의 상호작용하고자 하는 내용이 포함되어 있는 인터페이스를 기재해줘야 함. 외부 컨트랙트 주소에 접근하고 인터페이스를 씌워 솔리티티 코드에서 이용 가능한 형태로 사용.</p><ol type="1" id="c86582f8-3c61-43ba-b476-9a98adde7afc" class="numbered-list" start="1"><li>함수의 기능을 정의하지 않음.</li></ol><ol type="1" id="b5814e9e-8a25-457e-b9cf-8314fbd1e061" class="numbered-list" start="2"><li>다른 인터페이스에서 상속 가능.</li></ol><ol type="1" id="67dd3837-d1c9-472e-90dd-42a76d019c7f" class="numbered-list" start="3"><li>함수는 무조건 external 타입이어야 한다.</li></ol><ol type="1" id="a3f1d0e5-f909-4054-94b3-d43afd935bfc" class="numbered-list" start="4"><li>생성자를 선언할 수 없다.</li></ol><ol type="1" id="9a6295be-dd41-4bb4-81cb-9a85cde7e3ed" class="numbered-list" start="5"><li>상태 변수를 선언할 수 없다.</li></ol><pre id="7459621f-6bcf-4d19-a8b8-a30e060d2e92" class="code"><code>pragma solidity ^0.4.24;
+//이건 external이 아닌데??
+interface token {
+	function totalSupply() public view returns (uint256);
+	function balanceOf(address who) public view returns (uint256);
+	function transfer(address to, uint256 value) public returns (bool);
+}</code></pre><pre id="9d48f6e2-b43e-4f3b-9388-1595f0891b76" class="code"><code>pragma solidity ^0.5.0;
+
+interface ICalculator {
+  function getResult() external view returns (uint);
+}
+
+contract Test is ICalculator {
+  constructor() public {}
+  function getResult() external view returns (uint) {
+ ₩   uint a = 1;
+    uint b = 2;
+    uint result = a + b;
+    return result;
+  }
+}</code></pre></div><h2 id="57f940b1-6313-469b-a468-2b7d81680a91" class=""><details open=""><summary>Payable</summary></details></h2><div class="indented"><p id="c843e80a-5b27-4286-93f2-f01e9a79e394" class="">가상화폐에 접근하기 위한 키워드. Solidity언어에서 payable키워드는 이더리움 위에서 이더를 전송하는 스마트 컨트랙트 작성시 반드시 필요.</p><ul id="dca612a5-8e50-4eba-b12b-7b227547efe5" class="bulleted-list"><li style="list-style-type:disc">address payable<ul id="5eda935c-2c4c-4e46-99de-2b44d6e2c897" class="bulleted-list"><li style="list-style-type:circle">address타입의 확장. 이더를 전송할 수 있는 send(), transfer()함수를 내장.</li></ul><ul id="7eae639d-d068-4dbb-9ac7-1795de3be32c" class="bulleted-list"><li style="list-style-type:circle">address 에 사용: ethereum storage/memory 사용 시.</li></ul><ul id="bb046a24-9f80-4433-90bd-d5d64639d393" class="bulleted-list"><li style="list-style-type:circle">address(): address 타입을 address payable로 형변환하는 경우.</li></ul><ul id="fe9be06a-030c-4568-9d0b-88932604ff6b" class="bulleted-list"><li style="list-style-type:circle">msg.sender에 사용: smart contract 함수를 실행한 사용자의 주소(address payable)를 사용 시.</li></ul></li></ul><ul id="7b9d654b-e290-4c44-a012-93b3aa40d17d" class="bulleted-list"><li style="list-style-type:disc">function payable<ul id="6975dd89-4ab2-45f2-a442-a6f95c01cd80" class="bulleted-list"><li style="list-style-type:circle">Smart Contract 계정에 초기 ether값 송금하고 싶으면 constructor function에 payable을 사용.</li></ul><ul id="b0d26fa3-bef4-4531-bce9-2e5162ef4a77" class="bulleted-list"><li style="list-style-type:circle">msg.value(smart contract를 실행한 사람이 전송하는 ether)를 사용할 때.</li></ul><ul id="64052690-dda7-4da9-9999-e01c5a0aa9e4" class="bulleted-list"><li style="list-style-type:circle">Smart Contract 내에 직접 정의한 함수들을 호출하지 않고, ether만 전송할 때, fallback function에 사용.</li></ul><ul id="1c3eb134-1620-4f05-b5b2-b9aa479aed31" class="bulleted-list"><li style="list-style-type:circle">constuctor function, 일반 function, fallback function 옆에 사용</li></ul><p id="f1382afb-e3bb-45e4-a7dc-1711eb7a4393" class="">
+</p></li></ul></div><p id="9a63578f-5e7e-4ed7-b370-797dc2484146" class="">
+</p></div></article></body></html>

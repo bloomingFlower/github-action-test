@@ -1,0 +1,829 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Uniswap v2</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="a645f0b8-3e45-4dbc-aa37-ca869d8de273" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="Uniswap%20v2%20a645f0b83e454dbcaa37ca869d8de273/uniswap.jpeg"/></div><h1 class="page-title">Uniswap v2</h1></header><div class="page-body"><figure id="4e3a548c-64a3-48c2-95c9-59c40163c609"><a href="https://uniswap.org/whitepaper.pdf" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href"><img src="https://uniswap.org/favicon.ico" class="icon bookmark-icon"/>https://uniswap.org/whitepaper.pdf</div></div></a></figure><figure id="42e4428c-12a6-45af-9546-c5b73f455f17"><div class="source">https://github.com/Uniswap/v2-periphery</div></figure><figure id="8164b16e-1a7d-4942-98a8-caefe36b280f"><div class="source">https://github.com/Uniswap/v2-core</div></figure><figure id="b4cdcc9d-6831-4025-bf71-d24e1b252f47"><a href="https://ethereum.org/en/developers/tutorials/uniswap-v2-annotated-code/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Uniswap-v2 Contract Walk-Through | ethereum.org</div><div class="bookmark-description">️Ori Pomerantz May 1, 2021 60 minute read Uniswap v2 can create an exchange market between any two ERC-20 tokens. In this article we will go over the source code for the contracts that implement this protocol and see why they are written this way.</div></div><div class="bookmark-href"><img src="https://ethereum.org/favicon-32x32.png?v=8b512faa8d4a0b019c123a771b6622aa" class="icon bookmark-icon"/>https://ethereum.org/en/developers/tutorials/uniswap-v2-annotated-code/</div></div><img src="https://ethereum.org/static/bf78b49d7e23b88a7eea934225b0cf96/1548e/enterprise-eth.png" class="bookmark-image"/></a></figure><h1 id="b8301e7c-16bb-49be-9a01-5107c7d3ce8b" class="">Introduction</h1><hr id="bfcb346a-188c-406f-9f44-2c9ba44dddf7"/><h2 id="bb1725f2-cec7-4341-848f-c3afb7592365" class="">User Types</h2><ul id="fa49d0d2-ad09-4a9d-ac39-23af7a1231e7" class="bulleted-list"><li style="list-style-type:disc">Liquidity Provider: provide the pool with two tokens that can be exchanged. In return, receive a third token that represents partial ownership of the pool called a liquidity token</li></ul><ul id="a7a0ed5a-e4b5-40b7-b700-f95b8a663e4f" class="bulleted-list"><li style="list-style-type:disc">Trader: send one type of token to the pool and receive the other</li></ul><h2 id="18a7ad4c-bd2b-4719-8653-a993e7a4b293" class="">Core Contracts vs Periphery Contracts</h2><ul id="3c56ca66-712c-4346-9c40-21e147f52170" class="bulleted-list"><li style="list-style-type:disc">Core: hold the assets and therefore have to be secure, to be simpler and easier to audit</li></ul><ul id="36d287bf-0260-449e-b6e1-4f99527a0308" class="bulleted-list"><li style="list-style-type:disc">Periphery: all the extra functionality required by traders</li></ul><h2 id="4a5a67bd-9e4e-45f9-8159-c57038168ce3" class="">Data and Control Flows</h2><ol type="1" id="23a39558-3acd-4a8d-a893-c0fec7d5e876" class="numbered-list" start="1"><li>Swap between different tokens</li></ol><ol type="1" id="c0cff459-7bae-4722-becd-620c33d6c4cf" class="numbered-list" start="2"><li>Add liquidity to the market and get reward with pair exchange ERC-20 liquidity tokens</li></ol><ol type="1" id="b7205a2d-c3d5-4784-a94e-c71401b9756e" class="numbered-list" start="3"><li>Burn ERC-20 liquidity tokens and get back the ERC-20 tokens that the pair exchange allows traders to exchange</li></ol><hr id="fe2fbcbe-41d8-462b-9405-685c22e124be"/><h2 id="66478cf6-0980-4ed6-bf3d-209494f3d577" class="">Swap</h2><p id="7a0e590e-2b1f-4e35-8bff-84f5600e87a3" class="">used by traders</p><h3 id="bd0dae0a-62ac-487e-9da0-448813c49228" class="">Caller</h3><ol type="1" id="3df8c6ed-a8c6-42dc-b67c-a3795c4918c4" class="numbered-list" start="1"><li>Provide the periphery account with an allowance in the amount to be swapped</li></ol><ol type="1" id="da32680e-4061-4265-9e23-f404799ad2ef" class="numbered-list" start="2"><li>Call one of the periphery contract’s many swap functions. Every swap function accepts a path, an array of exchanges to go through</li></ol><h3 id="437ce73b-2cd1-4fc6-a37d-348c029e6210" class="">In the periphery contract (UniswapV2Router02.sol)</h3><ol type="1" id="6bcafaa2-547f-408c-b9a9-e450a063536c" class="numbered-list" start="3"><li>Identify the amounts that need to be traded on each exchange along the path.</li></ol><ol type="1" id="02407e3a-6d4d-4d95-82a5-6f7775f93a6c" class="numbered-list" start="4"><li>Iterates over the path. For every exchange along the way it sends the input token and then calls the exchange’s swap function.</li></ol><h3 id="a96739f4-add0-484e-aada-7e09e1cfdcf6" class="">In the core contract (UniswapV2Pair.sol)</h3><ol type="1" id="565a1ee3-c0d9-458c-a6b7-2e6824dfffcf" class="numbered-list" start="5"><li>Verify that the core contract is not being cheated and can maintain sufficient liquidity after the swap.</li></ol><ol type="1" id="c1c4ec4f-2aa4-4c24-83c0-2f54873bec44" class="numbered-list" start="6"><li>See how many extra tokens we have in addition to the known reserves. That amount is the number of input tokens we received to exchange.</li></ol><ol type="1" id="f2bc2d02-bc1f-448f-879d-4e5c96459dd9" class="numbered-list" start="7"><li>Send the output tokens to the destination</li></ol><ol type="1" id="a05d4706-5c62-4567-a5c7-57986de2198f" class="numbered-list" start="8"><li>Call _update to update the reserve amounts</li></ol><h3 id="e1bd960f-0fbe-4ab1-9bd2-bff9ae46ad2c" class="">Back in the periphery contract (UniswapV2Router02.sol)</h3><ol type="1" id="60e38a7f-9d78-45b5-b197-dd6597e05507" class="numbered-list" start="9"><li>Perform any necessary cleanup (e.g., burn WETH tokens to get back ETH to send the trader)</li></ol><hr id="48067da6-b7d2-446a-b7d5-c0aa04f9fd10"/><h2 id="99902d3f-afee-43a1-a178-dbe48bcdbae6" class="">Add Liquidity</h2><h3 id="9585a7d7-d2b9-410a-b2e2-5ef2f68b268d" class="">Caller</h3><ol type="1" id="47f73623-4ac1-465d-92e3-c1d5920e4a5d" class="numbered-list" start="1"><li>Provide the periphery account with and allowance in the amounts to be added to the liquidity pool.</li></ol><ol type="1" id="baacf097-28e6-4c93-a88f-0b72ab82b829" class="numbered-list" start="2"><li>Call one of the periphery contract’s addLiquidity functions.</li></ol><h3 id="7ca7f7f5-ca54-4eb3-bb4c-a9f858c4dc11" class="">In the periphery contract (UniswapV2Router02.sol)</h3><ol type="1" id="e17b678a-0d33-4856-8602-95fd99b9856b" class="numbered-list" start="3"><li>Create a new pair exchange if necessary</li></ol><ol type="1" id="9d2f7798-15fb-4b3f-845f-019df691a791" class="numbered-list" start="4"><li>If there is an existing pair exchange, calculate the amount of tokens to add. This is supposed to be identical value for both tokens, so the same ratio of new tokens to existing tokens.</li></ol><ol type="1" id="3fd955eb-9e32-4d18-b825-ac5a36933f28" class="numbered-list" start="5"><li>Check if the amounts are acceptable (callers can specify a minimum amount below which they’d rather not add liquidity)</li></ol><ol type="1" id="8f7bdc88-3dc2-4841-a45f-bdd1ec84aea4" class="numbered-list" start="6"><li>Call the core contract</li></ol><h3 id="a10d95b8-e26f-4a5d-bf59-18342ba4a103" class="">In the core contract (UniswapV2Pair.sol)</h3><ol type="1" id="4cf86810-eedd-4637-9c36-a9f57c77324a" class="numbered-list" start="7"><li>Mint liquidity tokens and send them to the caller</li></ol><ol type="1" id="dd159ae9-381c-4d00-bcd9-2ddbefdfd936" class="numbered-list" start="8"><li>Call _update to update the reserve amounts</li></ol><hr id="fabf793a-4561-4dc9-a7f6-3218e035ad73"/><h2 id="c3dcfdb9-211e-4bde-acb9-2098ca863b17" class="">Remove Liquidity</h2><h3 id="d12efdb7-617c-4ea5-9ee1-ef754b24fd70" class="">Caller</h3><ol type="1" id="b6ef700b-f64a-4156-be59-125c8b3f3947" class="numbered-list" start="1"><li>Provide the periphery account with and allowance of liquidity tokens to be burned in exchange for the underlying tokens</li></ol><ol type="1" id="0d3909ee-a83f-4ac3-8d1e-2e629eb611cd" class="numbered-list" start="2"><li>Call one of the periphery contract’s removeLiquidity functions.</li></ol><h3 id="701c48be-db56-4bba-8897-cef3bb29372d" class="">In the periphery contract (UniswapV2Router02.sol)</h3><ol type="1" id="b3d8879d-b68d-49d2-bd8a-32325c852f53" class="numbered-list" start="3"><li>Send the liquidity tokens to the pair exchange</li></ol><h3 id="91677c74-10e7-43da-a919-751135e28b2c" class="">In the contract (UniswapV2Pair.sol)</h3><ol type="1" id="4db2f5d2-2ba1-451b-9aaa-c8a5e8368d65" class="numbered-list" start="4"><li>Send the destination address the underlying tokens in proportion to the burned tokens. For example if there are 1000 A tokens in the pool, 500 B tokens, and 90 liquidity tokens, and we receive 9 tokens to burn, we’re burning 10% of the liquidity tokens so we send back the user 100 A tokens and 50 B tokens.</li></ol><ol type="1" id="95375fed-f0ab-4c2f-96ec-eca820b3afdd" class="numbered-list" start="5"><li>Burn the liquidity tokens</li></ol><ol type="1" id="b39b96d0-fe11-4521-9de8-4df5ed08b75e" class="numbered-list" start="6"><li>Call _update to update the reserve amounts</li></ol><hr id="2ec4aece-aa60-4477-b644-a68eda6395ca"/><h1 id="fd98e173-f5b7-4de5-8e02-888aa7c30c67" class="">The Core Contracts</h1><p id="408b3dac-6d09-4e9b-95ed-aa0be64176db" class="">These are the secure contracts which hold the liquidity.</p><hr id="b98a88b5-abe6-4ad7-80ad-1bdd2b7c94c0"/><h2 id="ab937ad5-b0ca-43a9-9df1-d7553c4ae66a" class="">UniswapV2Pair.sol</h2><p id="c1b0403c-df8c-4718-8791-a8d6ebef4b69" class="">This contract implements the actual pool that exchanges tokens. It is the core Uniswap functionality</p><pre id="eed4d689-06e8-4790-8357-daae7708adad" class="code code-wrap"><code>pragma solidity =0.5.16;
+
+import &#x27;./interfaces/IUniswapV2Pair.sol&#x27;;
+import &#x27;./UniswapV2ERC20.sol&#x27;;
+import &#x27;./libraries/Math.sol&#x27;;
+import &#x27;./libraries/UQ112x112.sol&#x27;;
+import &#x27;./interfaces/IERC20.sol&#x27;;
+import &#x27;./interfaces/IUniswapV2Factory.sol&#x27;;
+import &#x27;./interfaces/IUniswapV2Callee.sol&#x27;;</code></pre><p id="929ba79b-01ca-4c5c-99a4-825f4b7c76ed" class="">These are all the interfaces that the contract needs to know about, either because the contract implements them(<em>IUniswapV2Pair</em> and <em>UniswapV2ERC20</em>) or because it calls contracts that implement them.</p><pre id="63ec06e5-0879-4ac3-9d5d-94ef05872203" class="code code-wrap"><code>contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {</code></pre><p id="bd58247d-4c24-42b3-b581-8d0915f06a8b" class="">This contact inherits from UniswapV2ERC20, which provides the ERC-20 functions for the liquidity tokens.</p><pre id="49b52a23-749a-41eb-8795-092fedea4e59" class="code code-wrap"><code>using SafeMath  for uint;</code></pre><p id="e0955c7e-5959-4689-94d7-c0ceac576e06" class="">The SafeMath library is used to avoid overflows and underflows. This is important because otherwise we might end up with a situation where a value should be -1, but is instead 2^256-1.</p><pre id="8427fb4a-d55a-4a07-a253-ed870ae5f705" class="code code-wrap"><code>using UQ112x112 for uint224;</code></pre><p id="b23dde07-e3dd-4252-85cf-46048f5d70dc" class="">A lot of calculations in the pool contract require fractions. However, fractions are not supported by the EVM. The solution that Uniswap found is the use 224 bit values, with 112 bits for the integer part, and 112 bits for the fraction. So 1.0 is represented as 2^112, 1.5 is represented as 2^112 + 2^111, etc.</p><hr id="acf89025-b865-4de5-bdee-2702708b2e55"/><h3 id="d8e0751f-28c1-4824-8ddf-166a3a24dd86" class="">Variables</h3><pre id="36b0d9a8-0dda-4b33-a5e4-90adb067b6ef" class="code code-wrap"><code>uint public constant MINIMUM_LIQUIDITY = 10**3;</code></pre><p id="199ac96a-7a68-4f06-9fb9-1357d0c6e669" class="">To avoid cases of division by zero, there is a minimum number of liquidity tokens that always exist (but are owned by account zero). That number is MINUMUM_LIQUIDITY, a thousand.</p><pre id="3e1633bf-e361-47c2-8b1f-84a271cefcd3" class="code code-wrap"><code>bytes4 private constant SELECTOR = bytes4(keccak256(bytes(&#x27;transfer(address,uint256)&#x27;)));</code></pre><p id="f15f8ada-0fe3-4226-afa1-5e5ab41aa3b9" class="">This is the ABI selector for the ERC-20 transfer function. It is used to transfer ERC-20 tokens in the two token accounts.</p><pre id="780e072b-4c8f-465d-8e13-41cdcff3fd77" class="code code-wrap"><code>address public factory;</code></pre><p id="802f3a6b-989e-465c-a8d8-8eb6c53508a2" class="">This is the factory contract that created this pool. Every pool is an exchange between two ERC-20 tokens, the factory is a central point that connects all of these pools.</p><pre id="ca5655a8-df3a-4e50-b744-2f6ded5abd08" class="code code-wrap"><code>address public token0;
+address public token1;</code></pre><p id="0a0cd78a-539d-4061-a2b9-0ea5ae152c67" class="">There are the addresses of the contracts for the two types of ERC-20 tokens that can be exchanged by this pool.</p><pre id="276be281-fd3c-481d-9ea7-263869b4db01" class="code code-wrap"><code>uint112 private reserve0;           // uses single storage slot, accessible via getReserves
+uint112 private reserve1;           // uses single storage slot, accessible via getReserves</code></pre><p id="ec845639-72f8-45f1-9d27-aad8b2a91ecf" class="">The reserves the pool has for each token type. We assume that the two represent the same amount of value, and therefore each token0 is worth reserve1/reserve0 token1’s.</p><pre id="8a8f70e4-effd-4da8-b2ba-6555a1e4636d" class="code code-wrap"><code>uint32  private blockTimestampLast; // uses single storage slot, accessible via getReserves</code></pre><p id="391d5673-9124-486c-aa6e-7507e7e94964" class="">The timestamp for the last block in which an exchange occurred, used to track exchange rates across time.</p><p id="1e8456ea-cc3a-420c-8c15-2c62e36f7fdf" class="">
+</p><p id="64c548e1-0c43-4c47-b0e8-965b6b7832cf" class="">One of the biggest gas expenses of Ethereum contracts is storage, which persists from one call of the contract to the next. Each storage cell is 256 bits long. So three variables, reserve0, reserve1, and blockTimestampLast, are allocated in such a way a single storage value can include all three of them (112+112+32=256).</p><pre id="f5af1791-3eb5-4a54-ab35-fc5579e9bc5d" class="code code-wrap"><code>uint public price0CumulativeLast;
+uint public price1CumulativeLast;</code></pre><p id="2c9059cb-f441-4af2-9fbd-d957a346c940" class="">These variables hold the cumulative costs for each token (each in term of the other). They can be used to calculate the average exchange rate over a period of time.</p><pre id="b33e10fc-d3c9-421b-8c47-6d284b2cf8e4" class="code code-wrap"><code>uint public kLast; // reserve0 * reserve1, as of immediately after the most recent liquidity event</code></pre><p id="1fef5c8e-7b39-4040-abdc-9de9fada2ed9" class="">The way the pair exchange decides on the exchange rate between token0 and token1 is to keep the multiple of the two reserves constant during trades. kLast is this value. It changes when a liquidity provider deposits or withdraws tokens, and it increases slightly because of the 0.3% market fee.</p><p id="f072ea57-5b53-4dcf-8358-b1726a5b792f" class="">
+</p><p id="1e917081-1f53-4a8f-987a-24e47136d434" class="">Here is a simple example. Note that for the sake of simplicity the table only has three digits after the decimal point, and we ignore the 0.3% trading fdee so the numbers are not accurate.</p><table id="4c22d5ff-92bc-4b31-9397-dc7fc70803a3" class="simple-table"><tbody><tr id="330de856-1ca8-4b49-a423-80e4cfbcd8c6"><td id="|G]i" class="">Event</td><td id="=nDw" class="">reserve0</td><td id="Yyz]" class="">reserve1</td><td id="wLTf" class="">reserve0 * reserve1</td><td id="j&gt;iE" class="">Average exchange rate (token1 / token0)</td></tr><tr id="d41bf28c-433e-4161-b308-4bca23e75fb6"><td id="|G]i" class="">Initial setup</td><td id="=nDw" class="">1,000.000</td><td id="Yyz]" class="">1,000.000</td><td id="wLTf" class="">1,000,000</td><td id="j&gt;iE" class=""></td></tr><tr id="3499de5d-83be-46a4-98d9-86ea0b461d99"><td id="|G]i" class="">Trader A swaps 50 token0 for 47.619 token1</td><td id="=nDw" class="">1,050.000</td><td id="Yyz]" class="">952.381</td><td id="wLTf" class="">1,000,000</td><td id="j&gt;iE" class="">0.952</td></tr><tr id="97233441-3436-4df8-80cb-19564975fd19"><td id="|G]i" class="">Trader B swaps 10 token0 for 8.984 token1</td><td id="=nDw" class="">1,060.000</td><td id="Yyz]" class="">943.396</td><td id="wLTf" class="">1,000,000</td><td id="j&gt;iE" class="">0.898</td></tr><tr id="f3644020-ee63-409e-bc15-d659ee4bbc95"><td id="|G]i" class="">Trader C swaps 40 token0 for 34.305 token1</td><td id="=nDw" class="">1,100.000</td><td id="Yyz]" class="">909.090</td><td id="wLTf" class="">1,000,000</td><td id="j&gt;iE" class="">0.858</td></tr><tr id="7c2f9e89-2c91-425c-af14-abfc195edfa6"><td id="|G]i" class="">Trader D swaps 100 token1 for 109.01 token0</td><td id="=nDw" class="">990.990</td><td id="Yyz]" class="">1,009.090</td><td id="wLTf" class="">1,000,000</td><td id="j&gt;iE" class="">0.917</td></tr><tr id="066b3be1-1be8-41b1-a3ff-c12c39cc5712"><td id="|G]i" class="">Trader E swaps 10 token0 for 10.079 token1</td><td id="=nDw" class="">1,000.990</td><td id="Yyz]" class="">999.010</td><td id="wLTf" class="">1,000,000</td><td id="j&gt;iE" class="">1.008</td></tr></tbody></table><p id="81735b6f-29ec-45c3-9c2a-77381ed7b28a" class="">As traders provide more of token0, the relative value of token1 increases, and vice versa, based on supply and demand.</p><hr id="13e49c78-4e4c-47f9-8f4e-6fc37d64c65a"/><h3 id="e2060878-6132-4697-9065-533152dca69b" class="">Lock</h3><pre id="c27240a3-4c8b-4caf-8e48-5ebf3b6224f9" class="code code-wrap"><code>uint private unlocked = 1;</code></pre><p id="ae484870-9e24-4432-a02d-ce5c27778efc" class="">There is a class of security vulnerabilities that are based on reentrancy abuse. Uniswap needs to transfer arbitrary ERC-20 tokens, which means calling ERC-20 contracts that may attempt to abuse the Uniswap market that calls them. By having an unlocked variable as part of the contract, we can prevent functions from being called while they are running(within the same transaction).</p><pre id="d8a0c83a-0e4a-4891-82cd-aa55f3e9c3b8" class="code code-wrap"><code>modifier lock() {</code></pre><p id="9ff8c944-a968-4fcc-a1e8-76389043ebdc" class="">This function is a modifier, a function that wraps around a normal function to change its behavior is some way.</p><pre id="23e39f8b-cb6c-4444-b165-653bb2eca346" class="code code-wrap"><code>require(unlocked == 1, &#x27;UniswapV2: LOCKED&#x27;);
+unlocked = 0;</code></pre><p id="1dc69fc9-870a-4fe1-a98b-f22f51cab5c5" class="">If unlocked is equal to one, set it to zero. If it is already zero revert the call, make it fail.</p><pre id="a64f0d7e-b7a1-44fb-a511-46426608bb58" class="code code-wrap"><code>_;</code></pre><p id="1bb419fa-a413-4afa-a7db-d32ad63915cc" class="">In a modifier _; is the original function call (with all the parameters). Here it means that the function call only happens if unlocked was one when it was called, and while it is running the value of unlocked is zero.</p><pre id="d120305c-3236-4424-8545-698f70c95a1a" class="code code-wrap"><code>	unlocked = 1;
+}</code></pre><p id="ebcf8312-157e-4067-bdcb-9605e2d9fc6a" class="">After the main function returns, release the lock.</p><hr id="67136ae4-d269-4d97-b878-549052e2dae4"/><h3 id="21634b43-a668-4493-bc31-8560f53b0eb4" class="">Misc. functions</h3><pre id="51ea88b2-f0a0-4412-a3f8-cf9785642d72" class="code code-wrap"><code>function getReserves() public view returns (uint112 _reserve0, uint112 _reserve1, uint32 _blockTimestampLast) {
+    _reserve0 = reserve0;
+    _reserve1 = reserve1;
+    _blockTimestampLast = blockTimestampLast;
+}</code></pre><p id="ae55b803-b9a1-4413-9a61-1bd5ed870535" class="">This function provides callers with the current state of the exchange. Notice that Solidity functions can return multiple values.</p><pre id="9a3bcd22-0391-4725-8ea2-4909f58ac289" class="code code-wrap"><code>function _safeTransfer(address token, address to, uint value) private {
+    (bool success, bytes memory data) = token.call(abi.encodeWithSelector(SELECTOR, to, value));</code></pre><p id="242c3218-9562-437a-9b36-b3afa6460855" class="">This internal function transfers an amount of ERC20 tokens from the exchange to somebody else. SELECTOR specifies that the function we are calling is transfer(address, uint)</p><p id="450a244e-158e-4668-b081-3b36d402cb6b" class="">
+</p><p id="897d4a1d-66f0-48c7-b36a-f75b14e93049" class="">To avoid having to import an interface for the token function, we “manually” create the call using one of the ABI functions.</p><pre id="a1c92c83-bff5-40d4-8768-f3e6183e46c3" class="code code-wrap"><code>	require(success &amp;&amp; (data.length == 0 || abi.decode(data, (bool))), &#x27;UniswapV2: TRANSFER_FAILED&#x27;);
+}</code></pre><p id="370dcb15-850f-40a5-b4d8-1f1f859938a4" class="">There are two ways in which an ERC-20 transfer call can report failure:</p><ol type="1" id="4d4f00e8-1e50-40e5-a0b6-b8cfc646645f" class="numbered-list" start="1"><li>Revert. If a call to an external contract reverts, then the boolean return value is false.</li></ol><ol type="1" id="0d0194d1-198a-4afe-a72c-db537da893b6" class="numbered-list" start="2"><li>End normally but report a failure. In that case the return value buffer has a non-zero length, and when decoded as a boolean value it is false.</li></ol><p id="d90b8f4a-f54f-4032-a872-93bab878bd92" class="">
+</p><p id="75e1e1c7-cb99-421a-b51c-b531aabfa00f" class="">If either of these conditions happen, revert.</p><hr id="aa2fd63a-b5e8-4d6b-b01b-e55813c9905e"/><h3 id="58a4c6ec-6c0e-44bb-9191-764615bebdbf" class="">Events</h3><pre id="c145dd44-dd9e-49af-b2d5-27a77f08474c" class="code code-wrap"><code>event Mint(address indexed sender, uint amount0, uint amount1);
+event Burn(address indexed sender, uint amount0, uint amount1, address indexed to);</code></pre><p id="72af0829-97cc-4763-a361-2a74890c2f3a" class="">These two events are emitted when a liquidity provider either deposits liquidity (Mint) or withdraws it (Burn). In either case, the amounts of token0 and token1 that are deposited or withdrawn are part of the event, as well as the identity of the account that called us (sender). In the case of a withdrawal, the event also includes the target that received the tokens (to), which may note be the same as the sender.</p><pre id="f6d0f809-c7d5-4bb6-8f28-29eba43ef5f0" class="code code-wrap"><code>event Swap(
+    address indexed sender,
+    uint amount0In,
+    uint amount1In,
+    uint amount0Out,
+    uint amount1Out,
+    address indexed to
+);</code></pre><p id="230a3c37-3eff-4315-b956-58e24e6ab96b" class="">This event is emitted when a trader swaps one token for the other. Again, the sender and the destination may not be the same. Each token may be either sent to the exchange, or received from it.</p><pre id="bf1461ae-ec9c-4ce0-a9b3-e1bf6f2a96ab" class="code code-wrap"><code>event Sync(uint112 reserve0, uint112 reserve1);</code></pre><p id="06170b5f-dbf8-4250-b382-99140fb66ff7" class="">Finally, Sync is emitted every time tokens are added or withdrawn, regardless of the reason, to provide the latest reserve information (and therefore the exchange rate).</p><hr id="83661913-5292-4301-ad3d-213e1a1f8e37"/><h3 id="5f0a5445-ef7a-47cb-80a7-42d3758e2828" class="">Setup Functions</h3><p id="e24fdf1f-41cd-46e7-bb67-73d5d5595134" class="">These functions are supposed to be called once when the new pair exchange is et up.</p><pre id="8b3c6bbd-6a83-4fad-9bfd-1524854ad7a4" class="code code-wrap"><code>constructor() public {
+    factory = msg.sender;
+}</code></pre><p id="f260e4a8-a51b-4525-9acb-37266aeeb11b" class="">The constructor makes sure we’ll keep track of the address of the factory that created the pair. This information is required for initialize and for the factory fee (if one exists)</p><pre id="caf3bfba-f505-4816-af98-31ce63cf9298" class="code code-wrap"><code>// called once by the factory at time of deployment
+function initialize(address _token0, address _token1) external {
+    require(msg.sender == factory, &#x27;UniswapV2: FORBIDDEN&#x27;); // sufficient check
+    token0 = _token0;
+    token1 = _token1;
+}</code></pre><p id="77dfc97d-303f-4bc9-967b-04335dff3517" class="">This function allows the factory (and only the factory) to specify the ERC-20 tokens that this pair will exchange.</p><hr id="f8c0eeaa-551b-4eea-abc5-94a35b446948"/><h3 id="aae2a65e-8e8b-425e-b2e8-c0764e38d2d3" class="">Internal Update Functions</h3><p id="7146ec64-ed98-461d-9414-8dc05a1a2f7b" class="">_update</p><pre id="08fac650-578a-41d0-ba97-a5f63e29b778" class="code code-wrap"><code>// update reserves and, on the first call per block, price accumulators
+function _update(uint balance0, uint balance1, uint112 _reserve0, uint112 _reserve1) private {</code></pre><p id="586123c1-5c62-40f2-984a-42c2af3a821d" class="">This function is called every time tokens are deposited or withdrawn.</p><pre id="a62b9fb1-b67c-4329-ace8-786480edf031" class="code code-wrap"><code>	require(balance0 &lt;= uint112(-1) &amp;&amp; balance1 &lt;= uint112(-1), &#x27;UniswapV2: OVERFLOW&#x27;);</code></pre><p id="601fa94b-2c30-43e5-aa6d-6367de779d93" class="">If either balance0 or balance1 (uint256) is higher than uint112(-1)(=2^112-1) (so it overflows &amp; wraps back to 0 when converted to uint112) refuse to continue the _update to prevent overflows. With a normal token that can be subdivided into 10^18 units, this means each exchange is limited to about 5.1*10^15 of each tokens. So far that has not been a problem.</p><pre id="9ba2c0a1-fed5-402b-96f6-2e27ea5df0d4" class="code code-wrap"><code>	uint32 blockTimestamp = uint32(block.timestamp % 2**32);
+	uint32 timeElapsed = blockTimestamp - blockTimestampLast; // overflow is desired
+	if (timeElapsed &gt; 0 &amp;&amp; _reserve0 != 0 &amp;&amp; _reserve1 != 0) {</code></pre><p id="304fa057-0cd3-4a32-8942-052782cea4d2" class="">If the time elapsed is not zero, it means we are the first exchange transaction on this block. In that case, we need to update the cost accumulators.</p><p id="e1013f96-ea7e-48bf-a837-3bddfaca3d0d" class="">
+</p><blockquote id="5d9558f2-f0c4-4faf-926c-5f5ffe8bdbe3" class=""><strong><strong>4. False Positives</strong></strong>
+Even if we can identify that an overflow has occurred, we can understand what operation caused it and whether the 
+operands are signed or unsigned integers, sometimes it still doesn’t enough. Sometimes an overflow is desirable behavior. Some compilers create an overflow intentionally to run some functionality, and sometimes even the smart contract’s developers base their coding logic on desirable overflows. Therefore, even when we detect an overflow, we can’t be sure whether it is an unexpected behavior that can be a potential vulnerability or a desirable functionality. Thus, the FP (False Positive) rate of integer overflow detection is high.<figure id="24f89d7f-1319-4085-beb0-221ceb4dde06"><a href="https://valid.network/post/integer-overflow-in-ethereum" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Valid Network | Integer Overflow in Ethereum</div><div class="bookmark-description">Bio Mark Yosef - Security Researcher and Data Scientist at Valid Network. Has an MSc in Information and Software Systems and Engineering from Ben-Gurion University. Specializes in Machine Learning and Big Data, and is extremely passionate about Cybersecurity, Blockchain and Algo-trading.</div></div><div class="bookmark-href"><img src="https://assets-global.website-files.com/5ecb8384687aeb4fc435f276/5f0492850273db03bcf0b4eb_32.png" class="icon bookmark-icon"/>https://valid.network/post/integer-overflow-in-ethereum</div></div><img src="https://assets-global.website-files.com/5ecbb9fa063b178f903de5e2/60ddb81b7a747c283101b5aa_Blog%20Post_integer-thumb.png" class="bookmark-image"/></a></figure></blockquote><p id="d81805a6-b505-4d07-8b07-8c33bb8359d6" class="">
+</p><pre id="1d4a6173-60f4-4284-851f-ce3323343ea7" class="code code-wrap"><code>// * never overflows, and + overflow is desired
+            price0CumulativeLast += uint(UQ112x112.encode(_reserve1).uqdiv(_reserve0)) * timeElapsed;
+            price1CumulativeLast += uint(UQ112x112.encode(_reserve0).uqdiv(_reserve1)) * timeElapsed;
+        }</code></pre><p id="75661b4c-5646-4f4f-a4aa-225df6305ec2" class="">Each cost accumulator is updated with the latest cost (reserve of the other token/reserve of this token) times the elapsed time in seconds. To get an average price you read the cumulative price is two points in time, and divide by the time difference between them. For example, assume this sequence of events:</p><table id="34915ddd-d1a7-4ab9-ab7b-6986ecc24fd9" class="simple-table"><tbody><tr id="65ec23ef-454a-4c59-aba0-c8de6527c19d"><td id="|j;Z" class="">Event</td><td id="zJq^" class="">reserve0</td><td id="~rJr" class="">reserve1</td><td id="B;rL" class="">timestamp</td><td id="X@]q" class="">Marginal exchange rate (reserve1 / reserve0)</td><td id="Sg;:" class="">price0CumulativeLast</td></tr><tr id="7d858956-ed03-437f-803e-087acd53f0f7"><td id="|j;Z" class="">Initial setup</td><td id="zJq^" class="">1,000.000</td><td id="~rJr" class="">1,000.000</td><td id="B;rL" class="">5,000</td><td id="X@]q" class="">1.000</td><td id="Sg;:" class="">0</td></tr><tr id="236d72dc-1e31-44d1-b732-f9ca170046f4"><td id="|j;Z" class="">Trader A deposits 50 token0 and gets 47.619 token1 back</td><td id="zJq^" class="">1,050.000</td><td id="~rJr" class="">952.381</td><td id="B;rL" class="">5,020</td><td id="X@]q" class="">0.907</td><td id="Sg;:" class="">20</td></tr><tr id="417ee032-7286-45ef-bf25-c6eec598786a"><td id="|j;Z" class="">Trader B deposits 10 token0 and gets 8.984 token1 back</td><td id="zJq^" class="">1,060.000</td><td id="~rJr" class="">943.396</td><td id="B;rL" class="">5,030</td><td id="X@]q" class="">0.890</td><td id="Sg;:" class="">20+10*0.907 = 29.07</td></tr><tr id="6937ba42-3cfc-4ed6-8271-644f52d7fa8a"><td id="|j;Z" class="">Trader C deposits 40 token0 and gets 34.305 token1 back</td><td id="zJq^" class="">1,100.000</td><td id="~rJr" class="">909.090</td><td id="B;rL" class="">5,100</td><td id="X@]q" class="">0.826</td><td id="Sg;:" class="">29.07+70*0.890 = 91.37</td></tr><tr id="69ad7653-0574-44b8-9584-98866472a550"><td id="|j;Z" class="">Trader D deposits 100 token1 and gets 109.01 token0 back</td><td id="zJq^" class="">990.990</td><td id="~rJr" class="">1,009.090</td><td id="B;rL" class="">5,110</td><td id="X@]q" class="">1.018</td><td id="Sg;:" class="">91.37+10*0.826 = 99.63</td></tr><tr id="78527962-0429-43da-977c-5a2877733878"><td id="|j;Z" class="">Trader E deposits 10 token0 and gets 10.079 token1 back</td><td id="zJq^" class="">1,000.990</td><td id="~rJr" class="">999.010</td><td id="B;rL" class="">5,150</td><td id="X@]q" class="">0.998</td><td id="Sg;:" class="">99.63+40*1.1018 = 143.702</td></tr></tbody></table><p id="ea6831af-10b7-4a96-ba4b-c8e9e026ece3" class="">Let’s say we want to calculate the average price of Token0 between the timestamps 5,030 and 5,150. The difference in the value of price0Cumulative is 143.702-29.07=114.632. This is the average across two minutes (120 seconds). So the average price is 114.632/120 = 0.955.</p><p id="825311a5-028e-4cff-b6a2-58708cbe4a9d" class="">
+</p><p id="2deb1eac-b9ce-41d7-9fed-77238cf44c26" class="">This price calculation is the reason we need to know the old reserve sizes.</p><pre id="c7802b7f-876c-4f69-b5de-a0bce7cae515" class="code code-wrap"><code>		reserve0 = uint112(balance0);
+    reserve1 = uint112(balance1);
+    blockTimestampLast = blockTimestamp;
+    emit Sync(reserve0, reserve1);
+}</code></pre><p id="30657b20-dbaa-432e-98c0-b4f28e3d10bb" class="">Finally, update the global variables and emit a Sync event.</p><hr id="3a4e173d-c937-4981-a2ac-a023db574bc6"/><p id="91bc67cd-5a71-46f3-b36c-ebf8eac5c05b" class="">_mintFee</p><pre id="52ac7c1d-c1ee-441c-bd17-aa0a765addda" class="code code-wrap"><code>// if fee is on, mint liquidity equivalent to 1/6th of the growth in sqrt(k)
+function _mintFee(uint112 _reserve0, uint112 _reserve1) private returns (bool feeOn) {</code></pre><p id="0569478e-90a5-4773-9b94-e7e1a742eb3b" class="">In Uniswap 2.0 traders pay a 0.30% fee to use the market. Most of that fee (0.25% of the trade) always goes to the liquidity providers. The remaining 0.05% can go either to the liquidity providers or to an address specified by the factory as a protocol fee, which pays Uniswap for their development effort.</p><p id="16a09399-04c1-4cf1-838d-9d1385996256" class="">
+</p><p id="53d3ee5c-5904-4841-96d7-d7b2d035adbc" class="">To reduce calculations (and therefore gas costs), this fee is only calculated when liquidity is added or removed from the pool, rather than at each transaction.</p><pre id="d783e26d-5c8e-4a87-a0fd-b835d84ca7a9" class="code code-wrap"><code>	address feeTo = IUniswapV2Factory(factory).feeTo();
+  feeOn = feeTo != address(0);</code></pre><p id="7858db21-5cc6-4062-a434-025fcbfd830c" class="">Read the fee destination of the factory. If it is zero then there is no protocol fee and no need to calculate it that fee.</p><pre id="e0034598-87a8-4f79-a45b-c63089a102a8" class="code code-wrap"><code>	uint _kLast = kLast; // gas savings</code></pre><p id="de0515a9-2a71-42fc-bb6a-2d89673b8ced" class="">The kLast state variable is located in storage, so it will have a value between different calls to the contract. Access to storage is a lot more expensive than access to the volatile memory that is released when the function call to the contract ends, so we use an internal variable to save on gas.</p><pre id="3226a3ea-4405-4a6e-acd3-705e998f3b54" class="code code-wrap"><code>	if (feeOn) {
+    if (_kLast != 0) {</code></pre><p id="2e833e7a-ff81-4e45-beba-f6a8f473fc84" class="">The liquidity providers get their cut simply by the appreciation of their liquidity tokens. But the protocol fee requires new liquidity tokens to be minted and provided to the feeTo address.</p><pre id="6f40f131-7c8f-4c55-963c-2caa846bc642" class="code code-wrap"><code>	uint rootK = Math.sqrt(uint(_reserve0).mul(_reserve1));
+  uint rootKLast = Math.sqrt(_kLast);
+  if (rootK &gt; rootKLast) {</code></pre><p id="811a83cd-362f-4244-8682-3883ed391f29" class="">If there is new liquidity on which to collect a protocol fee. You can see the square root function.</p><pre id="cfd598fb-9b38-4056-b6b5-a26a481c51a6" class="code code-wrap"><code>		uint numerator = totalSupply.mul(rootK.sub(rootKLast));
+	  uint denominator = rootK.mul(5).add(rootKLast);
+	  uint liquidity = numerator / denominator;</code></pre><p id="bcaab46d-0bf5-4e86-82c3-da85b84d2a74" class="">This complicated calculation of fees is explained in the whitepaper on page 5. We know that between the time kLast was calculated and the present no liquidity was added or removed (because we run this calculation every time liquidity is added or removed, before it actually changes), so any change in reserve0 * reserve1 has to come from transaction fees(without them we’d keep reserve0 * reserve1 constant).</p><pre id="3e90d4a2-51f1-495b-8f48-91ffae8b7e80" class="code code-wrap"><code>				if (liquidity &gt; 0) _mint(feeTo, liquidity);
+      }
+    }</code></pre><p id="5b0f3d26-b3d5-4eb4-8040-e8a571331c22" class="">Use the UniswapV2ERC20._mint function to actually create the additional liquidity tokens and assign them to feeTo.</p><pre id="1b7a21fd-2ac7-4d39-9035-84ab7840e73b" class="code code-wrap"><code>				} else if (_kLast != 0) {
+            kLast = 0;
+        }
+    }</code></pre><p id="c0aa70eb-45bf-4236-ac10-8ae71a927f13" class="">If there is no fee set <code>kLast</code> to zero (if it isn’t that already). When this contract was written there was a <a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-3298.md">gas refund feature</a> that encouraged contracts to reduce the overall size of the Ethereum state by zeroing out storage they did not need. This code gets that refund when possible.</p><hr id="3b63b303-2c2a-46d4-9481-d769c8767c43"/><h3 id="cd94c8b5-30ba-4bb4-b6a2-923762642e68" class="">Externally Accessible Functions</h3><p id="a21e7fc7-872c-411a-b812-c59b4644e8a3" class="">Note that while any tractions or contract can call these functions, they are designed to be called from the periphery contract. If you call them directly you won’t be able to cheat the pair exchange, but you might lose value through a mistake.</p><hr id="5692bbe5-cc4a-42f7-b54f-da299886c142"/><p id="5c712878-43be-4710-b76d-d58d97bbec22" class="">mint</p><pre id="47a10433-84cb-485e-899f-77bb721629cf" class="code code-wrap"><code>// this low-level function should be called from a contract which performs important safety checks
+function mint(address to) external lock returns (uint liquidity) {</code></pre><p id="e1d94ca4-45d3-4598-98c0-a1691fd721f7" class="">This function is called when a liquidity provider adds liquidity to the pool. It mints additional liquidity tokens as a reward. It should be called from a periphery contact that calls it after adding the liquidity in the same transaction (so nobody else would be able to submit a transaction that claims the new liquidity before the legitimate owner).</p><pre id="0845f8d5-736b-4f09-a76b-80151e7d41bb" class="code code-wrap"><code>		(uint112 _reserve0, uint112 _reserve1,) = getReserves(); // gas savings</code></pre><p id="d43f0801-5f68-4ecf-a580-9a7eb90bc8b1" class="">This is the way to read the results of a Solidity function that returns multiple values. We discard the last returned values, the block timestamp, because we don’t need it.</p><pre id="7c92dfca-8e22-45d9-909c-5a2671d19c6d" class="code code-wrap"><code>		uint balance0 = IERC20(token0).balanceOf(address(this));
+    uint balance1 = IERC20(token1).balanceOf(address(this));
+    uint amount0 = balance0.sub(_reserve0);
+    uint amount1 = balance1.sub(_reserve1);</code></pre><p id="d28099cf-a131-40e8-acd2-6b124d05b5cb" class="">Get the current balances and see how much was added of each token type.</p><pre id="882e1224-edfc-41f7-a073-06a5a09dae5b" class="code code-wrap"><code>		bool feeOn = _mintFee(_reserve0, _reserve1);</code></pre><p id="711a9d20-f898-4402-a46a-da75ee3cc474" class="">Calculate the protocol fees to collect, if any, and mint liquidity tokens accordingly. Because the parameters to <code>_mintFee</code> are the old reserve values, the fee is calculated accurately based only on pool changes due to fees.</p><pre id="1587e7fe-b89d-4a43-a4f8-6c6f9ae5feac" class="code code-wrap"><code>	uint _totalSupply = totalSupply; // gas savings, must be defined here since totalSupply can update in _mintFee
+  if (_totalSupply == 0) {
+      liquidity = Math.sqrt(amount0.mul(amount1)).sub(MINIMUM_LIQUIDITY);
+     _mint(address(0), MINIMUM_LIQUIDITY); // permanently lock the first MINIMUM_LIQUIDITY tokens</code></pre><p id="d6f8b904-a1ec-444b-bb5d-2a670fc1d6e7" class="">If this is the first deposit, create <code>MINIMUM_LIQUIDITY</code> tokens and send them to address zero to lock them. They can never be redeemed, which means the pool will never be emptied completely (this saves us from division by zero in some places). The value of <code>MINUMUM_LIQUIDITY</code> is a thousand, which considering most ERC-20 are subdivided in into units of 10^-18’th of a token, as ETH is divided into wei, is 10^-15 to the value of a single token. Not a high cost.</p><p id="f89dea32-334d-4dac-8809-62cebce4fe83" class="">
+</p><p id="52a61aa9-c112-4c3e-b46c-5b516754ba7f" class="">In the time of the first deposit we don’t know the relative value of the two tokens, so we just multiply the amounts and take a square root, assuming that the deposit provides us with equal value in both tokens.</p><p id="7690c97c-7903-405e-a64a-11e3325ecd52" class="">
+</p><p id="14ff7bf1-df6b-40cb-b543-4c98a7e4155a" class="">We can trust this because it is the depositor’s interest to provide equal value, to avoid losing value to arbitrage. Let’s say that the value of the two tokens is identical, but our depository deposited four times as many of Token1 as of Token0. A trader can use the fact the pair exchange thinks that Token0 is more valuable to extract value out of it.</p><table id="d0e53f71-551e-496c-9ad5-f3b20a277517" class="simple-table"><tbody><tr id="bb859bd5-2aa3-4349-88ce-4842c61a70c3"><td id="k{^E" class="">Event</td><td id="TNsb" class="">reserve0</td><td id="nTzc" class="">reserve1</td><td id="b\So" class="">reserve0 * reserve1</td><td id="nx\}" class="">Value of the pool (reserve0 + reserve1)</td></tr><tr id="170b6a80-491d-4caf-a0fa-ba42ef342e5e"><td id="k{^E" class="">Initial setup</td><td id="TNsb" class="">8</td><td id="nTzc" class="">32</td><td id="b\So" class="">256</td><td id="nx\}" class="">40</td></tr><tr id="86c9d6fe-81d6-4fdb-965e-cd0da3f1460f"><td id="k{^E" class="">Trader deposits 8 <strong>Token0</strong> tokens, gets back 16 <strong>Token1</strong></td><td id="TNsb" class="">16</td><td id="nTzc" class="">16</td><td id="b\So" class="">256</td><td id="nx\}" class="">32</td></tr></tbody></table><p id="2420b5db-147a-4865-8527-35a92e832c69" class="">As you can see, the trader earned an extra 8 tokens, which come from a reduction in the value of the pool, hurting the depositor that owns it.</p><pre id="71035d95-bef9-443f-81fa-403225fd34e6" class="code code-wrap"><code>} else {
+            liquidity = Math.min(amount0.mul(_totalSupply) / _reserve0, amount1.mul(_totalSupply) / _reserve1);</code></pre><p id="705d8bc0-e984-4b21-a733-fd531c990db0" class="">With every subsequent deposit we already know the exchange rate between the two assets, and we expect liquidity providers to provide equal value in both. If they don’t, we give them liquidity tokens based on the lesser value they provided as a punishment.</p><p id="9eff3f1b-3084-4418-8930-4d3b2e9ad7a4" class="">
+</p><p id="dd87d022-1317-44ce-981a-dc0f87034531" class="">Whether it is the initial deposit or a subsequent one, the number of liquidity tokens we provide is equal to the square root of the change in reserve0*reserve1 and the value of the liquidity token doesn’t change (unless we get a deposit that doesn’t have equal values of both types, in which case the “fine” gets distributed). Here is another example with two tokens that have the same value, with three good deposits and one bad one (deposit of only one token type, so it doesn’t produce any liquidity tokens).</p><table id="4b706f9e-034d-45e5-be9c-f19c24da8258" class="simple-table"><tbody><tr id="af0db2a5-8bf4-4368-adb9-915103bf2bd5"><td id="pS{Z" class="">Event</td><td id="?C}m" class="">reserve0</td><td id="]FY|" class="">reserve1</td><td id="TiEO" class="">reserve0 * reserve1</td><td id="GKUb" class="">Pool value (reserve0 + reserve1)</td><td id="&lt;y~`" class="">Liquidity tokens minted for this deposit</td><td id="D``;" class="">Total liquidity tokens</td><td id="U?Cr" class="">value of each liquidity token</td></tr><tr id="f3597dca-5c73-4ef6-9f88-dec4e81bdf1e"><td id="pS{Z" class="">Initial setup</td><td id="?C}m" class="">8.000</td><td id="]FY|" class="">8.000</td><td id="TiEO" class="">64</td><td id="GKUb" class="">16.000</td><td id="&lt;y~`" class="">8</td><td id="D``;" class="">8</td><td id="U?Cr" class="">2.000</td></tr><tr id="93e82f97-f360-4d72-90cb-62a742b7dbac"><td id="pS{Z" class="">Deposit four of each type</td><td id="?C}m" class="">12.000</td><td id="]FY|" class="">12.000</td><td id="TiEO" class="">144</td><td id="GKUb" class="">24.000</td><td id="&lt;y~`" class="">4</td><td id="D``;" class="">12</td><td id="U?Cr" class="">2.000</td></tr><tr id="02e5e45e-011c-4be0-9a7e-bddbef704633"><td id="pS{Z" class="">Deposit two of each type</td><td id="?C}m" class="">14.000</td><td id="]FY|" class="">14.000</td><td id="TiEO" class="">196</td><td id="GKUb" class="">28.000</td><td id="&lt;y~`" class="">2</td><td id="D``;" class="">14</td><td id="U?Cr" class="">2.000</td></tr><tr id="5bb8995f-881a-47f3-89e2-b1dc42c7524e"><td id="pS{Z" class="">Unequal value deposit</td><td id="?C}m" class="">18.000</td><td id="]FY|" class="">14.000</td><td id="TiEO" class="">252</td><td id="GKUb" class="">32.000</td><td id="&lt;y~`" class="">0</td><td id="D``;" class="">14</td><td id="U?Cr" class="">~2.286</td></tr><tr id="5e906693-699c-409f-85c4-fca8c5db4fe9"><td id="pS{Z" class="">After arbitrage</td><td id="?C}m" class="">~15.874</td><td id="]FY|" class="">~15.874</td><td id="TiEO" class="">252</td><td id="GKUb" class="">~31.748</td><td id="&lt;y~`" class="">0</td><td id="D``;" class="">14</td><td id="U?Cr" class="">~2.267</td></tr></tbody></table><pre id="7337d6ba-9d8d-4466-bb18-be878309dccf" class="code code-wrap"><code>		}
+    require(liquidity &gt; 0, &#x27;UniswapV2: INSUFFICIENT_LIQUIDITY_MINTED&#x27;);
+    _mint(to, liquidity);</code></pre><p id="e004bcdb-ce21-4f7b-a9f3-0a0b89df7a64" class="">Use the UniswapV2ERC20. <code>_mint</code> function to actually create the additional liquidity tokens and give them to the correct account.</p><pre id="ef38dfe8-f795-4a60-8b6c-df1174f6808d" class="code code-wrap"><code>				_update(balance0, balance1, _reserve0, _reserve1);
+        if (feeOn) kLast = uint(reserve0).mul(reserve1); // reserve0 and reserve1 are up-to-date
+        emit Mint(msg.sender, amount0, amount1);
+    }</code></pre><p id="57458be2-bc3b-4762-8c32-49b0811a9a59" class="">Update the state variables (reserve0, reserve1, and if needed kLast) and emit the appropriate event.</p><hr id="e75ffd0e-0e4e-4b44-a851-6c6fd7138908"/><p id="a064d2c1-ec07-4535-8de9-e24f5b9fa819" class="">burn</p><pre id="b39726a8-3075-4bac-afb3-6515929a6c58" class="code code-wrap"><code>// this low-level function should be called from a contract which performs important safety checks
+function burn(address to) external lock returns (uint amount0, uint amount1) {</code></pre><p id="f6a8a21f-52bc-4b72-bbfc-053428f5281b" class="">This function is called when liquidity is withdrawn and the appropriate liquidity tokens need to be burned. It should also be called from a periphery account.</p><pre id="bec3c379-399c-4dfd-91e5-a70abad7e384" class="code code-wrap"><code>	(uint112 _reserve0, uint112 _reserve1,) = getReserves(); // gas savings
+  address _token0 = token0;                                // gas savings
+  address _token1 = token1;                                // gas savings
+  uint balance0 = IERC20(_token0).balanceOf(address(this));
+  uint balance1 = IERC20(_token1).balanceOf(address(this));
+  uint liquidity = balanceOf[address(this)];</code></pre><p id="6592a139-da9f-4e97-ac35-f182e4482d85" class="">The periphery contract transferred the liquidity to be burned to this contract before the call. That way we know how much liquidity to burn, and we can make sure that it gets burned.</p><pre id="fc16c62a-8ec6-410d-8388-18bd23ed48f6" class="code code-wrap"><code>	bool feeOn = _mintFee(_reserve0, _reserve1);
+  uint _totalSupply = totalSupply; // gas savings, must be defined here since totalSupply can update in _mintFee
+  amount0 = liquidity.mul(balance0) / _totalSupply; // using balances ensures pro-rata distribution
+  amount1 = liquidity.mul(balance1) / _totalSupply; // using balances ensures pro-rata distribution
+  require(amount0 &gt; 0 &amp;&amp; amount1 &gt; 0, &#x27;UniswapV2: INSUFFICIENT_LIQUIDITY_BURNED&#x27;);</code></pre><p id="83ff8d54-86f7-4361-b66e-1e2d1ac3e0f6" class="">The liquidity provider receives equal value of both tokens. This way we don’t change the exchange rate.</p><pre id="7684b823-36e4-40e6-bda8-3507984e58da" class="code code-wrap"><code>	_burn(address(this), liquidity);
+  _safeTransfer(_token0, to, amount0);
+  _safeTransfer(_token1, to, amount1);
+  balance0 = IERC20(_token0).balanceOf(address(this));
+  balance1 = IERC20(_token1).balanceOf(address(this));
+
+  _update(balance0, balance1, _reserve0, _reserve1);
+  if (feeOn) kLast = uint(reserve0).mul(reserve1); // reserve0 and reserve1 are up-to-date
+  emit Burn(msg.sender, amount0, amount1, to);
+}</code></pre><p id="f86f3efc-8e3c-4ec5-a721-56091b142f52" class="">The rest of the <code>burn</code> function is the minor image of the <code>mint</code> function above.</p><hr id="1b435735-db9b-47c5-9fc4-6e228d45e4d3"/><p id="4fa2b6e5-7750-4f20-85ac-ce2c400b920c" class="">swap</p><pre id="2214e2d3-cacf-4920-966e-05f551927d78" class="code code-wrap"><code>// this low-level function should be called from a contract which performs important safety checks
+function swap(uint amount0Out, uint amount1Out, address to, bytes calldata data) external lock {</code></pre><p id="b77efec4-5034-4266-adc6-6b87bca78854" class="">This function is also supposed to be called from a periphery contract.</p><pre id="93e84888-e125-4218-a828-c14ae6daee55" class="code code-wrap"><code>	require(amount0Out &gt; 0 || amount1Out &gt; 0, &#x27;UniswapV2: INSUFFICIENT_OUTPUT_AMOUNT&#x27;);
+  (uint112 _reserve0, uint112 _reserve1,) = getReserves(); // gas savings
+  require(amount0Out &lt; _reserve0 &amp;&amp; amount1Out &lt; _reserve1, &#x27;UniswapV2: INSUFFICIENT_LIQUIDITY&#x27;);
+
+  uint balance0;
+  uint balance1;
+  { // scope for _token{0,1}, avoids stack too deep errors</code></pre><p id="9675c652-a1ed-4587-b0f1-bdf4a58f838a" class="">Local variables can be stored either in memory or, if there aren’t too many of them, directly on the stack. If we can limit the number so we’ll use the stack we use less gas. For more details see the yellow paper, the formal Ethereum specifications, p. 26, equation 298.</p><pre id="54588776-02af-4821-9672-51edc9e0bb1d" class="code code-wrap"><code>	address _token0 = token0;
+  address _token1 = token1;
+  require(to != _token0 &amp;&amp; to != _token1, &#x27;UniswapV2: INVALID_TO&#x27;);
+  if (amount0Out &gt; 0) _safeTransfer(_token0, to, amount0Out); // optimistically transfer tokens
+  if (amount1Out &gt; 0) _safeTransfer(_token1, to, amount1Out); // optimistically transfer tokens</code></pre><p id="1e86be4a-c81c-455e-a02c-5d44a3c88d4d" class="">This transfer is optimistic, because we transfer before we are sure all the conditions are met. This is OK in Ethereum because if the conditions aren’t met later in the call we revert out of it and any changes it created.</p><pre id="d6c644cb-7d55-464e-b78e-fe01bc41a147" class="code code-wrap"><code>	if (data.length &gt; 0) IUniswapV2Callee(to).uniswapV2Call(msg.sender, amount0Out, amount1Out, data);</code></pre><p id="1bd2f87f-bfa4-4bf1-b6b4-d503d2c8359d" class="">Inform the receiver about the swap if requested.</p><pre id="7f5407fa-550f-4307-8574-37210caed097" class="code code-wrap"><code>	balance0 = IERC20(_token0).balanceOf(address(this));
+	balance1 = IERC20(_token1).balanceOf(address(this));
+}</code></pre><p id="f7a10226-164f-4ad1-aa5e-e239547d6c70" class="">Get the current balances. The periphery contract sends us the tokens before calling us for the swap. This makes it easy for the contract to check that it is not being cheated, a check that has to happen in the core contract (because we can be called by other entries than our periphery contract).</p><pre id="2eee3cdc-014d-466d-a63e-f43507dcb649" class="code code-wrap"><code>	uint amount0In = balance0 &gt; _reserve0 - amount0Out ? balance0 - (_reserve0 - amount0Out) : 0;
+  uint amount1In = balance1 &gt; _reserve1 - amount1Out ? balance1 - (_reserve1 - amount1Out) : 0;
+  require(amount0In &gt; 0 || amount1In &gt; 0, &#x27;UniswapV2: INSUFFICIENT_INPUT_AMOUNT&#x27;);
+  { // scope for reserve{0,1}Adjusted, avoids stack too deep errors
+      uint balance0Adjusted = balance0.mul(1000).sub(amount0In.mul(3));
+      uint balance1Adjusted = balance1.mul(1000).sub(amount1In.mul(3));
+      require(balance0Adjusted.mul(balance1Adjusted) &gt;= uint(_reserve0).mul(_reserve1).mul(1000**2), &#x27;UniswapV2: K&#x27;);</code></pre><p id="05b6b7e5-fe8d-498d-b00c-aadee87df9d7" class="">This is a sanity check to make sure we don’t lose from the swap. There is no circumstance in which a swap should reduce <code>reserve0*reserve1</code>. This is also where we ensure a fee of 0.3% is being sent on the swap; before sanity checking the value of K, we multiply both balances by 1000 subtracted by the amounts multiplied by 3, this means 0.3% is being deducted from the balance before comparing its K value with the current reserves K value.</p><pre id="9c98a6cc-5357-4362-8bfe-43210480f0fc" class="code code-wrap"><code>	}
+
+    _update(balance0, balance1, _reserve0, _reserve1);
+    emit Swap(msg.sender, amount0In, amount1In, amount0Out, amount1Out, to);
+}</code></pre><p id="8d282e24-2bfe-4850-b929-69eb443e6c85" class="">Update <code>reserve0</code> and <code>reserve1</code>, and if necessary the price accumulators and the timestamp and emit an event.</p><hr id="8257032f-a6b8-44f7-9e97-b8f89bddd854"/><p id="260fec21-1207-4f83-b375-c7f28770d51f" class="">Sync or Skim {#sync-or-skim}</p><p id="312cbbd2-fb35-4e8d-a27c-2ed5851271ef" class="">
+</p><p id="5e869142-57a4-4501-bc92-3ea252522845" class="">It is possible for the real balances to get out of sync with the reserves that the pair exchange thinks it has. There is no way to withdraw tokens without the contract’s consent, but deposits are a different matter. An account can transfer tokens to the exchange without calling either <code>mint</code> or <code>swap</code>.</p><p id="fe93c2d8-5015-44fd-bde4-57e05e77dd9b" class="">
+</p><p id="5f5f4457-dff3-4c07-8618-63115f99b8de" class="">In that case there are two solutions:</p><ul id="676d55bc-6260-4414-8d9c-bb3b9675c3af" class="bulleted-list"><li style="list-style-type:disc"><code>sync</code>, update the reserves to the current balances</li></ul><ul id="e733148c-9bb8-457d-bd06-d3640670f04c" class="bulleted-list"><li style="list-style-type:disc"><code>skim</code>, withdraw the extra amount. Note that any account is allowed to call <code>skim</code> because we don’t know who deposited the tokens. This information is emitted in and event, but events are not accessible from the blockchain.</li></ul><pre id="18640c64-aa0b-42fa-9ebb-650295db7848" class="code code-wrap"><code>		// force balances to match reserves
+    function skim(address to) external lock {
+        address _token0 = token0; // gas savings
+        address _token1 = token1; // gas savings
+        _safeTransfer(_token0, to, IERC20(_token0).balanceOf(address(this)).sub(reserve0));
+        _safeTransfer(_token1, to, IERC20(_token1).balanceOf(address(this)).sub(reserve1));
+    }
+
+
+
+    // force reserves to match balances
+    function sync() external lock {
+        _update(IERC20(token0).balanceOf(address(this)), IERC20(token1).balanceOf(address(this)), reserve0, reserve1);
+    }
+}</code></pre><hr id="4f37f525-e7e3-4ef9-9cff-d0afc0e140d5"/><h2 id="d818c846-499b-4460-8c7e-7c516bf0824b" class="">UniswapV2Factory.sol</h2><p id="63a0d073-bd69-4e93-8875-6e7041f90585" class="">This contract creates the pair exchanges.</p><pre id="be141e24-59f1-4bbe-9360-cea2307d751e" class="code code-wrap"><code>pragma solidity =0.5.16;
+
+import &#x27;./interfaces/IUniswapV2Factory.sol&#x27;;
+import &#x27;./UniswapV2Pair.sol&#x27;;
+
+contract UniswapV2Factory is IUniswapV2Factory {
+    address public feeTo;
+    address public feeToSetter;</code></pre><p id="890b235d-209b-4b07-b620-2ee0cc270b7a" class="">These state variables are necessary to implement the protocol fee (see the whitepaper, p. 5). The <code>feeTo</code> address accumulates the liquidity tokens for the protocol fee, and <code>feeToSetter</code> is the address allowed to change <code>feeTo</code> to a different address.</p><pre id="a1c018ea-6a21-4d75-8c40-71829489278c" class="code code-wrap"><code>	mapping(address =&gt; mapping(address =&gt; address)) public getPair;
+  address[] public allPairs;</code></pre><p id="8f809124-bdea-4987-a9c3-ab9668627570" class="">These variables keep track of the pairs, the exchanges between two token types.</p><p id="49e21354-a31f-4277-ab31-92e2dc2655da" class="">
+</p><p id="b705cbf4-a679-4764-805b-02b5ec1d4400" class="">The first one, <code>getPair</code>, is a mapping that identifies a pair exchange contract based on the two ERC-20 tokens it exchanges. ERC-20 tokens are identified by the addresses of the contracts that implement them, so the keys and the value are all addresses. To get the address of the pair exchange that lets you convert from <code>tokenA</code> to <code>tokenB</code>, you use <code>getPair[&lt;tokenA address&gt;][&lt;tokenB address&gt;]</code> (or the other way around).</p><p id="006e2249-7605-4b5b-aefd-8478b49de8b6" class="">
+</p><p id="a6334bb8-068c-4b43-ad5d-4ac915fa8b54" class="">The second variable, <code>allPair</code>, is an array that includes all the addresses of pair exchanges created by this factory. In Ethereum you cannot iterate over the content of a mapping, or get a list of all the keys, so this variable is the only way to know which exchanges this factory manages.</p><p id="a0aae8f0-36a3-4c3f-a0f7-220d5f244c1c" class="">
+</p><p id="a811e8e9-0c69-4c78-aede-e22f4d0f30fc" class="">Note: The reason you cannot iterate over all the keys of a mapping is that contract data storage is expensive, so the less of it we use the better, and the less often we change it the better. <a href="https://github.com/ethereum/dapp-bin/blob/master/library/iterable_mapping.sol">You can create mappings that support iteration</a>, but they require extra storage for a list of keys. In most applications you do not need that.</p><pre id="7ce67178-df4d-48a7-a11e-8293c9c4dac1" class="code code-wrap"><code>event PairCreated(address indexed token0, address indexed token1, address pair, uint);</code></pre><p id="ffcfbd63-4899-4e53-8fee-e1a382789e24" class="">This event is emitted when a new pair exchange is created. It includes the tokens’ addresses, the pair exchange’s address, and the total number of exchanges managed by the factory.</p><pre id="4218bee0-51c6-42a1-af89-de8d183c9405" class="code code-wrap"><code>constructor(address _feeToSetter) public {
+    feeToSetter = _feeToSetter;
+}</code></pre><p id="dc04e24f-9504-47dc-98d8-e59b24d59d9f" class="">The only thing the constructor does is specify the <code>feeToSetter</code>. Factories start without a fee, and only <code>feeSetter</code> can change that.</p><pre id="80d8fd57-0a56-46b8-91c5-e0c2d08c4ca2" class="code code-wrap"><code>function allPairsLength() external view returns (uint) {
+    return allPairs.length;
+}</code></pre><p id="3dcd6ebd-2cec-42bf-9afd-065b72d8b9d7" class="">This function returns the number of exchange pairs.</p><pre id="e6bcfa49-e56a-4a65-a809-6536431f858d" class="code code-wrap"><code>function createPair(address tokenA, address tokenB) external returns (address pair) {</code></pre><p id="c164ebc6-cd8f-48d0-adbc-e4b4f75aff1c" class="">This is the main function of the factory, to create a pair exchange between two ERC-20 tokens. Note that anybody can call this function. You do not need permission from Uniswap to create a new pair exchange.</p><pre id="f77a464c-8c46-4a9d-aff6-673458695274" class="code code-wrap"><code>	require(tokenA != tokenB, &#x27;UniswapV2: IDENTICAL_ADDRESSES&#x27;);
+  (address token0, address token1) = tokenA &lt; tokenB ? (tokenA, tokenB) : (tokenB, tokenA);</code></pre><p id="957569d5-385e-44f4-a59b-5645dab51c4f" class="">We want the address of the new exchange to be deterministic, so it can be calculated in advance off chain (this can be useful for layer 2 transactions). To do this we need to have a consistent order of the token addresses, regardless of the order in which we have received them, so we sort them here.</p><pre id="c5e7823f-4056-433f-b077-eef2fc3d41bb" class="code code-wrap"><code>	require(token0 != address(0), &#x27;UniswapV2: ZERO_ADDRESS&#x27;);
+  require(getPair[token0][token1] == address(0), &#x27;UniswapV2: PAIR_EXISTS&#x27;); // single check is sufficient</code></pre><p id="729b971a-d2ab-493e-b7dd-95ad72e61a4b" class="">Large liquidity pools are better than small ones, because they have more stable prices. We don’t want to have more than a single liquidity pool per pair of tokens. If there is already an exchange, there’s no need to create another one for the same pair.</p><pre id="18b05c83-bfc5-4dc4-9061-ec169528888d" class="code code-wrap"><code>	bytes memory bytecode = type(UniswapV2Pair).creationCode;</code></pre><p id="d1a27fdf-881a-40d6-ade4-53e2be6b65cd" class="">To create a new contract we need the code that creates it (both the constructor function and code that writes to memory the EVM bytecode of the actual contract). Normally in Solidity we just use <code>addr = new &lt;name of contract&gt;(&lt;constructor parameter&gt;)</code> and the compiler takes care of everything for us, but to have a deterministic contract address we need to use the CREATE2 opcode. When his code was written that opcode was not yet supported by Solidity, so it was necessary to manually get the code. This is no longer an issue, because Solidity now supports CREATE2.</p><pre id="e395c704-247d-46c7-a99e-8817e9afb7e3" class="code code-wrap"><code>	bytes32 salt = keccak256(abi.encodePacked(token0, token1));
+  assembly {
+      pair := create2(0, add(bytecode, 32), mload(bytecode), salt)
+  }</code></pre></div></article></body></html>

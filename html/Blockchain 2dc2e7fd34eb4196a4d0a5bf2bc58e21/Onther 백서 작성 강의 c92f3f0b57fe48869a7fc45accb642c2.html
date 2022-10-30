@@ -1,0 +1,685 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Onther 백서 작성 강의</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c92f3f0b-57fe-4886-9a7f-c45accb642c2" class="page sans"><header><h1 class="page-title">Onther 백서 작성 강의</h1></header><div class="page-body"><p id="88dba96b-168a-4b6b-8553-073cf2de6014" class="">사업전략 - 나문희?(호박고구마)</p><p id="8d040f6c-2406-4471-88da-db64f8da26d2" class="">
+</p><p id="5d4b82aa-a8d1-40ba-a5b9-da537e3416de" class="">기초적 내용을 담고 있음.</p><h1 id="2d0ef475-7391-47cb-85eb-d4f5a20ebba0" class="">Onther 소개</h1><p id="1a14fcd1-24a1-478d-a555-8162c1c7689f" class="">블록체인 전문 연구 개발 기업. </p><ul id="45a5c8d5-bb9e-4fb2-ae89-6ad6b52defe6" class="bulleted-list"><li style="list-style-type:disc">토카믹 네트워크: 이더리움 기반 플랫폼.</li></ul><ul id="bde2ab5d-8300-4c5c-be2b-9765beaff82e" class="bulleted-list"><li style="list-style-type:disc">톤 스타터: 런치패드 프로젝트. 3개 프로젝트</li></ul><ul id="2c0391a1-346d-4487-aff1-f150425d47a1" class="bulleted-list"><li style="list-style-type:disc">NFTon: 부산 지역 행사(디자인 협업) 메인 컨텐츠 확보 예정</li></ul><ul id="9f12fe06-2570-44ce-bac7-e7d32a338244" class="bulleted-list"><li style="list-style-type:disc">스테이블 코인: 최공필 박사 영입. 온더 미디움에 소개</li></ul><p id="bcf29440-9ce7-47db-8d11-1e206c5ef750" class="">
+</p><h2 id="1be3f8ce-7830-461f-a5f5-05a018f002a8" class="">토카믹 네트워크</h2><p id="bcc91808-81eb-4c06-8916-1bf57b21e262" class="">레이어2</p><h3 id="0b60d6a6-c2b5-41bf-915d-c934fe4a5fa1" class="">톤스타터</h3><p id="0281937a-8d1d-4518-9751-e153b663d55b" class="">토카믹 네트워크 위에…탈중앙화된 펀드레이징</p><p id="f8e5bdd4-cb68-4534-9cb5-b1b10c8b4b5f" class="">좋은 프로젝트에 투자하는 플랫폼</p><h3 id="7f94e9e0-0b85-4488-b60e-0a5b5c5ca192" class="">NFTOn</h3><p id="29ac5fc2-5ae6-407b-9117-de4903a20b81" class="">부산,,,</p><p id="a6ed9e57-2247-42c1-80d1-800d8a266d52" class="">
+</p><p id="76869f0b-094e-4671-a9e9-5bcfd5a97285" class="">
+</p><hr id="1e5211c7-3ff9-4a9f-af9d-919c768cb6c1"/><p id="d189489e-91f3-496f-bfac-cb2303d033e1" class="">백서 작성</p><ul id="e4c96c29-da7f-42d9-be42-d7a2f55ab098" class="bulleted-list"><li style="list-style-type:disc">목표/ 필요성 개요</li></ul><ul id="cbf67b3f-1c68-49d0-8744-a072cf9df0ad" class="bulleted-list"><li style="list-style-type:disc">백서 작성 프로세스</li></ul><ul id="c21eabac-3a02-46c1-9956-be657feb4a5a" class="bulleted-list"><li style="list-style-type:disc">백서 구조</li></ul><ul id="a2570e5f-c196-4ce9-8493-c5d8326f3be5" class="bulleted-list"><li style="list-style-type:disc">백서 작성 시 고려해야할 부분</li></ul><ul id="353c1028-e8db-4a5c-aafa-754475e7594c" class="bulleted-list"><li style="list-style-type:disc">백서 작성 후</li></ul><p id="5145d1ab-0289-48cd-9a8c-db55a8a8c841" class="">
+</p><p id="15fae1a7-3032-42b0-b7d8-7c3bb025c990" class="">백서는 사업계획서.</p><p id="b4491974-e9ff-4995-b434-3d2823dbcfce" class="">ICO: 초기의 기업 주로. 프로젝트의 비전과 목표. 투명성 게런티 약함.</p><p id="9a72933d-1ca9-4f38-b5e9-658cf0bb4efd" class="">IPO: 기존 증권 시장에서  주로 사용. 비교적 규제가 부족. 금융감독원에서 여러 자료를 요청</p><p id="2ae551ec-0657-4007-869a-8dd911cb67ed" class="">
+</p><p id="a6ee3731-a157-434b-8506-96d2f3f22627" class="">ICO</p><p id="e5c7e370-ca71-4a6c-9925-9fc15b05aa21" class="">BM model → 백서 → 황서 → IR(private sale) → ICO/IDO/IEO</p><p id="eb6b3230-040f-4769-b004-229ac075a00d" class="">ideation market research</p><h3 id="4a5db17c-bd85-42ef-a747-94bffe27f472" class="">백서의 구성 요소</h3><ul id="6ec56009-3a4c-4b85-bec5-622c2af7367f" class="bulleted-list"><li style="list-style-type:disc">비전/문제 제기: 블록체인 프로젝트를 통해 이루고자하는 목표 미 장기 비전 수립</li></ul><ul id="a2245e7f-f20a-478d-a58f-8b979e5ff81f" class="bulleted-list"><li style="list-style-type:disc">해결책: 기존 현황 문제점에 대한 명확한 솔루션 제시 (layer2)</li></ul><ul id="5962871a-3ed4-49b7-bd2a-bfdcd1d1110a" class="bulleted-list"><li style="list-style-type:disc">팀/VC: 과거경험, 전문 지식을 바탕으로 신뢰할 수 있는 팀에서 운영하는지 얼마만큼 신뢰도 높은 백커가 존재하는지.</li></ul><ul id="61d9831a-2db2-4660-8c19-3c9f85f3b9d6" class="bulleted-list"><li style="list-style-type:disc">토크노믹스: 토큰의 활용성 최대 공급량 인센티브 분배 방아 등에 대한 토큰 정보가 충분히 설명</li></ul><ul id="ab3c06ea-580e-4d63-bdb1-0e880d5c2a61" class="bulleted-list"><li style="list-style-type:disc">로드맵: 향후 프로젝트 개발 마일스톤 주여 비즈니스 기회 및 세일즈 플랜 상세 기입..</li></ul><h3 id="23922e8a-ff07-40f6-a250-55f9853d0b15" class="">솔루션</h3><p id="1dd6a3a7-ec8d-44c0-a2d8-0c781b4ab7bd" class="">
+</p><p id="81ea18f4-1e3f-4451-a524-8afdbfe41a05" class="">백업: Chiliz 백서</p><figure id="93c73a73-b5a0-4b0c-9959-ad0f732f12b0"><a href="https://www.chiliz.com/Chiliz_Corporate-Product-profile-V9.pdf" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title"></div></div><div class="bookmark-href">https://www.chiliz.com/Chiliz_Corporate-Product-profile-V9.pdf</div></div></a></figure><p id="252c5f49-de43-440c-9fdf-c95745a382a7" class="">LYDA: 이스포츠팀, 인플루언서가 코인을 발생</p><p id="1072e7b2-9bb7-427a-80c0-7721c8ac7412" class="">경제 모델 제시</p><p id="1f3ab932-c3f0-413a-944e-962dcd124da9" class="">
+</p><figure id="a48efdb8-9d8d-4891-a28a-d901c0dc8e04" class="image"><a href="Onther%20%E1%84%87%E1%85%A2%E1%86%A8%E1%84%89%E1%85%A5%20%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%89%E1%85%A5%E1%86%BC%20%E1%84%80%E1%85%A1%E1%86%BC%E1%84%8B%E1%85%B4%20c92f3f0b57fe48869a7fc45accb642c2/Screen_Shot_2022-07-15_at_19.59.32.png"><img style="width:1212px" src="Onther%20%E1%84%87%E1%85%A2%E1%86%A8%E1%84%89%E1%85%A5%20%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%89%E1%85%A5%E1%86%BC%20%E1%84%80%E1%85%A1%E1%86%BC%E1%84%8B%E1%85%B4%20c92f3f0b57fe48869a7fc45accb642c2/Screen_Shot_2022-07-15_at_19.59.32.png"/></a></figure><p id="ef2f063a-0e2f-46bd-ba64-c5d15ca89135" class="">분배</p><figure id="40d4e49f-9611-4e6f-aa6c-c7b607704165" class="image"><a href="Onther%20%E1%84%87%E1%85%A2%E1%86%A8%E1%84%89%E1%85%A5%20%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%89%E1%85%A5%E1%86%BC%20%E1%84%80%E1%85%A1%E1%86%BC%E1%84%8B%E1%85%B4%20c92f3f0b57fe48869a7fc45accb642c2/Screen_Shot_2022-07-15_at_20.00.22.png"><img style="width:1166px" src="Onther%20%E1%84%87%E1%85%A2%E1%86%A8%E1%84%89%E1%85%A5%20%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%89%E1%85%A5%E1%86%BC%20%E1%84%80%E1%85%A1%E1%86%BC%E1%84%8B%E1%85%B4%20c92f3f0b57fe48869a7fc45accb642c2/Screen_Shot_2022-07-15_at_20.00.22.png"/></a></figure><h3 id="eb8dd779-24dc-42f5-8131-bf46bcd4612d" class="">백서 작성 시 주의점</h3><p id="d1652ae9-2771-405c-9345-c0ecf2df4152" class="">블록체인 프로젝트별</p><ul id="ea0bbb75-97fb-477d-a858-80c148c3043d" class="bulleted-list"><li style="list-style-type:disc">인프라: 기술적으로 작성. 기존 기술대비 개선점. 기술 상세 구현 방안(개발, 코드 등).. 스마트 컨트랙트 개념 구현, 레이어2 기술 제안, 인터체인 설계</li></ul><ul id="0cc7eb91-d85b-455c-b9cf-3ee6008d5f1f" class="bulleted-list"><li style="list-style-type:disc">디파이: 금융 모델링.(상세 산식), TVL에 대한 관심과 유동성 확보 방안</li></ul><ul id="66d6ef20-f7fd-4bc0-8687-af7ac19fb775" class="bulleted-list"><li style="list-style-type:disc">NFT: 높은 floor price 형성 방안 기준 설계. 커뮤니티 형성 방안.</li></ul><p id="8fc4074c-5db5-46c8-ba1e-9d5869c16c75" class="">
+</p><p id="a5325df7-448a-452a-82d0-4fbee3a4a790" class="">AAVE(DeFi): 산술 많음</p><p id="fbb7f9f0-dd00-4985-b7c5-9920b1ad9a65" class="">코스모스: 구조도를 그리며 기술 구현 방안 제시.</p><p id="dc58877c-34e7-4a2b-b653-a9dc978de247" class="">
+</p><h3 id="509ce02b-65ea-4581-a412-b54c71d808bb" class="">백서 작성 이후에 준비해야 할 영역.</h3><ol type="1" id="78b27e8d-8108-4df7-be93-e4e7d188af94" class="numbered-list" start="1"><li>마케팅 방안: 컨텐츠 제작. 마케팅 설계. AMA 세션 진행.(ask me anything). PR 및 커뮤니티 활성화 방안.</li></ol><ol type="1" id="f08b3bdb-f859-4658-a9d8-d6f16af21ce3" class="numbered-list" start="2"><li>VC 찾음. 프로젝트 특성에 맞는</li></ol><ol type="1" id="b00327f3-f3e7-43da-a596-262c7c98cfb2" class="numbered-list" start="3"><li>규제 대응 및 상장 방안..규제 요건 검토 및 상장 전략 수립 주요 material 및 process.</li></ol><p id="c68031e1-b765-4ac7-924e-d7dc175c544b" class="">
+</p><h2 id="9e7a1ed9-2a99-4f30-8264-77e5fa40e8a0" class="">두 번째 세션</h2><p id="961d4d25-2185-40fd-b594-9fc0d54ef33d" class="">김형섭(오스카)</p><p id="1c7b0d2a-c35d-415b-a6a2-eaacbec7fe39" class="">토큰 이코노미 런칭</p><p id="7fdfb57e-8c69-4784-9c31-2a0d22c3bb5c" class="">구상 방법.</p><p id="b3c4886c-e6bc-428f-9d3f-88ce373c97ac" class="">
+</p><h3 id="7abcba75-06e9-4b55-a047-354be9e88677" class="">프로젝트 구성에 필요한 토큰 기능은 무엇인가…</h3><p id="83e75f9b-7fde-44e9-b948-3e16af7b4d60" class="">
+</p><p id="3bb0d3c2-d32b-41b5-a9dc-c6294cdbb563" class="">토큰이코노미: 유틸리티(무언가를 하려면 토큰이 필요, 토큰 발행 필요, 거버넌스-의결권 영향력 행사), 메트릭(..)</p><p id="553010ee-bf40-4bc3-9e34-2ca2b844eb06" class="">
+</p><p id="1795fad1-b5cd-42d5-9a18-ac02b5b147c2" class="">initial contributor: 초기 투자자, 어드바이저</p><p id="c922930f-5d2a-4ab0-952a-762915bfea14" class="">community: p2e,zjanslxl rkdghk</p><p id="59e9696c-4350-4935-9f58-7af026136cdf" class="">partner 사업협력사 비즈니스,.</p><p id="9d5a6763-740a-45a8-88ab-d26d9f3d3463" class="">marketing 생태계 에어드랍, 상장 유동성</p><p id="c04bce73-77d6-4f5c-872c-f95d3def1073" class="">team 팀인센티브</p><p id="4dd366e7-4268-4f68-bfdf-f9bdcd5fcbd7" class="">reserve: 예비 물량</p><p id="221e40f8-cace-4f18-ad3b-7623ea479a40" class="">
+</p><p id="8ba5ed7d-19ba-475e-80cc-15f43f5cf820" class="">유동성 비례 유통물량 증가분에 따라 하방압략이 증가하니 dex 유동성 풀 형성 및 거래소 상장을 커버해야 함.</p><p id="fca0947f-e048-4093-92fa-5189772e2d96" class="">프로젝트 진행 사항을 공개…</p><p id="6ba00675-bfcb-4eac-8161-0a54f77f15d9" class="">
+</p><p id="2a6933a6-527d-4111-b70d-9f978b8d38aa" class="">언락물량 유동성 물량… 실시간으로 공개가 바람직..커뮤니티에 사전 공지</p></div></article></body></html>

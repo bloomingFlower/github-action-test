@@ -1,0 +1,699 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>설득의 심리학</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="192ff173-0aa7-410e-bba8-0b759ccbea85" class="page sans"><header><h1 class="page-title">설득의 심리학</h1></header><div class="page-body"><p id="6ceee06d-f41f-4861-8124-8943393d9f74" class="">잘 생긴 사람에 대한 우리의 반응은 열려라 참깨 식의 거의 무의식적인 그리고 자동적인 반응의 형태를 띰. 후광효과.</p><p id="034107b0-5710-4590-b2a5-3d6e96927331" class="">어떤 사람의 긍정적 특성 하나가 그 사람 전체를 평가하는 데 결정적인 영향을 미침.</p><p id="f2184c37-dee8-479d-9b35-065fb12c70a6" class="">잘 생긴 사람이 긴급상황에서도 다른 사람들의 도움을 더 쉽게 얻음. 청중의 의견을 변화시키는 데도 더욱 설득적.</p><p id="276b882f-09b4-4050-9b93-1ab93d2ab09a" class="">잘 생기지 못한 사람의 대안은 ‘유사성의 요소를 활용’</p><p id="aea57d11-5ba9-412b-ba42-523311c856d7" class="">우리는 우리와 닮은 사람들 좋아한다. (의견, 성격, 가정 환경, 생활 양식 등)</p><p id="40b75934-e845-4b67-b60f-42e3c6f8ff87" class="">‘나도 당신처럼’이라는 수식어를 경계할 필요 있음</p><p id="ea211156-235a-4c78-8720-26bd26f0deff" class="">
+</p><p id="77961c28-cb6e-4f26-983b-8b92ef902c3f" class="">어떤 사람이 나를 좋아하는 것은 굉장히 효과적인 설득 도구 (I like you)</p><p id="04bce727-92c2-469e-b6a5-4d781a0a00b7" class="">
+</p><p id="11574b08-2efb-41c6-9da8-bc4576d68963" class="">잦은 노출을 통해 익숙해지는 것 또한 호감도에 영향을 미치며 설득됨.</p><p id="8c5b6e04-0d88-4a3c-b3c9-bd04768ce318" class="">그러나 어떤 대상을 절망 갈등 경쟁 등의 유쾌하지 못한 상황에서 반복적으로 접촉하면 오히려 그 대상에 대한 호감도가 하락.</p><p id="6915e504-a86f-4b7c-a72b-c30f48ecc96d" class="">
+</p><p id="820f8105-28f3-45d9-8a2e-538119a501cb" class="">집단 간에 불화를 만드는 요리법</p><p id="a0091f4e-4306-41e9-a58a-ac0973192d9f" class="">사람으 무작위로 두 개의 집단으로 분류. 집단 간의 알력이 싹트기를 기다림. 지속적인 경쟁이라는 불로 요리.</p><p id="2ad44653-3b2b-489c-a642-da8dc72ae28d" class="">
+</p><p id="c61fbf4c-29c4-4775-ad98-30fbf1174a4f" class="">협동만이 상호간 이익을 되는 상황. 공동의 목표. 성공의 동반자. 상호협력은 호감을 크게 만듬.</p><p id="87e563b6-9bca-4d71-b77f-bafdf7834366" class="">
+</p><p id="23d7f731-9987-4403-a1ad-6203f73c3e26" class="">함께 조각 맞추기와 같은 간단한 것을 통해서도 가능</p><p id="13fc314b-450b-4eef-872e-dc273ea42688" class="">
+</p><p id="424c02ff-ab52-4841-846c-2582a2694909" class="">나쁜 소식은 그 소식을 전달하는 사람에게도 전염된다. 반대로 좋은 소식은 전달하는 사람을 긍정적으로 보게 한다.(고대 페르시아 전쟁 메신저)</p><p id="e1b34a2a-67f3-4251-a1cc-991e87f90356" class="">
+</p><p id="a37d4940-691e-4aff-ab41-df8fdfeb4436" class="">신용카드 혹은 특정 로고를 긍정적으로 인식하고 있는 사람을 대상으로 팁 쟁반 등 간접적인 단순 로고 노출로 긍정적 이미지를 만들어 낼 수 있다.</p><p id="0b8dced1-aedd-456a-92be-6b5061f9d37f" class="">
+</p><p id="e3bd850d-02f9-412b-a315-a732a434489c" class="">만찬 기법</p><p id="9e7202aa-d030-4201-a61b-b34795d03d68" class="">시간 절약, 상호성의 법칙</p><p id="77ee0669-9ea1-4d65-ae91-e8d0e292e60e" class="">무의식적 차원에서 음식이라는 무조건적인 자극과 반복하여 연결… 음식은 좋은 기분 유발.</p><p id="be42e0c7-f713-47f9-b878-403032d0ab93" class="">우리를 즐겁게 해 줄 수 있는 어떠한 것이라도 아이디어, 제품 등이 가능.</p><p id="29d6d8a5-7de7-427a-bd84-af018ad00079" class="">
+</p><p id="9116b49d-6883-4c74-ad1f-21f418825625" class="">나쁜 소식을 전달할 때면 너를 찾는 게 있다는 식으로만 말하기</p><p id="27c15012-2e5c-4756-915d-5b95668ce840" class="">
+</p><p id="64542553-1822-48a9-a186-39bc5d35a599" class="">스포츠의 몰입 그 힘은 상상 초월!</p><p id="582eef68-b956-497a-8ee8-e24efa6eaf92" class="">내 팀이 패배하는 건 내가 패배하는 것.</p><p id="6b879f8e-060e-4381-add3-47dbc87daeec" class="">스포츠는 곧 자기자신</p><p id="e4abc89d-e899-4ac6-9b49-5ded09f2e09c" class="">팀이 승리하는 것은 우리가 우수하다는 증명. 사실 아무런 관계가 없어도.</p><p id="2db7e194-bd9f-452a-b6dc-5d00a6d6fcd1" class="">
+</p><p id="e28f5491-63fc-4137-bbb8-1ac8ce1abd28" class="">광적인 스포츠팬은 낮은 자부심을 가지고 그들의 열등감을 스스로의 성취를 통해 자부심을 고취하기보다 타인의 성공을 자신과 연결하여 자신의 자부심을 향상시킴.</p><p id="c5f66cb3-4db0-47ab-8a4d-cf5bfd87010d" class="">
+</p><p id="70a207ec-4159-46b8-9ae3-ebde380c7fe7" class="">남의 이름을 들먹거리며 자신을 성공한 유명한 사람과 연결시키는 방법.</p><p id="f9edbd54-0986-44a7-84e0-32a457aa8ad9" class="">
+</p><p id="9ba782b7-52e9-4343-950e-72f96b6e89d5" class="">주어진 상황에서 어떤 사람을 필요이상으로 빨리 그리고 많이 좋아하고 있다고 느끼면 경계해야 함.</p><p id="66806b51-8448-484a-8998-e6c009b65f79" class="">최종 구입 결정 전에 내가 설득하고 있는 사람을 필요 이상을 좋아하진 않는지 경계.</p><p id="7e4f7c80-b334-4a2d-9a6e-520ee9dfedfc" class="">그렇다면 설득자의 행동을 호감을 유발하는 요인들과 관련지어 검토해야 함.</p><p id="8b7373b2-5a1e-40c4-9e37-601c9f3aba39" class="">주의를 사람이 아닌 상품에 집중.</p><p id="4823b0aa-b1db-4680-87b3-b8d75f4e64e2" class="">
+</p><p id="0d51fcbc-fae0-40d7-b9e6-d3e519825033" class="">Q. 옆에 앉은 사람이 나를 더 좋아하게 만들려면??</p><p id="155af760-d4c2-4085-84fe-7116eb3e7af5" class="">
+</p><p id="6ec3e460-bac6-4f06-81e5-ee3f12cbe5fc" class="">밀그럼의 실험… 권위에 대한 복종.</p><p id="804e6c5d-a4ba-48d8-acfc-c99f214e4ac2" class="">연구자라는 권위에 실험자의 상태를 고려하지 않고 맹목적으로 따름.</p><p id="15b9d157-8012-493f-be27-7bee9fcf4475" class="">권위에 대한 복종은 거의 무의식적으로 이루어짐.</p><p id="3d679c4f-8dfb-42f1-a33a-a19efe092f87" class="">
+</p><p id="11548d8d-37a9-4eb1-aa6b-5474895f1646" class="">드라마에서 의사 역할을 한 사람이 약 선전을 해도 효과가 있음</p><p id="7ee40190-857f-4334-ab5e-cefdacba403b" class="">실제적 권위가 존재하지 않는 상황에서도 권위의 법칙이 작용</p><p id="aacdc0aa-637b-4e72-a135-56dc170b13cf" class="">그럴듯한 직함. 겉치장, 근사한 차, 정장  등.</p><p id="4ed52515-1f9a-4a1c-a714-e16ffe9ab916" class="">
+</p><p id="395875dd-af48-4908-bc3f-45b9a6087993" class="">현실 세계는 꼭 논리적으로 움직이는 것은 아니다</p><p id="783f3702-d0e9-447d-93fb-c3b472291ad1" class="">
+</p><p id="3e67befd-ba77-4660-adb4-3b7a497166d9" class="">사회적 존경을 받는 직함은 그것만으로도 사람의 키를 크게 예상(평균 1.3~5)</p><p id="02d66b3c-9a47-45d2-8738-d8ceba4a069f" class="">
+</p><p id="32770d46-79f1-4536-88c9-e20679244c04" class="">크기가 지위로 작용하는 역방향</p><p id="73919fc5-2d75-438b-b8b8-eb006ccabca2" class="">
+</p><p id="35c4a809-f1c6-4743-a660-5f827cca0115" class="">내규로 금지된 상황. 효능이 검증되지 않은 약. 권장 분량의 두 배. 만나본 적 없는 의사.</p><p id="ad2c5be8-9c1d-4d9b-8b79-e8a5c7726a1e" class="">그러나 간호사 95%가 수행</p><p id="bc7e1ef3-d0a9-440a-a7c0-49063d4cc2e1" class="">
+</p><p id="c6c3ebd0-b711-4486-8c4f-4f1383eb0c81" class="">상표명에 o하나만 더 붙여서 이태리식 식품 팔 때 판매 증가 효과를 불러옴.</p><p id="0854ea05-791d-4f72-8f0b-b856b85e687c" class="">
+</p><p id="eb018ac9-0c46-4728-af13-a27f8ebc4b1f" class="">권위의 압력은 그 자체로도 대단하고 그 힘을 스스로 제대로 예상하지 못하기 때문에 더 대단함.</p><p id="b6d5dce7-b8a1-4d29-978a-338080c7adf9" class="">
+</p><p id="ad94ce80-9c25-463e-b338-baf74af5351c" class="">권위의 힘이 대단하다는 것을 인정.</p><p id="30013086-2b1e-4eb2-bbd7-cbb4f890c757" class="">전문성과 트릭을 구분할 줄 알아야 함.</p><p id="6e1a47f7-4af1-40a5-bd76-85f26850fb99" class="">
+</p><p id="5b2a1b60-4a6a-4517-a982-d784fac0eb61" class="">앞에 약간의 단점 그리고 뒤에 전달하려는 가치</p><p id="a75aa323-c5bc-4a85-b018-1e6874e3a309" class="">
+</p><p id="ed519fba-a2fa-4a57-afbc-d2fdf627321e" class="">사람들은 그 가치가 동일할 경우 무언가를 얻는다는 생각보다 잃는다는 생각에 훨씬 더 자극을 받는다.</p><p id="d6444b96-3baa-47f0-b0f9-e1714290a16f" class="">
+</p><p id="f73ad24f-ed36-462e-9b86-661da7ded239" class="">쉽게 얻어지지 않는 것이 가치가 높다는 착각</p><p id="713168da-5628-4de2-a767-82fe89ad9a1a" class="">
+</p><p id="a3e51545-affc-45ef-b522-da76f72ff20d" class="">어떤 대상에 대해서 선택의 자유가 제한되거나 위협당하게 되면, 그 자유를 유지하기 위한 동기가 유발되어 더욱더 강렬하게 원하게 된다.</p><p id="4cbd1480-4663-4842-bcd6-13321b6b065c" class="">
+</p><p id="3763af02-d875-4b3b-bc27-15e16caf665d" class="">희귀성의 법칙에서는 흥분하지 말라.</p><p id="20419765-836c-4988-bcc5-147ba79edddb" class="">희귀성의 법칙은 상품의 경험적 사용이 아닌 소유에서 비롯됨.</p><p id="11d9683a-1601-49bb-a287-92e4b3250d8e" class="">득실을 냉정히 살펴야 함.</p><p id="f640830b-0db4-499a-8010-d2faf6764777" class="">
+</p><p id="dfe7571d-2e8d-4763-9b5a-47780cba8200" class="">우리는 어떤 대상에 대한 의사결정을 내릴 떄, 우리에게 주어진 모든 관련 자료들을 사용하지 않고 대신, 전체 자료 중에서 가장 중요한 정보 하나만을 사용하여 필요한 의사결정을 내린다.</p><p id="6b8ed182-e5dc-42cf-ba88-ddd11ee9f2cd" class="">상호성, 일관성, 사회적 증거, 호감, 권위, 희귀성의 요소..</p><p id="65f1e64e-82b2-4c55-8971-1f4a49d97c13" class="">급하거나 스트레스 받을 때, 불확실 할 때, 무관심할 때, 혼란스러울 때.. 최선의 단편 정보 접근만 한다… 정보가 넘치는 사회에서 말이다.</p><p id="cbacee06-73ee-4b95-9eae-8c2d31c85673" class="">
+</p><p id="f1a672fe-b9cf-4470-a87a-2fe9d3904430" class="">질문 리스트가 필요. 어떤 결정을 내릴 때!</p></div></article></body></html>
