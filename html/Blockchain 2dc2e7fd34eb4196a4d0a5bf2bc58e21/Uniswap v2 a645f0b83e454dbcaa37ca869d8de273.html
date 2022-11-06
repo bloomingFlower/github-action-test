@@ -826,4 +826,57 @@ contract UniswapV2Factory is IUniswapV2Factory {
   require(getPair[token0][token1] == address(0), &#x27;UniswapV2: PAIR_EXISTS&#x27;); // single check is sufficient</code></pre><p id="729b971a-d2ab-493e-b7dd-95ad72e61a4b" class="">Large liquidity pools are better than small ones, because they have more stable prices. We don’t want to have more than a single liquidity pool per pair of tokens. If there is already an exchange, there’s no need to create another one for the same pair.</p><pre id="18b05c83-bfc5-4dc4-9061-ec169528888d" class="code code-wrap"><code>	bytes memory bytecode = type(UniswapV2Pair).creationCode;</code></pre><p id="d1a27fdf-881a-40d6-ade4-53e2be6b65cd" class="">To create a new contract we need the code that creates it (both the constructor function and code that writes to memory the EVM bytecode of the actual contract). Normally in Solidity we just use <code>addr = new &lt;name of contract&gt;(&lt;constructor parameter&gt;)</code> and the compiler takes care of everything for us, but to have a deterministic contract address we need to use the CREATE2 opcode. When his code was written that opcode was not yet supported by Solidity, so it was necessary to manually get the code. This is no longer an issue, because Solidity now supports CREATE2.</p><pre id="e395c704-247d-46c7-a99e-8817e9afb7e3" class="code code-wrap"><code>	bytes32 salt = keccak256(abi.encodePacked(token0, token1));
   assembly {
       pair := create2(0, add(bytecode, 32), mload(bytecode), salt)
-  }</code></pre></div></article></body></html>
+  }</code></pre><p id="b0337451-b1e6-4559-8660-31107f972587" class="">When an opcode is note supported by Solidity yet we can call it using inline assembly.</p><pre id="129b669c-0d07-442f-aa7f-119fb2e1ab7b" class="code code-wrap"><code>	IUniswapV2Pair(pair).initialize(token0, token1);</code></pre><p id="6c131660-5665-4899-9119-b6226ae95416" class="">Call the <code>initialize</code> function to tell the new exchange what two tokens it exchanges.</p><pre id="bdc043c2-bab8-44f2-b6a7-5845dd9e4f5a" class="code code-wrap"><code>		getPair[token0][token1] = pair;
+    getPair[token1][token0] = pair; // populate mapping in the reverse direction
+    allPairs.push(pair);
+    emit PairCreated(token0, token1, pair, allPairs.length);
+}</code></pre><p id="3aa865a6-5023-45c2-84ac-2346bffa724c" class="">Save the new pair information in the state variables and emit an event to inform the world of the new pair exchange.</p><pre id="1205fd5e-4978-43c5-865a-9de922d1ad85" class="code code-wrap"><code>	function setFeeTo(address _feeTo) external {
+      require(msg.sender == feeToSetter, &#x27;UniswapV2: FORBIDDEN&#x27;);
+      feeTo = _feeTo;
+  }
+
+  function setFeeToSetter(address _feeToSetter) external {
+      require(msg.sender == feeToSetter, &#x27;UniswapV2: FORBIDDEN&#x27;);
+      feeToSetter = _feeToSetter;
+  }
+}</code></pre><p id="77908896-ca6e-42df-9f82-d4a03a892ea9" class="">These two functions allow <code>feeSetter</code> to control the fee recipient (if any), and to change <code>feeSetter</code> to a new address.</p><hr id="a0a36132-c0a9-4fa0-a60c-8879351d0075"/><h2 id="6cc555ec-812a-4bd1-970c-ff9c216b12cb" class="">UniswapV2ERC20.sol</h2><p id="7abe8079-246b-4a69-8492-48655660f29b" class="">This contract implements the ERC-20 liquidity token. It is similar to the OpenZeppelin ERC-20 contract, so I will only explain the part that is different, the <code>permit</code> functionality.</p><p id="9002848a-f029-4113-91dd-1535d0d0e8f4" class="">
+</p><p id="2c1bbdf5-ad06-4453-aa0b-01a77f6437c2" class="">Transaction on Ethereum cost ether (ETH), which is equivalent to real money. If you have ERC-20 tokens but not ETH, you can’t send transactions, so you can’t do anything with them. One solution to avoid this problem is <a href="https://docs.uniswap.org/protocol/V2/guides/smart-contract-integration/supporting-meta-transactions/">meta-transactions</a>. The owner of the tokens signs a transaction that allows somebody else to withdraw tokens off chain and sends it using the Internet to the recipient. The recipient, which does have ETH, then submits the permit on behalf of the owner.</p><pre id="b2a9d7f5-36bf-4ba9-a092-769401927a42" class="code code-wrap"><code>		bytes32 public DOMAIN_SEPARATOR;
+    // keccak256(&quot;Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)&quot;);
+    bytes32 public constant PERMIT_TYPEHASH = 0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9;</code></pre><p id="93508d89-82b8-4abc-b9f4-48a21d9a1e99" class="">This hash is the <a href="https://eips.ethereum.org/EIPS/eip-712#rationale-for-typehash">identifier for the transaction type</a>. The only one we support here is <code>Permit</code> with these parameters.</p><pre id="21e34bc6-a1e4-40ec-9a0b-5e96eee2523e" class="code code-wrap"><code>	mapping(address =&gt; uint) public nonces;</code></pre><p id="5a156e46-052f-48bc-b183-c6d69bad6b7d" class="">It is not feasible for a recipient to fake a digital signature. However, it is trivial to send the same transaction twice (this is a form of replay attack). To prevent this, we use a nonce. If the nonce of a new <code>Permit</code> is not one more than the last one used, we assume it is invalid.</p><pre id="7de147c8-194f-405c-844e-1b007f146ddb" class="code code-wrap"><code>	constructor() public {
+      uint chainId;
+      assembly {
+          chainId := chainid
+      }</code></pre><p id="5ad9bcd8-9097-4f74-bfbf-4d57fd619702" class="">This is the code to retrieve the chain identifier. It uses an EVM assembly dialect called Yul. Note that in the current version of Yul you have to use <code>chainid()</code>, not <code>chainid</code>.</p><pre id="aef0da2f-91b5-4458-a86c-feabe0f511a6" class="code code-wrap"><code>	DOMAIN_SEPARATOR = keccak256(
+      abi.encode(
+          keccak256(&#x27;EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)&#x27;),
+          keccak256(bytes(name)),
+          keccak256(bytes(&#x27;1&#x27;)),
+          chainId,
+          address(this)
+      )
+  );
+}</code></pre><p id="e1c77ecb-8f95-458b-bd23-f0c71e01aa64" class="">Calculate the domain separator for EIP-712.</p><pre id="a7288e9e-8bcf-4fa7-a5cb-06b1bca13420" class="code code-wrap"><code>	function permit(address owner, address spender, uint value, uint deadline, uint8 v, bytes32 r, bytes32 s) external {</code></pre><p id="e6406c13-ca13-413b-b763-9f0330e0fb13" class="">This is the function that implements the permissions. It receives as parameters the relevant fields, and the three scalar values for the signature (v, r, and s).</p><pre id="94b0e382-fa13-4da5-ac79-623ecfc46feb" class="code code-wrap"><code>	require(deadline &gt;= block.timestamp, &#x27;UniswapV2: EXPIRED&#x27;);</code></pre><p id="f1bf9c9e-76b5-4309-9763-a5c18b12a978" class="">Don’t accept transactions after the deadline.</p><pre id="92f28381-9462-4763-803a-d8e52f3219e4" class="code code-wrap"><code>	bytes32 digest = keccak256(
+      abi.encodePacked(
+          &#x27;\x19\x01&#x27;,
+          DOMAIN_SEPARATOR,
+          keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, value, nonces[owner]++, deadline))
+      )
+  );</code></pre><p id="a03c1da4-e10a-42ee-8710-b6de71b50d69" class=""><code>abi.encodePacked(...)</code> is the message we expect to get. We know what the nonce should be, so there is no need for us to get it as a parameter.</p><p id="51c46d06-71b9-4318-80dd-e1d1d5bb7d9b" class="">
+</p><p id="fab05761-e1ce-4de6-9fe8-58b60622e6d8" class="">The Ethereum signature algorithm expects to get 256 bits to sign, so we use the <code>keccak256</code> hash function.</p><pre id="088ecc2c-f52c-479c-a535-af3b3e17a324" class="code code-wrap"><code>	address recoveredAddress = ecrecover(digest, v, r, s);</code></pre><p id="81c3c28b-b417-4287-b01f-d7dade73332b" class="">From the digest and the signature we can get the address that signed it using ecrecover.</p><pre id="9da71176-9e56-457b-8618-df02179e26e8" class="code code-wrap"><code>	require(recoveredAddress != address(0) &amp;&amp; recoveredAddress == owner, &#x27;UniswapV2: INVALID_SIGNATURE&#x27;);
+        _approve(owner, spender, value);
+  }</code></pre><p id="217c5811-3765-4762-9bda-a3dec032eeb1" class="">If everything is OK, treat this as an ERC-20 approve.</p><hr id="10ca5025-bd23-41b6-b51f-3cb66526bad8"/><h1 id="9ece894a-9c2b-418e-a323-c885e9b87009" class="">THE PERIPHERY CONTRACTS</h1><p id="b43692d4-15f5-48ee-a759-373209c3978a" class="">The periphery contracts are the API (application program interface) for Uniswap. They are available for external calls, either from other contracts or decentralized applications. You could call the core contracts directly, but that’s more complicated and you might lose value if you make a mistake. The core contracts only contain tests to make sure they aren’t cheated, not sanity checks for anybody else. Those are in the periphery so they can be updated as needed.l</p><p id="3c975906-33ae-4ef7-9ff1-734866e7f1e8" class="">
+</p><h2 id="ae17dc8a-b751-4578-96a6-03d21dc486d7" class="">UniswapV2Router01.sol</h2><p id="ccc25c5d-87b6-4b36-8723-f4e98c3e3e65" class="">This contract has problems, and should no longer be used. Luckily, the periphery contracts are stateless and don’t hold any assets, so it is easy to deprecate it and suggest people use the replacement, <code>UniswapV2Router02</code>, instead.</p><hr id="511aa261-0235-466a-a1b5-fec99b5fb303"/><h2 id="fddeb40b-e3a2-44bd-9925-f0d18477e628" class="">UniswapV2Router02.sol</h2><p id="9bc82ae4-747a-4a92-9fcf-ba9ae6be170b" class="">In most cases you would use Uniswap through this contract. You can see how to use it here.</p><pre id="14e53263-6bcc-4c76-818c-662c8015abe5" class="code code-wrap"><code>pragma solidity =0.6.6;
+
+import &#x27;@uniswap/v2-core/contracts/interfaces/IUniswapV2Factory.sol&#x27;;
+import &#x27;@uniswap/lib/contracts/libraries/TransferHelper.sol&#x27;;
+
+import &#x27;./interfaces/IUniswapV2Router02.sol&#x27;;
+import &#x27;./libraries/UniswapV2Library.sol&#x27;;
+import &#x27;./libraries/SafeMath.sol&#x27;;
+import &#x27;./interfaces/IERC20.sol&#x27;;
+import &#x27;./interfaces/IWETH.sol&#x27;;</code></pre><p id="6ef22aba-a176-4480-9a6a-cb8a761c089b" class="">Most of these we either encountered before, or are fairly obvious. The one exception is <code>IWETH.sol</code>. Uniswap v2 allows exchanges for any pair ERC-20 tokens, but ether (ETH) itself isn’t an ERC-20 token. It predates the standard and is transfered by unique mechanisms. To enable the use of ETH in contracts that apply to ERC-20 tokens people came up with the wrapped ether (WETH) contract. You send this contract ETH, and it mints you an equivalent amount of WETH. Or you can burn WETH, and get ETH back.</p><pre id="5f08e1c3-e6b7-4e07-ac59-31d234f203f1" class="code code-wrap"><code>contract UniswapV2Router02 is IUniswapV2Router02 {
+    using SafeMath for uint;
+
+    address public immutable override factory;
+    address public immutable override WETH;</code></pre><p id="3cb3b4dd-c77f-441e-a623-53d26d6f32b6" class="">The router needs to know what factory to use, and for transactions that</p><p id="ebe3a642-e9f2-4a67-b45e-51d75091ca6f" class="">
+</p></div></article></body></html>

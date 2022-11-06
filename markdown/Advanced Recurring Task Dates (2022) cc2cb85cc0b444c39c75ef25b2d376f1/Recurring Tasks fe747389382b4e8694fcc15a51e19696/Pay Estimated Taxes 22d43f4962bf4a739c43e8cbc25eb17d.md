@@ -1,6 +1,6 @@
 # Pay Estimated Taxes
 
-Assignee: Thomas Frank
+Assignee: 익명
 Done: No
 Due: 2022년 4월 13일
 First Weekday Base Date: 1998년 9월 28일 오후 1:00
