@@ -1,6 +1,6 @@
 # Do Leg Workout
 
-Assignee: 익명
+Assignee: Thomas Frank
 Days (Only if Set to 1 Day(s)): Friday, Monday, Wednesday
 Done: No
 Due: 2022년 3월 25일

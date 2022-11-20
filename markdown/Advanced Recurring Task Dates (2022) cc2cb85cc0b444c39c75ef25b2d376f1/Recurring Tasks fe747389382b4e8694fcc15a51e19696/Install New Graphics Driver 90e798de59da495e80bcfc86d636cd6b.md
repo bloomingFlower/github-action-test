@@ -1,6 +1,6 @@
 # Install New Graphics Driver
 
-Assignee: 익명
+Assignee: Thomas Frank
 Done: No
 Due: 2020년 10월 25일
 First Weekday Base Date: 1998년 9월 28일 오후 1:00

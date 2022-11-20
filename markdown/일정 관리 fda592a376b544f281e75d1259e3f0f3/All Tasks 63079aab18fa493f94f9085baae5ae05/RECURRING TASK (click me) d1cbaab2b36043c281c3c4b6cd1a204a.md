@@ -13,7 +13,7 @@ Kanban - State: To Do
 Last Day Base Date: 1998년 9월 28일 오후 1:00
 Last Weekday Base Date: 1998년 9월 28일 오후 1:00
 Late: ☠
-Next Due: 11월 10, 2022
+Next Due: 11월 22, 2022
 Next Last Base Date: 1998년 9월 28일 오후 1:00
 Priority: 🚨HIGH
 Recur Interval: 6

@@ -878,5 +878,545 @@ import &#x27;./interfaces/IWETH.sol&#x27;;</code></pre><p id="6ef22aba-a176-4480
     using SafeMath for uint;
 
     address public immutable override factory;
-    address public immutable override WETH;</code></pre><p id="3cb3b4dd-c77f-441e-a623-53d26d6f32b6" class="">The router needs to know what factory to use, and for transactions that</p><p id="ebe3a642-e9f2-4a67-b45e-51d75091ca6f" class="">
-</p></div></article></body></html>
+    address public immutable override WETH;</code></pre><p id="3cb3b4dd-c77f-441e-a623-53d26d6f32b6" class="">The router needs to know what factory to use, and for transactions that require WETH what WETH contract to use. These values are immutable, meaning they can only be set in the constructor. This gives users the confidence that nobody would be able to change them to point to less honest contracts.</p><pre id="ebe3a642-e9f2-4a67-b45e-51d75091ca6f" class="code code-wrap"><code>	modifier ensure(uint deadline) {
+      require(deadline &gt;= block.timestamp, &#x27;UniswapV2Router: EXPIRED&#x27;);
+      _;
+  }</code></pre><p id="0f29e2d9-cc6e-4f3f-960e-994cebf594c5" class="">This modifier makes sure that time limited transactions (”do X before time Y if you can”) don’t happen after their time limit.</p><pre id="938d7a9d-50a9-4dd4-9751-7e78f9056861" class="code code-wrap"><code>	constructor(address _factory, address _WETH) public {
+      factory = _factory;
+      WETH = _WETH;
+  }</code></pre><p id="901dffd9-6f00-4712-9a97-f6a74067dfd4" class="">The constructor just sets the immutable state variables.</p><pre id="f545ca39-8c2e-4202-929c-06f5c3070e64" class="code code-wrap"><code>	receive() external payable {
+      assert(msg.sender == WETH); // only accept ETH via fallback from the WETH contract
+  }</code></pre><p id="1c1ba5d3-81ab-4e34-af3d-c6dbc5453154" class="">This function is called when we redeem tokens from the WETH contract back into ETH. Only the WETH contract we use is authorized to do that.</p><hr id="4fc3da67-4fd6-4ac4-a9f6-10c22678aa17"/><h3 id="c28f956b-d7c3-4c6f-a125-6da2230ac42f" class="">Add Liquidity</h3><p id="36baec43-4477-4ffc-a334-f80e21e57b02" class="">These functions add tokens to the pair exchange, which increases the liquidity pool.</p><pre id="9e047837-4b56-4265-b0b5-5af563ed6049" class="code code-wrap"><code>	// **** ADD LIQUIDITY ****
+  function _addLiquidity(</code></pre><p id="81493e71-2122-4c3d-94f3-4df1d6b46c79" class="">This function is used to calculate the amount of A and B tokens that should be deposited into the pair exchange.</p><pre id="bbf12a4a-85d7-4294-96d1-df56d6c49572" class="code code-wrap"><code>		address tokenA,
+    address tokenB,</code></pre><p id="3d231d4e-2f10-4aef-b3e6-0662672bf47c" class="">These are the addresses of the ERC-20 token contracts.</p><pre id="2b8e5a04-881a-4ceb-a481-d671a7da9a50" class="code code-wrap"><code>		uint amountADesired,
+    uint amountBDesired,</code></pre><p id="8da15ff6-1ec9-4506-be77-7debc4dc804d" class="">These are the amounts the liquidity provider wants to deposit. They are also the maximum amounts of A and B to be deposited.</p><pre id="5b7fcbfe-dfb5-4575-90ac-152ed5d714f4" class="code code-wrap"><code>		uint amountAMin,
+    uint amountBMin</code></pre><p id="59966dcc-9de2-456d-bed7-a189fceb0fd1" class="">These are the minimum acceptable amounts to deposit. If the transaction cannot take place with these amounts or more, revert out of it. If you don’t want this feature, just specify zero.</p><p id="ea8848c9-d308-4e7d-ad1d-c044efd95dac" class="">
+</p><p id="5346c93f-8f7c-4044-a10c-73688476a143" class="">Liquidity providers specify a minimum, typically, because they want to limit the transaction to an exchange rate that is close to the current one. If the exchange rate fluctuates too much it might mean news that change the underlying values, and they want to decide manually what to do.</p><p id="3cb6b107-7bf9-4038-8267-63f8a1bfb8ec" class="">
+</p><p id="a5922168-c145-4582-837d-0c0d9b6e70c3" class="">For example, imagine a case where the exchange rate is one to one and the liquidity provider specifies these values:</p><table id="b57c8bdc-a10a-4d66-9209-12dae77272bb" class="simple-table"><tbody><tr id="c4d6fc65-b5d0-4d4b-a5ea-e352d0eec61f"><td id="iWL\" class="">Parameter</td><td id="@O{e" class="">Value</td></tr><tr id="32bdc923-5d54-4a3f-86d2-3aa757078a9a"><td id="iWL\" class="">amountADesired</td><td id="@O{e" class="">1000</td></tr><tr id="fd0978d9-f52b-4d96-83ef-1786867f3b95"><td id="iWL\" class="">amountBDesired</td><td id="@O{e" class="">1000</td></tr><tr id="4b96bdc3-c735-4c1a-84f0-5dd6c9243793"><td id="iWL\" class="">amountAMin</td><td id="@O{e" class="">900</td></tr><tr id="e788b96e-4e1c-4093-bee1-ed2321c1de68"><td id="iWL\" class="">amountBMin</td><td id="@O{e" class="">800</td></tr></tbody></table><p id="4a6e3fb5-98a7-472e-9ff1-ff59c319a157" class="">As long as the exchange rate says between 0.9 and 1.25, the transaction takes place. If the exchange rate gets out of that range, the transaction gets cancelled.</p><p id="4d1b0d09-7e56-447f-8f8c-22530ae4f7dc" class="">
+</p><p id="225c8f54-c3d8-4d74-9650-9856967e04e3" class="">The reason for this precaution is that transactions are not immediate, you submit them and eventually a validator is going to include them in a block (unless your gas price is very low, in which case you’ll need to submit another transaction with the same nonce and a higher gas price to overwrite it). You cannot control what happens during the interval between submission and inclusion.</p><pre id="dc7c5fd5-458b-468e-8548-5cd0ba1b8c53" class="code code-wrap"><code>	) internal virtual returns (uint amountA, uint amountB) {</code></pre><p id="24922afc-d368-49d3-bd5f-e00d74d0177b" class="">The function returns the amounts the liquidity provider should deposit to have a ratio equal to the current ratio between reserves.</p><pre id="2dbdd967-d2ff-43c0-a528-9a6d5b46d365" class="code code-wrap"><code>		// create the pair if it doesn&#x27;t exist yet
+    if (IUniswapV2Factory(factory).getPair(tokenA, tokenB) == address(0)) {
+        IUniswapV2Factory(factory).createPair(tokenA, tokenB);
+    }</code></pre><p id="63aa9586-3004-41f3-bfe7-27e749a0d5e8" class="">If there is no exchange for this token pair yet, create it.</p><pre id="da86f316-8e4b-4e90-a639-1c6ea9a8f9b2" class="code code-wrap"><code>		(uint reserveA, uint reserveB) = UniswapV2Library.getReserves(factory, tokenA, tokenB);</code></pre><p id="dd79e2f4-8ed7-4a12-8a50-0521f229fa89" class="">Get the current reserves in the pair.</p><pre id="37dac98d-16f5-412a-9ee3-f46e88c7bec9" class="code code-wrap"><code>		if (reserveA == 0 &amp;&amp; reserveB == 0) {
+        (amountA, amountB) = (amountADesired, amountBDesired);</code></pre><p id="1aa8a704-c02a-4491-bb4d-ce4414ec91cb" class="">If the current reserves are empty then this is a new pair exchange. The amounts to be deposited should be exactly the same as those the liquidity provider wants to provide.</p><pre id="c5947590-89f1-4996-b2ed-abcacc12c317" class="code code-wrap"><code>		} else {
+        uint amountBOptimal = UniswapV2Library.quote(amountADesired, reserveA, reserveB);</code></pre><p id="7317b189-87e9-4dd5-8df1-7e5cc650dbe2" class="">If we need to see what amounts will be, we get the optimal amount using this function. We want the same ratio as the current reserves.</p><pre id="40b9619c-6e24-4a72-9848-656cf7f4dcd3" class="code code-wrap"><code>		if (amountBOptimal &lt;= amountBDesired) {
+        require(amountBOptimal &gt;= amountBMin, &#x27;UniswapV2Router: INSUFFICIENT_B_AMOUNT&#x27;);
+        (amountA, amountB) = (amountADesired, amountBOptimal);</code></pre><p id="3c46baf5-f44d-4776-9228-61706bd5e39f" class="">if <code>amountBOptimal</code> is smaller than the amount the liquidity provider wants to deposit it means that token B is more valuable currently than the liquidity depositor thinks, so a smaller amount is required.</p><pre id="3fd52442-5b15-4003-b06e-c836a25f8d13" class="code code-wrap"><code>		} else {
+        uint amountAOptimal = UniswapV2Library.quote(amountBDesired, reserveB, reserveA);
+        assert(amountAOptimal &lt;= amountADesired);
+        require(amountAOptimal &gt;= amountAMin, &#x27;UniswapV2Router: INSUFFICIENT_A_AMOUNT&#x27;);
+        (amountA, amountB) = (amountAOptimal, amountBDesired);</code></pre><p id="bf5a805d-9bb7-4c26-901c-a74a32e56576" class="">If the optimal B amount is more than the desired B amount it means B tokens are less valuable currently than the liquidity depositor thinks, so a higher amount is required. However, the desired amount is a maximum, so we cannot do that. Instead we calculate the optimal number of A tokens for the desired amount of B tokens.</p><p id="695f7bca-b9d2-4b63-9418-e25c1b7a58aa" class="">
+</p><p id="6b93b9fd-3abe-476e-9bff-443e4a6fcc16" class="">Putting it all together we get this graph. Assume you’re trying to deposit a thousand A tokens (blue line) and a thousand B tokens (red line). The x axis is the exchange rate, A/B. If x=1, they are equal in value and you deposit a thousand of each. If x=2, A is twice the value of B (you get two B tokens for each A token) so you deposit a thousand B tokens, but only 500 A tokens. If x=0.5, the situation is reversed, a thousand A tokens an five hundred B tokens.</p><figure id="eccbf2a6-7bec-48f9-8883-80bf05b30d82" class="image"><a href="Uniswap%20v2%20a645f0b83e454dbcaa37ca869d8de273/Untitled.png"><img style="width:1274px" src="Uniswap%20v2%20a645f0b83e454dbcaa37ca869d8de273/Untitled.png"/></a></figure><p id="b5626de8-7bf7-42f7-b806-d98c3a79aa00" class="">You could deposit liquidity directly into the core contract (using UniswapV2Pair::mint), but the core contract only checks that it is not getting cheated itself, so you run the risk of losing value if the exchange rate changes between the time you submit tour transaction and the time it is executed. If you use the periphery contract, it figures the amount you should deposit and deposits it immediately, so the exchange rate doesn’t change and you don’t lose anything.</p><pre id="7792aa3b-4978-46dc-af16-4712dad877ef" class="code code-wrap"><code>function addLiquidity(
+        address tokenA,
+        address tokenB,
+        uint amountADesired,
+        uint amountBDesired,
+        uint amountAMin,
+        uint amountBMin,
+        address to,
+        uint deadline</code></pre><p id="f1d4ffdc-a4a4-4057-ac69-01f19e6c49be" class="">This function can be called by a transaction to deposit liquidity. Most parameters are the same as in <code>_addLiquidity</code> above, with two exceptions:</p><p id="d6bd27dc-dc38-4f87-9d61-11513148108e" class="">
+</p><p id="ff114b2a-c143-437d-a2b2-7c5202ca4a3e" class=""><code>to</code> is the address that gets the new liquidity tokens minted to show the liquidity provider’s portion of the pool <code>deadline</code> is a time limit on the transaction.</p><pre id="688a5ee4-166c-4329-a175-ed92d1fc89b4" class="code"><code>	) external virtual override ensure(deadline) returns (uint amountA, uint amountB, uint liquidity) {
+      (amountA, amountB) = _addLiquidity(tokenA, tokenB, amountADesired, amountBDesired, amountAMin, amountBMin);
+      address pair = UniswapV2Library.pairFor(factory, tokenA, tokenB);</code></pre><p id="31a03171-0098-4174-873f-99b31b96caf8" class="">We calculate the amounts to actually deposit and then find the address of the liquidity pool. To save gas we don’t do this by asking the factory, but using the library function <code>pairFor</code> (see below in libraries)</p><pre id="20dc02c6-88b0-453b-81ed-348c33f66bf1" class="code"><code>		TransferHelper.safeTransferFrom(tokenA, msg.sender, pair, amountA);
+    TransferHelper.safeTransferFrom(tokenB, msg.sender, pair, amountB);</code></pre><p id="4eb32fee-5cbb-42da-9c49-5a7f49051107" class="">Transfer the correct amounts of tokens from the user into the pair exchange.</p><pre id="fca1735e-22d4-4c21-88bc-ca572345e5f8" class="code"><code>		liquidity = IUniswapV2Pair(pair).mint(to);
+}</code></pre><p id="1b04e78c-61ac-4df9-b3b8-34fbd996bd69" class="">In return give the <code>to</code> address liquidity tokens for partial ownership of the pool. The <code>mint</code> function of the core contract sees how many extra tokens it has (compared to what it had the last time liquidity changed) and mints liquidity accordingly.</p><pre id="72332771-5835-4c53-b253-725646a2684d" class="code"><code>	function addLiquidityETH(
+      address token,
+      uint amountTokenDesired,</code></pre><p id="2317e4d9-4e21-44e3-812c-6f907cb48aee" class="">When a liquidity provider wants to provide liquidity to a Token/ETH pair exchange, there are a few differences. The contract handles wrapping the ETH for the liquidity provider. There is no need to specify how many ETH the user wants to deposit, because the user just sends them with the transaction (the amount is available in <code>msg.value</code> ).</p><pre id="ed551b5c-82f9-495f-bf8c-f55ba73b66bf" class="code"><code>		uint amountTokenMin,
+    uint amountETHMin,
+    address to,
+    uint deadline
+) external virtual override payable ensure(deadline) returns (uint amountToken, uint amountETH, uint liquidity) {
+    (amountToken, amountETH) = _addLiquidity(
+        token,
+        WETH,
+        amountTokenDesired,
+        msg.value,
+        amountTokenMin,
+        amountETHMin
+    );
+    address pair = UniswapV2Library.pairFor(factory, token, WETH);
+    TransferHelper.safeTransferFrom(token, msg.sender, pair, amountToken);
+    IWETH(WETH).deposit{value: amountETH}();
+    assert(IWETH(WETH).transfer(pair, amountETH));</code></pre><p id="b0d336dd-5440-40f0-bb52-9197e052c261" class="">To deposit the ETH the contract first wraps it into WETH and then transfers the WETH into the pair. Notice that the transfer is wrapped in an <code>assert</code> . This means that if the transfer fails this contract call also fails, and therefore the wrapping doesn’t really happen.</p><pre id="b6e5f68e-6d50-4874-80f8-1d196d841261" class="code"><code>		liquidity = IUniswapV2Pair(pair).mint(to);
+    // refund dust eth, if any
+    if (msg.value &gt; amountETH) TransferHelper.safeTransferETH(msg.sender, msg.value - amountETH);
+}</code></pre><p id="39d5f2e7-63fb-45c0-84ff-112eff0dba68" class="">The user has already sent us the ETH, so if there is any extra left over (because the other token is less valuable than the user thought), we need to issue a refund.</p><hr id="607c4d5a-f7c0-4e73-b536-51999d56d95b"/><h3 id="3f057b4c-50cc-4865-94f0-bc1918b4fa7e" class="">Remove Liquidity</h3><p id="1db117d1-7930-420d-8bea-bc7248c50b9d" class="">These functions will remove liquidity and pay back the liquidity provider.</p><pre id="94d83e49-43c8-42a5-9ac6-46dc1d335d62" class="code"><code>		// **** REMOVE LIQUIDITY ****
+    function removeLiquidity(
+        address tokenA,
+        address tokenB,
+        uint liquidity,
+        uint amountAMin,
+        uint amountBMin,
+        address to,
+        uint deadline
+    ) public virtual override ensure(deadline) returns (uint amountA, uint amountB) {</code></pre><p id="33440f29-fe77-4961-9aa6-70346fcc18d2" class="">The simplest case of removing liquidity. There is a minimum amount of each token the liquidity provider agrees to accept, and it must happen before the deadline.</p><pre id="f44ea095-3560-4ea2-aaca-e1ae56779837" class="code"><code>		address pair = UniswapV2Library.pairFor(factory, tokenA, tokenB);
+    IUniswapV2Pair(pair).transferFrom(msg.sender, pair, liquidity); // send liquidity to pair
+    (uint amount0, uint amount1) = IUniswapV2Pair(pair).burn(to);</code></pre><p id="dea96efe-15e0-490f-8f55-3d43711da51b" class="">The core contract’s <code>burn</code> function handles paying the user back the tokens.</p><pre id="2b993205-8fb0-42d6-b52e-e1eec0c2b93f" class="code"><code>		(address token0,) = UniswapV2Library.sortTokens(tokenA, tokenB);</code></pre><p id="5f72aef0-ac81-4733-afc9-2ea9a851e564" class="">When a function returns multiple values, but we are only interested in some of them, this is how we only get those values. It is somewhat cheaper in gas terms than reading a value and never using it.</p><pre id="9c8936be-780a-4ded-bc0b-bde82cb9c167" class="code"><code>		(amountA, amountB) = tokenA == token0 ? (amount0, amount1) : (amount1, amount0);</code></pre><p id="90d5b449-0d14-4937-a70b-81da766acf80" class="">Translate the amounts from the way the core contract returns them (lower address token first) to the way the user expects them (corresponding to <code>tokenA</code> and <code>tokenB</code>).</p><pre id="d5cf6c38-6d50-4270-bde4-b2169e737983" class="code"><code>			require(amountA &gt;= amountAMin, &#x27;UniswapV2Router: INSUFFICIENT_A_AMOUNT&#x27;);
+      require(amountB &gt;= amountBMin, &#x27;UniswapV2Router: INSUFFICIENT_B_AMOUNT&#x27;);
+  }</code></pre><p id="edfc438c-d431-414c-95fe-2181d43b6685" class="">It is OK to do the transfer first and then verify it is legitimate, because if it isn’t we’ll revert out of all the state changes.</p><pre id="791370fb-58fe-4a6d-ae0a-c2fa2520ad9b" class="code"><code>		function removeLiquidityETH(
+        address token,
+        uint liquidity,
+        uint amountTokenMin,
+        uint amountETHMin,
+        address to,
+        uint deadline
+    ) public virtual override ensure(deadline) returns (uint amountToken, uint amountETH) {
+        (amountToken, amountETH) = removeLiquidity(
+            token,
+            WETH,
+            liquidity,
+            amountTokenMin,
+            amountETHMin,
+            address(this),
+            deadline
+        );
+        TransferHelper.safeTransfer(token, to, amountToken);
+        IWETH(WETH).withdraw(amountETH);
+        TransferHelper.safeTransferETH(to, amountETH);
+    }</code></pre><p id="a0063be6-2776-4d17-b558-bfea2b3b1e22" class="">Remove liquidity for ETH is almost the same, except that we receive the WETH tokens and then redeem them for ETH to gibe back to the liquidity provider.</p><pre id="c5d36ab2-1649-4f01-a7d7-a6ff2ffa7cf6" class="code"><code>		function removeLiquidityWithPermit(
+        address tokenA,
+        address tokenB,
+        uint liquidity,
+        uint amountAMin,
+        uint amountBMin,
+        address to,
+        uint deadline,
+        bool approveMax, uint8 v, bytes32 r, bytes32 s
+    ) external virtual override returns (uint amountA, uint amountB) {
+        address pair = UniswapV2Library.pairFor(factory, tokenA, tokenB);
+        uint value = approveMax ? uint(-1) : liquidity;
+        IUniswapV2Pair(pair).permit(msg.sender, address(this), value, deadline, v, r, s);
+        (amountA, amountB) = removeLiquidity(tokenA, tokenB, liquidity, amountAMin, amountBMin, to, deadline);
+    }
+
+
+    function removeLiquidityETHWithPermit(
+        address token,
+        uint liquidity,
+        uint amountTokenMin,
+        uint amountETHMin,
+        address to,
+        uint deadline,
+        bool approveMax, uint8 v, bytes32 r, bytes32 s
+    ) external virtual override returns (uint amountToken, uint amountETH) {
+        address pair = UniswapV2Library.pairFor(factory, token, WETH);
+        uint value = approveMax ? uint(-1) : liquidity;
+        IUniswapV2Pair(pair).permit(msg.sender, address(this), value, deadline, v, r, s);
+        (amountToken, amountETH) = removeLiquidityETH(token, liquidity, amountTokenMin, amountETHMin, to, deadline);
+    }</code></pre><p id="dfa7c346-5a0e-4742-9c24-65b41fc7e4bd" class="">These functions replay meta-transactions to allow users without ether to withdraw from the pool, using the permit mechanism.</p><pre id="75503bae-56b2-4782-a117-c2c89c88d4ff" class="code"><code>		// **** REMOVE LIQUIDITY (supporting fee-on-transfer tokens) ****
+    function removeLiquidityETHSupportingFeeOnTransferTokens(
+        address token,
+        uint liquidity,
+        uint amountTokenMin,
+        uint amountETHMin,
+        address to,
+        uint deadline
+    ) public virtual override ensure(deadline) returns (uint amountETH) {
+        (, amountETH) = removeLiquidity(
+            token,
+            WETH,
+            liquidity,
+            amountTokenMin,
+            amountETHMin,
+            address(this),
+            deadline
+        );
+        TransferHelper.safeTransfer(token, to, IERC20(token).balanceOf(address(this)));
+        IWETH(WETH).withdraw(amountETH);
+        TransferHelper.safeTransferETH(to, amountETH);
+    }</code></pre><p id="1eae17cc-2224-4bbe-b028-c9fe96bb2c8a" class="">This function can be used for tokens that have transfer or storage fees. When a token has such fees we cannot rely on the <code>removeLiquidity</code> function to tell us how much of the token we get back, so we need to withdraw first and then get the balance.</p><pre id="b88da485-00fd-4f69-9d2b-c784c8d8f97c" class="code"><code>		function removeLiquidityETHWithPermitSupportingFeeOnTransferTokens(
+        address token,
+        uint liquidity,
+        uint amountTokenMin,
+        uint amountETHMin,
+        address to,
+        uint deadline,
+        bool approveMax, uint8 v, bytes32 r, bytes32 s
+    ) external virtual override returns (uint amountETH) {
+        address pair = UniswapV2Library.pairFor(factory, token, WETH);
+        uint value = approveMax ? uint(-1) : liquidity;
+        IUniswapV2Pair(pair).permit(msg.sender, address(this), value, deadline, v, r, s);
+        amountETH = removeLiquidityETHSupportingFeeOnTransferTokens(
+            token, liquidity, amountTokenMin, amountETHMin, to, deadline
+        );
+    }</code></pre><p id="5e2b11f8-69ae-4d04-9fc8-021b8580651f" class="">The final function combines storage fees with meta-transactions.</p><hr id="22d7f211-cf67-45a4-8349-9e6c87df2b05"/><h3 id="22655a28-801b-4a7a-b309-2949e05a8d91" class="">Trade</h3><pre id="39fccdf8-036d-4817-8096-21bc234dc5c5" class="code"><code>		// **** SWAP ****
+    // requires the initial amount to have already been sent to the first pair
+    function _swap(uint[] memory amounts, address[] memory path, address _to) internal virtual {</code></pre><p id="c4c8c388-47e5-4b76-a63e-39f448f3290b" class="">This function performs internal processing that is required for the functions that are exposed to traders.</p><pre id="90f19d13-9489-4bd4-a292-f91e61f5adec" class="code"><code>			for (uint i; i &lt; path.length - 1; i++) {</code></pre><p id="7af22caf-7d40-42ce-8cd1-ffa42c1ce02f" class="">As I’m writing this there are 388,169 ERC-20 tokens. If there was a pair exchange for each token pair, it would be over a 150 billion pair exchanges. The entire chain, at the moment, only has 0.1% that number of accounts. Instead, the swap functions support the concept of a path. A trader can exchange A for B, B for C, and C for D, so there is no need for a direct A-D pair exchange.</p><p id="dbce144f-ee32-4fa2-afef-b9d91c78af2f" class="">
+</p><p id="fda60dc5-ca34-422e-b0c1-18404aee6804" class="">The prices on these markets tend to be synchronized, because when they are out of sync it creates an opportunity for arbitrage. Imagine, for example, three tokens, A, B, and C. There are three pair exchanges, one for each pair.</p><ol type="1" id="306db5e0-0507-46d7-8bfc-b00be54f5c6e" class="numbered-list" start="1"><li>The initial situation</li></ol><ol type="1" id="d77b8399-5281-4b7a-a027-f5ca81ab1d64" class="numbered-list" start="2"><li>A trader sells 24.695 A tokens and gets 25.306 B tokens.</li></ol><ol type="1" id="29a3e487-d577-433e-900b-a5e28e3c6f81" class="numbered-list" start="3"><li>The trader sells 24.695 B tokens for 25.305 C tokens, keeping approximately 0.61 B tokens as profit.</li></ol><ol type="1" id="f8948091-5298-4723-895c-c76255a62d0f" class="numbered-list" start="4"><li>Then the trader sells 24.695 C tokens for 25.305 A tokens, keeping approximately 0.61 C tokens as profit. The trader also has 0.61 extra A tokens (the 25.305 the trader ends up with, minus the original investment of 24.695).</li></ol><table id="012b37b3-47ee-4269-9c03-fe0a34e1bcde" class="simple-table"><tbody><tr id="b3181701-7d3b-4d33-8d29-e34a6f624aff"><td id="umQh" class="">Step</td><td id="oqZW" class="">A-B Exchange</td><td id="KLL}" class="">B-C Exchange</td><td id="Bru&gt;" class="">A-C Exchange</td></tr><tr id="5c9d6249-1266-48c5-b3df-80b7934d0bca"><td id="umQh" class="">1</td><td id="oqZW" class="">A:1000 B:1050 A/B=1.05</td><td id="KLL}" class="">B:1000 C:1050 B/C=1.05</td><td id="Bru&gt;" class="">A:1050 C:1000 C/A=1.05</td></tr><tr id="3eea44d4-0f48-4285-b496-42d80d252755"><td id="umQh" class="">2</td><td id="oqZW" class="">A:1024.695 B:1024.695 A/B=1</td><td id="KLL}" class="">B:1000 C:1050 B/C=1.05</td><td id="Bru&gt;" class="">A:1050 C:1000 C/A=1.05</td></tr><tr id="54100da2-dd0a-4c38-a53b-82419b5aaf95"><td id="umQh" class="">3</td><td id="oqZW" class="">A:1024.695 B:1024.695 A/B=1</td><td id="KLL}" class="">B:1024.695 C:1024.695 B/C=1</td><td id="Bru&gt;" class="">A:1050 C:1000 C/A=1.05</td></tr><tr id="d23e2a9a-7407-44a6-a240-f214e583b48e"><td id="umQh" class="">4</td><td id="oqZW" class="">A:1024.695 B:1024.695 A/B=1</td><td id="KLL}" class="">B:1024.695 C:1024.695 B/C=1</td><td id="Bru&gt;" class="">A:1024.695 C:1024.695 C/A=1</td></tr></tbody></table><pre id="5c1df04f-2b1a-4c2f-afd4-37351453bd0a" class="code"><code>			(address input, address output) = (path[i], path[i + 1]);
+      (address token0,) = UniswapV2Library.sortTokens(input, output);
+      uint amountOut = amounts[i + 1];</code></pre><p id="bd9cade0-13a4-4f20-b317-b6c3a5dc72ac" class="">Get the pair we are currently handling, sort it (for use with the pair) and get the expected output amount.</p><pre id="3aca4ff8-1627-4871-9a91-36dda6747e06" class="code"><code>			(uint amount0Out, uint amount1Out) = input == token0 ? (uint(0), amountOut) : (amountOut, uint(0));</code></pre><p id="ca0c4926-e8b8-475d-8e1a-75e3fd53cb9c" class="">Get the expected out amounts, sorted the way the pair exchange expects them to be.</p><pre id="cdcfe7c8-0b0b-4ad9-8c22-b5322ebd6f97" class="code"><code>			address to = i &lt; path.length - 2 ? UniswapV2Library.pairFor(factory, output, path[i + 2]) : _to;</code></pre><p id="569021c4-5050-43aa-b5d2-3fb45e234894" class="">Is this the last exchange? if so, send the tokens received for the trade to the destination. If not, send it to the next pair exchange.</p><pre id="f56eb232-7a97-4b96-b47e-2af8f078baaf" class="code"><code>						IUniswapV2Pair(UniswapV2Library.pairFor(factory, input, output)).swap(
+                amount0Out, amount1Out, to, new bytes(0)
+            );
+        }
+    }</code></pre><p id="a8a79d55-aa38-44c2-99ba-78c714ad3794" class="">Actually call the pair exchange to swap the tokens. We don’t need a callback to be told about the exchange, so we don’t send any bytes in that field.</p><pre id="fca938cf-e44f-48fc-a273-57c41ec8985e" class="code"><code>		function swapExactTokensForTokens(</code></pre><p id="76c4b87c-982f-4755-8f4c-6d20b52daef6" class="">This function is used directly by traders to swap one token for another.</p><pre id="d096a972-2c51-43ca-a555-fda8bd37baa4" class="code"><code>			uint amountIn,
+      uint amountOutMin,
+      address[] calldata path,</code></pre><p id="c259d5ee-6c80-4fc6-bf38-64d28cabf514" class="">This parameter contains the addresses of the ERC-20 contracts. As explained above, this is an array because you might need to. go through several pair exchanges to get from the asset you have to the asset you want.</p><p id="47b7d6c6-e8a2-4b89-8897-aa1798970090" class="">
+</p><p id="98afbb90-8f08-4dbe-b9cf-4457131d1eeb" class="">A function parameter in solidity can be stored either in <code>memory</code> or the <code>calldata</code>. If the function is an entry point to the contract, called directly from a user (using a transaction) or from a different contract, then the parameter’s value can be taken directly from the call data. If the function is called internally, as <code>_swap</code> above, then the parameters have to stored in <code>memory</code>. From the perspective of the called contract <code>calldata</code> is read only.</p><p id="aca3d596-5e35-4976-b7d8-356a1b9935e3" class="">
+</p><p id="3645ed38-c752-4769-947d-54df73ae9cbc" class="">With scalar types such as <code>uint</code> or <code>address</code> the compiler handles the choice of storage for us, but with arrays, which are longer and more expensive, we specify the type of storage to be used.</p><pre id="1a2ecf31-96d6-456c-ba2c-e833902b4de3" class="code"><code>		address to,
+    uint deadline
+) external virtual override ensure(deadline) returns (uint[] memory amounts) {</code></pre><p id="8470a07b-7abf-4983-bb83-f68cbf3c6ebd" class="">Return values are always returned in memory.</p><pre id="8069accf-66fc-4570-8944-0684c856961b" class="code"><code>		amounts = UniswapV2Library.getAmountsOut(factory, amountIn, path);
+    require(amounts[amounts.length - 1] &gt;= amountOutMin, &#x27;UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT&#x27;);</code></pre><p id="378b4f34-7f37-4690-940b-a9c120d25d32" class="">Calculate the amount to be purchased in each swap. If the result is less than the minimum the trader is willing to accept, revert out of the transaction.</p><pre id="8dd0dde7-4516-4061-9b63-4fc5ceda1152" class="code"><code>		TransferHelper.safeTransferFrom(
+        path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]
+    );
+    _swap(amounts, path, to);
+}</code></pre><p id="05e8dce3-80cd-4d8d-ac54-5801900a5dce" class="">Finally, transfer the initial ERC-20 token to the account for the first pair exchange and call <code>_swap</code>. This is all happening in the same transaction, so the pair exchange knows that any unexpected tokens are part of this transfer.</p><pre id="b8b49591-e459-47ec-8e22-f7ff09e8f035" class="code"><code>	function swapTokensForExactTokens(
+      uint amountOut,
+      uint amountInMax,
+      address[] calldata path,
+      address to,
+      uint deadline
+  ) external virtual override ensure(deadline) returns (uint[] memory amounts) {
+      amounts = UniswapV2Library.getAmountsIn(factory, amountOut, path);
+      require(amounts[0] &lt;= amountInMax, &#x27;UniswapV2Router: EXCESSIVE_INPUT_AMOUNT&#x27;);
+      TransferHelper.safeTransferFrom(
+          path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]
+      );
+      _swap(amounts, path, to);
+  }</code></pre><p id="14b82f9b-69b7-4694-99a8-1f4fbf331469" class="">The previous function, <code>swapTokensForTokens</code>, allows a trader to specify an exact number of input tokens he is willing to give and the minimum number of output tokens he is willing to receive in return. This function does the reverse swap, it lets a trader specify the number of output tokens he wants, and the maximum number of input tokens he is willing to pay for them.</p><p id="495fe103-96d4-4781-be65-ab018260d178" class="">
+</p><p id="4744ca4f-79f2-4ed6-922b-68b25e31b611" class="">In both cases, the trader has to give this periphery contract first an allowance to allow it to transfer them.</p><pre id="87b3585e-01fb-4d51-9264-677d709b5895" class="code"><code>		function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline)
+        external
+        virtual
+        override
+        payable
+        ensure(deadline)
+        returns (uint[] memory amounts)
+    {
+        require(path[0] == WETH, &#x27;UniswapV2Router: INVALID_PATH&#x27;);
+        amounts = UniswapV2Library.getAmountsOut(factory, msg.value, path);
+        require(amounts[amounts.length - 1] &gt;= amountOutMin, &#x27;UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT&#x27;);
+        IWETH(WETH).deposit{value: amounts[0]}();
+        assert(IWETH(WETH).transfer(UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]));
+        _swap(amounts, path, to);
+    }
+
+
+    function swapTokensForExactETH(uint amountOut, uint amountInMax, address[] calldata path, address to, uint deadline)
+        external
+        virtual
+        override
+        ensure(deadline)
+        returns (uint[] memory amounts)
+    {
+        require(path[path.length - 1] == WETH, &#x27;UniswapV2Router: INVALID_PATH&#x27;);
+        amounts = UniswapV2Library.getAmountsIn(factory, amountOut, path);
+        require(amounts[0] &lt;= amountInMax, &#x27;UniswapV2Router: EXCESSIVE_INPUT_AMOUNT&#x27;);
+        TransferHelper.safeTransferFrom(
+            path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]
+        );
+        _swap(amounts, path, address(this));
+        IWETH(WETH).withdraw(amounts[amounts.length - 1]);
+        TransferHelper.safeTransferETH(to, amounts[amounts.length - 1]);
+    }
+
+
+
+    function swapExactTokensForETH(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline)
+        external
+        virtual
+        override
+        ensure(deadline)
+        returns (uint[] memory amounts)
+    {
+        require(path[path.length - 1] == WETH, &#x27;UniswapV2Router: INVALID_PATH&#x27;);
+        amounts = UniswapV2Library.getAmountsOut(factory, amountIn, path);
+        require(amounts[amounts.length - 1] &gt;= amountOutMin, &#x27;UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT&#x27;);
+        TransferHelper.safeTransferFrom(
+            path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]
+        );
+        _swap(amounts, path, address(this));
+        IWETH(WETH).withdraw(amounts[amounts.length - 1]);
+        TransferHelper.safeTransferETH(to, amounts[amounts.length - 1]);
+    }
+
+
+    function swapETHForExactTokens(uint amountOut, address[] calldata path, address to, uint deadline)
+        external
+        virtual
+        override
+        payable
+        ensure(deadline)
+        returns (uint[] memory amounts)
+    {
+        require(path[0] == WETH, &#x27;UniswapV2Router: INVALID_PATH&#x27;);
+        amounts = UniswapV2Library.getAmountsIn(factory, amountOut, path);
+        require(amounts[0] &lt;= msg.value, &#x27;UniswapV2Router: EXCESSIVE_INPUT_AMOUNT&#x27;);
+        IWETH(WETH).deposit{value: amounts[0]}();
+        assert(IWETH(WETH).transfer(UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]));
+        _swap(amounts, path, to);
+        // refund dust eth, if any
+        if (msg.value &gt; amounts[0]) TransferHelper.safeTransferETH(msg.sender, msg.value - amounts[0]);
+    }</code></pre><p id="66e17354-1654-4264-ae64-e98f3cdf05fe" class="">These four variants all involve trading between ETH and tokens. The only difference is that we either receive ETH from the trader and use it to mint WETH, or we receive WETH from the last exchange in the path and burn it, sending the trader back the resulting ETH.</p><pre id="93cf5787-e905-4291-bc6f-780c8f954c33" class="code"><code>		// **** SWAP (supporting fee-on-transfer tokens) ****
+    // requires the initial amount to have already been sent to the first pair
+    function _swapSupportingFeeOnTransferTokens(address[] memory path, address _to) internal virtual {</code></pre><p id="00451ee8-3a6b-4cc8-ade5-796595d3e509" class="">This is the internal function to swap tokens that have transfer or storage fees to solve.</p><pre id="e98cf30d-5066-4823-8b77-7f13309180d7" class="code"><code>		for (uint i; i &lt; path.length - 1; i++) {
+        (address input, address output) = (path[i], path[i + 1]);
+        (address token0,) = UniswapV2Library.sortTokens(input, output);
+        IUniswapV2Pair pair = IUniswapV2Pair(UniswapV2Library.pairFor(factory, input, output));
+        uint amountInput;
+        uint amountOutput;
+        { // scope to avoid stack too deep errors
+        (uint reserve0, uint reserve1,) = pair.getReserves();
+        (uint reserveInput, uint reserveOutput) = input == token0 ? (reserve0, reserve1) : (reserve1, reserve0);
+        amountInput = IERC20(input).balanceOf(address(pair)).sub(reserveInput);
+        amountOutput = UniswapV2Library.getAmountOut(amountInput, reserveInput, reserveOutput);</code></pre><p id="328c5a1b-5595-41ee-b22c-5b7a494ca5d2" class="">Because of the transfer fees we cannot rely on the <code>getAmountsOut</code> function to tell us how much we get out of each transfer (the way we do before calling the original <code>_swap</code>). Instead we have to transfer first and then see how many tokens we got back.</p><p id="1a6dea66-4ca4-47df-81af-2957798816b0" class="">
+</p><p id="1a13fe1e-c97c-4bcd-bfe7-79e66f57d5c3" class="">Note: In theory we could just use this function instead of <code>_swap</code>, but in certain cases (for example, if the transfer ends up being reverted because there isn&#x27;t enough at the end to meet the required minimum) that would end up costing more gas. Transfer fee tokens are pretty rare, so while we need to accommodate them there&#x27;s no need to all swaps to assume they go through at least one of them.</p><pre id="eb92f4a5-eea2-4b63-84ac-37ec42a43e53" class="code"><code>		}
+            (uint amount0Out, uint amount1Out) = input == token0 ? (uint(0), amountOutput) : (amountOutput, uint(0));
+            address to = i &lt; path.length - 2 ? UniswapV2Library.pairFor(factory, output, path[i + 2]) : _to;
+            pair.swap(amount0Out, amount1Out, to, new bytes(0));
+        }
+    }
+
+
+    function swapExactTokensForTokensSupportingFeeOnTransferTokens(
+        uint amountIn,
+        uint amountOutMin,
+        address[] calldata path,
+        address to,
+        uint deadline
+    ) external virtual override ensure(deadline) {
+        TransferHelper.safeTransferFrom(
+            path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amountIn
+        );
+        uint balanceBefore = IERC20(path[path.length - 1]).balanceOf(to);
+        _swapSupportingFeeOnTransferTokens(path, to);
+        require(
+            IERC20(path[path.length - 1]).balanceOf(to).sub(balanceBefore) &gt;= amountOutMin,
+            &#x27;UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT&#x27;
+        );
+    }
+
+
+    function swapExactETHForTokensSupportingFeeOnTransferTokens(
+        uint amountOutMin,
+        address[] calldata path,
+        address to,
+        uint deadline
+    )
+        external
+        virtual
+        override
+        payable
+        ensure(deadline)
+    {
+        require(path[0] == WETH, &#x27;UniswapV2Router: INVALID_PATH&#x27;);
+        uint amountIn = msg.value;
+        IWETH(WETH).deposit{value: amountIn}();
+        assert(IWETH(WETH).transfer(UniswapV2Library.pairFor(factory, path[0], path[1]), amountIn));
+        uint balanceBefore = IERC20(path[path.length - 1]).balanceOf(to);
+        _swapSupportingFeeOnTransferTokens(path, to);
+        require(
+            IERC20(path[path.length - 1]).balanceOf(to).sub(balanceBefore) &gt;= amountOutMin,
+            &#x27;UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT&#x27;
+        );
+    }
+
+
+    function swapExactTokensForETHSupportingFeeOnTransferTokens(
+        uint amountIn,
+        uint amountOutMin,
+        address[] calldata path,
+        address to,
+        uint deadline
+    )
+        external
+        virtual
+        override
+        ensure(deadline)
+    {
+        require(path[path.length - 1] == WETH, &#x27;UniswapV2Router: INVALID_PATH&#x27;);
+        TransferHelper.safeTransferFrom(
+            path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amountIn
+        );
+        _swapSupportingFeeOnTransferTokens(path, address(this));
+        uint amountOut = IERC20(WETH).balanceOf(address(this));
+        require(amountOut &gt;= amountOutMin, &#x27;UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT&#x27;);
+        IWETH(WETH).withdraw(amountOut);
+        TransferHelper.safeTransferETH(to, amountOut);
+    }</code></pre><p id="6ca8ca64-df20-4ac7-a9de-8899ce029abe" class="">These are the same variants used for normal tokens, but they call <code>_swapSupportingFeeOnTransferTokens</code> instead.</p><pre id="07159076-c2d9-4530-a057-0629eb0431b2" class="code"><code>// **** LIBRARY FUNCTIONS ****
+    function quote(uint amountA, uint reserveA, uint reserveB) public pure virtual override returns (uint amountB) {
+        return UniswapV2Library.quote(amountA, reserveA, reserveB);
+    }
+
+    function getAmountOut(uint amountIn, uint reserveIn, uint reserveOut)
+        public
+        pure
+        virtual
+        override
+        returns (uint amountOut)
+    {
+        return UniswapV2Library.getAmountOut(amountIn, reserveIn, reserveOut);
+    }
+
+    function getAmountIn(uint amountOut, uint reserveIn, uint reserveOut)
+        public
+        pure
+        virtual
+        override
+        returns (uint amountIn)
+    {
+        return UniswapV2Library.getAmountIn(amountOut, reserveIn, reserveOut);
+    }
+
+    function getAmountsOut(uint amountIn, address[] memory path)
+        public
+        view
+        virtual
+        override
+        returns (uint[] memory amounts)
+    {
+        return UniswapV2Library.getAmountsOut(factory, amountIn, path);
+    }
+
+    function getAmountsIn(uint amountOut, address[] memory path)
+        public
+        view
+        virtual
+        override
+        returns (uint[] memory amounts)
+    {
+        return UniswapV2Library.getAmountsIn(factory, amountOut, path);
+    }
+}</code></pre><p id="047dbb36-968e-4a68-81f5-032723131d69" class="">These functions are just proxies that call the UniswapV2Library functions.</p><hr id="987be415-f07d-42d7-a2a6-d6de0b30653e"/><h2 id="956c7439-0f10-4994-82f5-06e759cd64be" class="">UniswapV2Migrator.sol</h2><p id="ab3ff562-f76e-44fa-b599-8d8dc8944e19" class="">This contract was used to migrate exchanges from the old v1 to v2. Now that they have been migrated, it is no longer relevant.</p><hr id="ed7311b9-25ba-471a-8431-09d7bb6017b7"/><h1 id="57adbcc4-b49f-4f0d-ac88-fc4708f6b01f" class="">THE LIBRARIES</h1><p id="deabb3d6-fdc2-4a41-850b-8836609b5e66" class="">The SafeMath library is well documented, so there’s no need to document it here.</p><h2 id="c367a2ee-47c4-41c9-a62f-80d85f33ce8a" class="">Math</h2><p id="a2b393a8-f276-4863-9641-4c85aa8b7fa8" class="">This library contains some math functions that are not normally needed in Solidity code, so they aren’t part of the language.</p><pre id="72180865-5c7c-4746-9c0f-399f6d757d12" class="code"><code>pragma solidity =0.5.16;
+
+// a library for performing various math operations
+
+library Math {
+    function min(uint x, uint y) internal pure returns (uint z) {
+        z = x &lt; y ? x : y;
+    }
+
+    // babylonian method (https://wikipedia.org/wiki/Methods_of_computing_square_roots#Babylonian_method)
+    function sqrt(uint y) internal pure returns (uint z) {
+        if (y &gt; 3) {
+            z = y;
+            uint x = y / 2 + 1;</code></pre><p id="6a7c1606-7ff1-48c2-8fbd-e02f064f63d9" class="">Start with x as an estimate that is higher than the square root (that is the reason we need to treat 1-3 as special cases).</p><pre id="54ec894c-b7fd-4b35-9267-e065b99c2335" class="code"><code>		while (x &lt; z) {
+            z = x;
+            x = (y / x + x) / 2;</code></pre><p id="845cba4f-4917-4503-a503-788aee2f97a6" class="">Get a closer estimate, the average of the previous estimate and the number whose square root we&#x27;re trying to find divided by the previous estimate. Repeat until the new estimate isn&#x27;t lower than the existing one. For more details, <a href="https://wikipedia.org/wiki/Methods_of_computing_square_roots#Babylonian_method">see here</a>.</p><pre id="80693d53-6761-4842-9042-193bc4b62a8d" class="code"><code>		}
+        } else if (y != 0) {
+            z = 1;</code></pre><p id="9ac2e6c6-8a99-4985-99e5-fc2934917d70" class="">We should never need the square root of zero. The square roots of one, two, and three are roughly one (we use integers, so we ignore the fraction).</p><pre id="df955924-11ba-4e55-a210-9f3cbde53c34" class="code"><code>				}
+    }
+}</code></pre><hr id="0df3fd4c-e119-41e0-9d5a-2c6e6effede8"/><h2 id="2576b116-cab7-4572-870a-46d78272259d" class="">Fixed Point Fractions (UQ112X112)</h2><p id="cbd52e93-1108-4050-bd4d-0926b480f4a9" class="">This library handles fractions, which are normally not part of Ethereum arithmetic. It does this by encoding the number <em>x</em> as <em>x*2^112</em>. This lets us use the original addition and subtraction opcodes without a change.</p><pre id="6d0def08-9884-4527-b060-a3643acf61c5" class="code"><code>pragma solidity =0.5.16;
+
+// a library for handling binary fixed point numbers (https://wikipedia.org/wiki/Q_(number_format))
+
+// range: [0, 2**112 - 1]
+// resolution: 1 / 2**112
+
+library UQ112x112 {
+    uint224 constant Q112 = 2**112;</code></pre><p id="f58b3b1d-eeba-4250-b5c7-984e269858f2" class=""><code>Q112</code> IS THE ENCODING FOR ONE.</p><pre id="7ea1b5dc-f5dd-4b82-8520-5112d55ddac6" class="code"><code>		// encode a uint112 as a UQ112x112
+    function encode(uint112 y) internal pure returns (uint224 z) {
+        z = uint224(y) * Q112; // never overflows
+    }</code></pre><p id="5b835fb7-5214-46cd-af58-9c3c37e14b49" class="">Because y is <code>uint112</code>, the most it can be is 2^112-1. That number can still be encoded as a <code>UQ112x112</code>.</p><pre id="1c71ff77-3123-4fbe-b3ea-e6af9ffe191e" class="code"><code>		// divide a UQ112x112 by a uint112, returning a UQ112x112
+    function uqdiv(uint224 x, uint112 y) internal pure returns (uint224 z) {
+        z = x / uint224(y);
+    }
+}</code></pre><p id="24868b14-0b67-40e9-9a37-b0e255ec58e3" class="">If we divide two <code>UQ112x112</code> values, the result is no longer multiplied by 2^112. So instead we take an integer for the denominator. We would have needed to use a similar trick to do multiplication, but we don&#x27;t need to do multiplication of <code>UQ112x112</code> values.</p><hr id="a0a6bc1b-bd41-466e-874a-fe71e7bd672e"/><h2 id="8985c974-761d-4661-a5fd-954136649148" class="">UniswapV2Libarary</h2><p id="9c8f9e96-6915-424c-af9b-9ef62c8f78ac" class="">This library is used only by the periphery contracts.</p><pre id="7a1d9d26-1a07-4908-9b82-510605c48b21" class="code"><code>pragma solidity &gt;=0.5.0;
+
+import &#x27;@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol&#x27;;
+
+import &quot;./SafeMath.sol&quot;;
+
+library UniswapV2Library {
+    using SafeMath for uint;
+
+    // returns sorted token addresses, used to handle return values from pairs sorted in this order
+    function sortTokens(address tokenA, address tokenB) internal pure returns (address token0, address token1) {
+        require(tokenA != tokenB, &#x27;UniswapV2Library: IDENTICAL_ADDRESSES&#x27;);
+        (token0, token1) = tokenA &lt; tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
+        require(token0 != address(0), &#x27;UniswapV2Library: ZERO_ADDRESS&#x27;);
+    }</code></pre><p id="148b1a95-1f7a-44ca-9b07-996476d57734" class="">Sort the two tokens by address, so we&#x27;ll be able to get the address of the pair exchange for them. This is necessary because otherwise we&#x27;d have two possibilities, one for the parameters A,B and another for the parameters B,A, leading to two exchanges instead of one.</p><pre id="7f09b7ae-3824-4a0f-8cc7-b3bf2a04d270" class="code"><code>// calculates the CREATE2 address for a pair without making any external calls
+    function pairFor(address factory, address tokenA, address tokenB) internal pure returns (address pair) {
+        (address token0, address token1) = sortTokens(tokenA, tokenB);
+        pair = address(uint(keccak256(abi.encodePacked(
+                hex&#x27;ff&#x27;,
+                factory,
+                keccak256(abi.encodePacked(token0, token1)),
+                hex&#x27;96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f&#x27; // init code hash
+            ))));
+    }</code></pre><p id="31f5cb02-1d6d-4ada-b8b8-55b27c549701" class="">This function calculates the address of the pair exchange for the two tokens. This contract is created using <a href="https://eips.ethereum.org/EIPS/eip-1014">the CREATE2 opcode</a>, so we can calculate the address using the same algorithm if we know the parameters it uses. This is a lot cheaper than asking the factory, and</p><pre id="3d35f478-07c8-4ea4-922b-6046721ab97a" class="code"><code>		// fetches and sorts the reserves for a pair
+    function getReserves(address factory, address tokenA, address tokenB) internal view returns (uint reserveA, uint reserveB) {
+        (address token0,) = sortTokens(tokenA, tokenB);
+        (uint reserve0, uint reserve1,) = IUniswapV2Pair(pairFor(factory, tokenA, tokenB)).getReserves();
+        (reserveA, reserveB) = tokenA == token0 ? (reserve0, reserve1) : (reserve1, reserve0);
+    }</code></pre><p id="d48f5de2-1bd3-4de9-93b2-29dd8a77a2cd" class="">This function returns the reserves of the two tokens that the pair exchange has. Note that it can receive the tokens in either order, and sorts them for internal use.</p><pre id="4eba15a2-5ebe-4c9b-9c35-b07266a356ab" class="code"><code>		// given some amount of an asset and pair reserves, returns an equivalent amount of the other asset
+    function quote(uint amountA, uint reserveA, uint reserveB) internal pure returns (uint amountB) {
+        require(amountA &gt; 0, &#x27;UniswapV2Library: INSUFFICIENT_AMOUNT&#x27;);
+        require(reserveA &gt; 0 &amp;&amp; reserveB &gt; 0, &#x27;UniswapV2Library: INSUFFICIENT_LIQUIDITY&#x27;);
+        amountB = amountA.mul(reserveB) / reserveA;
+    }</code></pre><p id="853f96e1-62d0-4360-886e-13c6093835e7" class="">This function gives you the amount of token B you&#x27;ll get in return for token A if there is no fee involved. This calculation takes into account that the transfer changes the exchange rate.</p><pre id="289fb34d-a81b-4988-b6ba-c5d6b7fc2c70" class="code"><code>		// given an input amount of an asset and pair reserves, returns the maximum output amount of the other asset
+    function getAmountOut(uint amountIn, uint reserveIn, uint reserveOut) internal pure returns (uint amountOut) {</code></pre><p id="bdd2cb5a-4361-43ca-b3d6-ce1217242869" class="">The <code>quote</code> function above works great if there is no fee to use the pair exchange. However, if there is a 0.3% exchange fee the amount you actually get is lower. This function calculates the amount after the exchange fee.</p><pre id="d51e35fa-7e8c-49ac-a0a9-5d40f8672b7c" class="code"><code>			require(amountIn &gt; 0, &#x27;UniswapV2Library: INSUFFICIENT_INPUT_AMOUNT&#x27;);
+      require(reserveIn &gt; 0 &amp;&amp; reserveOut &gt; 0, &#x27;UniswapV2Library: INSUFFICIENT_LIQUIDITY&#x27;);
+      uint amountInWithFee = amountIn.mul(997);
+      uint numerator = amountInWithFee.mul(reserveOut);
+      uint denominator = reserveIn.mul(1000).add(amountInWithFee);
+      amountOut = numerator / denominator;
+  }</code></pre><p id="82239865-8d55-453d-ac97-aaf3abfbef52" class="">Solidity does not handle fractions natively, so we can&#x27;t just multiply the amount out by 0.997. Instead, we multiply the numerator by 997 and the denominator by 1000, achieving the same effect.</p><pre id="c174cf18-cd6a-4e5a-bcb9-8ae8f704c3d3" class="code"><code>		// given an output amount of an asset and pair reserves, returns a required input amount of the other asset
+    function getAmountIn(uint amountOut, uint reserveIn, uint reserveOut) internal pure returns (uint amountIn) {
+        require(amountOut &gt; 0, &#x27;UniswapV2Library: INSUFFICIENT_OUTPUT_AMOUNT&#x27;);
+        require(reserveIn &gt; 0 &amp;&amp; reserveOut &gt; 0, &#x27;UniswapV2Library: INSUFFICIENT_LIQUIDITY&#x27;);
+        uint numerator = reserveIn.mul(amountOut).mul(1000);
+        uint denominator = reserveOut.sub(amountOut).mul(997);
+        amountIn = (numerator / denominator).add(1);
+    }</code></pre><p id="5ad1c70d-cb96-4ec7-9717-afa3f8bd6462" class="">This function does roughly the same thing, but it gets the output amount and provides the input.</p><pre id="aaa9edc9-41d2-4a84-a761-e962a1437c08" class="code"><code>		// performs chained getAmountOut calculations on any number of pairs
+    function getAmountsOut(address factory, uint amountIn, address[] memory path) internal view returns (uint[] memory amounts) {
+        require(path.length &gt;= 2, &#x27;UniswapV2Library: INVALID_PATH&#x27;);
+        amounts = new uint[](path.length);
+        amounts[0] = amountIn;
+        for (uint i; i &lt; path.length - 1; i++) {
+            (uint reserveIn, uint reserveOut) = getReserves(factory, path[i], path[i + 1]);
+            amounts[i + 1] = getAmountOut(amounts[i], reserveIn, reserveOut);
+        }
+    }
+
+    // performs chained getAmountIn calculations on any number of pairs
+    function getAmountsIn(address factory, uint amountOut, address[] memory path) internal view returns (uint[] memory amounts) {
+        require(path.length &gt;= 2, &#x27;UniswapV2Library: INVALID_PATH&#x27;);
+        amounts = new uint[](path.length);
+        amounts[amounts.length - 1] = amountOut;
+        for (uint i = path.length - 1; i &gt; 0; i--) {
+            (uint reserveIn, uint reserveOut) = getReserves(factory, path[i - 1], path[i]);
+            amounts[i - 1] = getAmountIn(amounts[i], reserveIn, reserveOut);
+        }
+    }
+}</code></pre><p id="6c222112-c6f4-4c04-a20d-9b12c0bfc4f6" class="">These two functions handle identifying the values when it is necessary to go through several pair exchanges.</p><hr id="394bb47a-d5a3-4382-90b8-78f4764322ed"/><h3 id="855714bb-de53-47e9-b967-e7e81267412f" class="">Transfer Helper</h3><p id="95895569-48ee-44bf-b26f-5534890ef3c2" class=""><a href="https://github.com/Uniswap/uniswap-lib/blob/master/contracts/libraries/TransferHelper.sol">This library</a> adds success checks around ERC-20 and Ethereum transfers to treat a revert and a <code>false</code> value return the same way.</p><pre id="c0acc634-2bb9-4951-b7ea-482aff5711d7" class="code"><code>// SPDX-License-Identifier: GPL-3.0-or-later
+
+pragma solidity &gt;=0.6.0;
+
+// helper methods for interacting with ERC20 tokens and sending ETH that do not consistently return true/false
+library TransferHelper {
+    function safeApprove(
+        address token,
+        address to,
+        uint256 value
+    ) internal {
+        // bytes4(keccak256(bytes(&#x27;approve(address,uint256)&#x27;)));
+        (bool success, bytes memory data) = token.call(abi.encodeWithSelector(0x095ea7b3, to, value));</code></pre><p id="9839d700-d3cb-4631-a8c2-4aaf2fdaa5a0" class="">We can call a different contract in one of two ways:</p><ul id="7897c51f-9c86-46d4-942e-188d5b11ed5f" class="bulleted-list"><li style="list-style-type:disc">Use an interface definition to create a function call</li></ul><ul id="d4280d12-7577-401f-ab87-792244e13c58" class="bulleted-list"><li style="list-style-type:disc">Use the <a href="https://docs.soliditylang.org/en/v0.8.3/abi-spec.html">application binary interface (ABI)</a> &quot;manually&quot; to create the call. This is what the author of the code decided to do it.</li></ul><pre id="3239d7fd-a4be-4943-a09c-5c135d2e8fc3" class="code"><code>			require(
+          success &amp;&amp; (data.length == 0 || abi.decode(data, (bool))),
+          &#x27;TransferHelper::safeApprove: approve failed&#x27;
+      );
+  }</code></pre><p id="304ec1ad-6c1f-4495-bb30-6b454e377a5e" class="">For the sake of backwards compatibility with token that were created prior to the ERC-20 standard, an ERC-20 call can fail either by reverting (in which case <code>success</code> is <code>false</code>) or by being successful and returning a <code>false</code> value (in which case there is output data, and if you decode it as a boolean you get <code>false</code>).</p><pre id="25c91604-4de4-4cd6-a9ac-89e69f805460" class="code"><code>		function safeTransfer(
+        address token,
+        address to,
+        uint256 value
+    ) internal {
+        // bytes4(keccak256(bytes(&#x27;transfer(address,uint256)&#x27;)));
+        (bool success, bytes memory data) = token.call(abi.encodeWithSelector(0xa9059cbb, to, value));
+        require(
+            success &amp;&amp; (data.length == 0 || abi.decode(data, (bool))),
+            &#x27;TransferHelper::safeTransfer: transfer failed&#x27;
+        );
+    }</code></pre><p id="05d64ec4-f5a5-4947-9f48-e22dee947a64" class="">This function implements <a href="https://eips.ethereum.org/EIPS/eip-20#transfer">ERC-20&#x27;s transfer functionality</a>, which allows an account to spend out the allowance provided by a different account.</p><pre id="18ff5f36-1261-4a6c-8a29-d6f9017c1fbc" class="code"><code>		function safeTransferFrom(
+        address token,
+        address from,
+        address to,
+        uint256 value
+    ) internal {
+        // bytes4(keccak256(bytes(&#x27;transferFrom(address,address,uint256)&#x27;)));
+        (bool success, bytes memory data) = token.call(abi.encodeWithSelector(0x23b872dd, from, to, value));
+        require(
+            success &amp;&amp; (data.length == 0 || abi.decode(data, (bool))),
+            &#x27;TransferHelper::transferFrom: transferFrom failed&#x27;
+        );
+    }</code></pre><p id="e90ad9e4-95b1-49a4-9ede-e5408ebd10a6" class="">This function implements <a href="https://eips.ethereum.org/EIPS/eip-20#transferfrom">ERC-20&#x27;s transferFrom functionality</a>, which allows an account to spend out the allowance provided by a different account.</p><pre id="743d9601-1a8f-4135-855c-f76bb2e00c39" class="code"><code>		function safeTransferETH(address to, uint256 value) internal {
+        (bool success, ) = to.call{value: value}(new bytes(0));
+        require(success, &#x27;TransferHelper::safeTransferETH: ETH transfer failed&#x27;);
+    }
+}</code></pre><p id="dbf1bfd8-df1c-4618-8ac8-710cde948a0b" class="">This function transfers ether to an account. Any call to a different contract can attempt to send ether. Because we don&#x27;t need to actually call any function, we don&#x27;t send any data with the call.</p></div></article></body></html>

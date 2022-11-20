@@ -1,6 +1,6 @@
 # Check Over Domain Renewals
 
-Assignee: 익명
+Assignee: Thomas Frank
 Done: No
 Due: 2022년 10월 31일
 First Weekday Base Date: 1998년 9월 28일 오후 1:00
