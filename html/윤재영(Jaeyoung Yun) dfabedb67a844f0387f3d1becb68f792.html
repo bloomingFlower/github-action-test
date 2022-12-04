@@ -1,0 +1,700 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>윤재영(Jaeyoung Yun)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="dfabedb6-7a84-4f03-87f3-d1becb68f792" class="page sans"><header><h1 class="page-title">윤재영(Jaeyoung Yun)</h1></header><div class="page-body"><p id="ada864ec-052a-45dd-b0c6-5c40078ef5fb" class="">8년차(석사 2년, 현업 6년 차), 블록체인 코어 개발 핵심 개발자를 지향합니다.</p><div id="547b1fab-ffb9-4826-a733-cd234a0cdb07" class="column-list"><div id="f7e62be7-3736-4ca9-8280-232d5676feb8" style="width:31.25%" class="column"><figure id="88318dfb-11ee-4b9b-bbd5-6c910d374d9e" class="image"><a href="%E1%84%8B%E1%85%B2%E1%86%AB%E1%84%8C%E1%85%A2%E1%84%8B%E1%85%A7%E1%86%BC(Jaeyoung%20Yun)%20dfabedb67a844f0387f3d1becb68f792/B61E2CD4-BA2A-4972-A55F-8FD173457A48.png"><img style="width:1080px" src="%E1%84%8B%E1%85%B2%E1%86%AB%E1%84%8C%E1%85%A2%E1%84%8B%E1%85%A7%E1%86%BC(Jaeyoung%20Yun)%20dfabedb67a844f0387f3d1becb68f792/B61E2CD4-BA2A-4972-A55F-8FD173457A48.png"/></a></figure></div><div id="8c9f260b-ed56-4c8e-a722-163591f9096b" style="width:68.75%" class="column"><h3 id="34896075-3f3a-4f31-bd65-17917fa39d93" class=""><mark class="highlight-orange">Contact.</mark></h3><p id="81abf5a5-2db4-46a8-a757-37d75a11bb4c" class="">Email. <strong>changetheworld21c@gmail.com</strong></p><p id="abe32034-65c7-4a9a-8bfe-89616555e744" class="">Phone. <strong>010-2204-6006</strong></p><h3 id="3a387a74-e3a6-4a0f-8691-01aacbacefed" class=""><mark class="highlight-orange">Channel.</mark></h3><p id="1cea720d-e4cc-4524-b8b4-20ce3b8a2038" class="">GitHub. <a href="https://github.com/bloomingFlower">https://github.com/bloomingFlower</a></p><p id="38e09ccb-ab3c-431d-a605-9afa30f778fa" class="">
+</p></div></div><hr id="016a63f4-53e8-46ef-85e4-eae117f5c49b"/><h1 id="e48660ee-8d1e-4423-95c8-dfd3db4916e0" class="block-color-orange"><mark class="highlight-orange">Introduce.</mark></h1><p id="61ce85e9-e114-453c-929d-6cb129936760" class="">안녕하세요! 블록체인의 기술적 한계를 계속하여 무너뜨리고 사용성을 확장하는데 일조할 윤재영입니다. 하드웨어(전자공학)-컴퓨터 로우레벨(임베디드/커널/병렬컴퓨팅)-컴퓨터 하이레벨(WEB 2.0)까지 해보고 블록체인 역량을 키워나가는 엔지니어입니다.</p><p id="6efe2415-379d-4171-bf8b-62906431a0e1" class="">컴퓨터 아키텍처 연구실에서 이종멀티코어 병렬처리 최적화 런타임 시스템 연구로 석사 2년! 
+개발자로 제조, 유통, 물류, 방송, 금융업계 관련 B2B, B2C 시스템을 5.33년간 다수 설계 개발했습니다!
+블록체인에 큰 매력을 느껴 해당 업계에 참여하고자 합니다!</p><p id="c5c0cc8d-a8f6-4bcc-8f5d-a9b3a930ff27" class="">블록체인에 다이브한 지 8개월정도 되었습니다.</p><p id="b966c920-67af-47a6-8500-ff636513824f" class="">고려대학교 기반 블록체인 학회인 Blockchain Valley 1기 노드(구성원)로 2022년 3월부터 활동하고 있습니다.(저는 경북대학교 학사, UNIST 석사 출신 입니다.)</p><p id="19fdc27d-f4ae-48a9-8e41-0f4efad1f577" class="">컨트랙트 보안 연구팀 MATZIP에서 2022년 9월부터 활동하고 있습니다. </p><p id="4794b7bc-6f6f-4b50-aec6-8e3dd8751034" class="">
+</p><hr id="b1d91c77-25e3-4f35-b558-41beb592bdf9"/><h1 id="910c13d5-fe63-4bbd-a788-12af634805c6" class=""><mark class="highlight-orange">Why Blockchain?</mark></h1><p id="2a41394c-e1b4-4a3b-9acd-80229837d98e" class="">제 적성에 맞고 즐겁게 몰입할 수 있는 기술입니다.</p><p id="47ad14ef-4b82-4f4c-b2dd-d5641da68515" class="">블록체인의 사용성과 활용성을 확장해 모든 사람들이 네트워크나 컴퓨테이션 환경의 제약 없이 상당 수 컴퓨터 어플리케이션의 도움을 받을 수 있는 생태계를 만드는데 기여하고자 합니다!</p><p id="bad25add-9b91-4df7-8489-2004195f105e" class="">연구하고 공부하는 것을 좋아하고 동시에 영향력이 큰 기술을 하고 싶다는 생각을 늘 했습니다. 그래서 대학원에 진학했었습니다. 하지만 CS(Computer Science)의 영역에서도 가장 low level에 가까운 전공분야를 하다 보니 기존의 기술(HMP)에 비해 월등히 좋은 결과물을 만들어내어도 이것으로 인해 주변 사람이나 인류에 직접적으로 선한 영향을 주기 어렵다고 생각했습니다. 박사까지 진학하려던 생각을 접고 사람들의 실생활에 맞닿아 있는 영역의 일을 해보자 했지만, 기술에 대한 갈증을 해결해주지 못했습니다. 치열하게 구조도를 그리고 수식을 써가며 자다 가도 깨서 메모하던 시절이 그리웠습니다.
+처음에는 딥러닝에 관심이 생겨 회사 그룹 내에 빅데이터하던 분들과 함께 스터디를 꾸렸고 책도 몇 권을 뗐지만 근본적인 한계를 느꼈습니다. 이건 내가 할 수 있는 분야가 아니고 하려고 해도 크게 turn around가 필요한 걸 깨달았습니다. 그리고 클라우드, 자동화 쪽도 살펴봤지만 제가 원하는 것이 아니었습니다.
+그러던 와중에 블록체인을 올해 초에 기술로서 접했습니다. 설연휴를 따로 놀러 나가지 않고 블록체인 관련 책과 강좌를 보며 함께했습니다. 그리고 어림 짐작했습니다.</p><p id="74785b1d-aa7a-4b4b-8544-6520e8b644e5" class="">“이건 내가 잘 할 수 있는 분야이고 또한 그 쓰임새나 영향력이 매우 큰 기술이다.”</p><p id="4afc0100-abfb-49b9-9f9c-639c9ac9b555" class="">
+</p><hr id="427f7aa7-aa3d-4774-b4bb-f1c12fb0c38c"/><h1 id="8a5eaeeb-d194-48b2-ac85-bad6efb581e2" class=""><mark class="highlight-orange">The Reason Why I Can Do Well.</mark></h1><p id="a529d40d-d3a2-4af7-9840-580fef8261e6" class="">EVM(Ethereum Virtual Machine) 및 WASM(Web Assembly) 기반 VM(Virtual Machine)의 개발 및 고도화에 관심을 갖고 있습니다. 코어에 대해 아직 제대로 알진 못하지만 제가 생각하는 코어 개발에 대한 저의 강점은 아래와 같습니다.</p><ul id="35fd7a67-5ff4-4f79-a6c1-49e26395ffc7" class="bulleted-list"><li style="list-style-type:disc">병렬컴퓨팅 주제로 석사 학위 취득. 주요 메인넷인 Solana, Avalanche, Aptos는 CPU 성능에 bound 되는 TPS(Transaction Per Second)를 가짐.</li></ul><ul id="c7fc80f3-6164-4d16-973b-99a45e6a1279" class="bulleted-list"><li style="list-style-type:disc">임베디드 전공 및 리눅스 환경에서 런타임 시스템을 C언어로 개발한 경험. Low-Level 언어에 대한 이해를 갖춤.</li></ul><ul id="375a6689-2c21-4e59-8fd0-7a4732f5709d" class="bulleted-list"><li style="list-style-type:disc">컴퓨터 하드웨어 및 아키텍처에 대한 이해. VM의 동작을 이해하고 개선하는데 큰 도움을 줄 수 있는 지식.</li></ul><ul id="9bd6a30c-1b30-4fda-8fd9-400d33730a71" class="bulleted-list"><li style="list-style-type:disc">WEB2 개발을 통해 Client Level에 대한 동작을 고려할 수 있는 경험 축적.</li></ul><ul id="0212b456-ad30-44e1-a4f0-19347f28fa9f" class="bulleted-list"><li style="list-style-type:disc">금융, 방송, 물류, 유통, 제조와 같은 다양한 비즈니스 영역 경험. 각 비즈니스를 이해하고 비즈니스에 특화된 메인넷을 설계하는데 도움을 줄 수 있음.</li></ul><p id="c1adc36e-00a3-4542-98a9-937cdb8542a4" class="">
+</p><hr id="49760533-1fd5-472e-9b59-4e12e8ad73c3"/><h1 id="e0af51d5-e89c-4d89-8e80-a6bdcfc028f0" class=""><mark class="highlight-orange">Blockchain Related Experience.</mark></h1><p id="33a09708-bcb4-4bf7-a441-ba3ed2de84b8" class="">블록체인 역량을 키우는데 현 직장생활을 제외한 최대한의 자원을 할당하고 노력하고 있습니다.</p><div id="ce76fc2a-8bbe-4a15-8cf4-2e129daecf1c" class="column-list"><div id="19be901f-43d3-4325-8a5c-a143d92c2fac" style="width:25%" class="column"><p id="f3a3f254-c655-4aaa-b0b0-cd648f007131" class=""><a href="https://discord.gg/pzJ7mUzyhX"><strong>Blockchain Valley</strong></a></p><p id="dd8613ea-3ee2-4124-84aa-40c7552c2996" class=""><mark class="highlight-gray">2022.03~현재</mark></p><p id="12635c89-f689-466c-beaf-43b02bd0de07" class="">
+</p></div><div id="de09c24f-71e4-4f2b-a335-aaf3e46488fd" style="width:75%" class="column"><ul id="ce53acc9-067b-4361-b192-ca542f4bedd2" class="bulleted-list"><li style="list-style-type:disc">고려대 기반 블록체인 학회(DAO)</li></ul><ul id="4bc057c2-e08a-43b3-a4be-e348d566ee0d" class="bulleted-list"><li style="list-style-type:disc">블록체인 학습, 프로덕트 제작 및 프로젝트 리서치 진행</li></ul><ul id="b02cccdc-daec-42f7-a895-dbf94b71de7f" class="bulleted-list"><li style="list-style-type:disc">외부 연사 초청 세션 진행</li></ul><ul id="f2241987-51ec-4662-80ce-967a8e533325" class="bulleted-list"><li style="list-style-type:disc">학회 출석 자동화 DApp 개발, Proof of Stake(<em>Vitalik Buterin</em> 저) 번역 활동</li></ul><ul id="b0c62e9c-ce6f-49bc-8188-a880ce80d09b" class="bulleted-list"><li style="list-style-type:disc">Korea Blockchain Week 22 등 행사 참여</li></ul><ul id="9b0a7991-6332-415c-932b-fc48bbc2cd72" class="bulleted-list"><li style="list-style-type:disc">주 2회 오프라인 참여</li></ul><ul id="54ffd603-7bac-44df-b2f8-deadc84216c4" class="bulleted-list"><li style="list-style-type:disc">참여 동기: 블록체인 공부는 혼자 할 수 없기 때문. 다양한 분야와 업계의 사람들이 함께 해야 함. CS뿐만 아니라 경제, 사회, 정치가 밀접하게 공존</li></ul></div></div><div id="e47a384a-7294-4cf0-92fc-80d417bdf780" class="column-list"><div id="30be37e5-6bd6-4993-ac7d-09c764044a70" style="width:25%" class="column"><p id="b18f301b-6e9d-42f9-bede-5d10351fd0dc" class=""><a href="https://discord.gg/xEaPTJH4e6"><strong>SEADIK</strong></a></p><p id="86c7fd50-9b47-4096-8229-4f3221e4f54d" class=""><mark class="highlight-gray">2022.05~2022.07</mark></p></div><div id="b7488d76-b37b-47fb-b7a7-5a8496d104a9" style="width:75%" class="column"><ul id="c281f3bd-0454-45f6-995d-b5e9049832cd" class="bulleted-list"><li style="list-style-type:disc">Solana Labs 지원 솔라나 개발 스터디</li></ul><ul id="e3aaf2cb-15f6-4345-ab0a-f9a5b4557eb5" class="bulleted-list"><li style="list-style-type:disc">Solana 프로그램 문법, 플랫폼 및 개발 학습 진행</li></ul><ul id="f8f41392-b1b0-40ae-8f86-7cfef8e755c0" class="bulleted-list"><li style="list-style-type:disc">주 1회 온라인 참여</li></ul><ul id="797b8797-3cb1-4b3f-ad72-9affc24ca316" class="bulleted-list"><li style="list-style-type:disc">참여 동기: Rust 언어에 관심 있어 참여</li></ul></div></div><div id="6dada92d-dcc5-47ed-80eb-3cf0a41bf6a4" class="column-list"><div id="4ab899b9-9a89-4425-ae48-72b0101be853" style="width:25%" class="column"><p id="823cd6cb-9530-4b52-b8ed-33088c532b63" class=""><strong><a href="https://matzip.xyz/">MATZIP</a></strong></p><p id="7cad380b-7dbc-4415-ad93-e1433e91071a" class=""><mark class="highlight-gray">2022.09~현재</mark></p></div><div id="0438ae4a-18bd-4059-a058-1cb6556a1644" style="width:75%" class="column"><ul id="b2efd541-27bb-4e2b-b68b-311bc7e560ab" class="bulleted-list"><li style="list-style-type:disc">컨트랙트 보안 연구팀</li></ul><ul id="3b814840-5019-486a-be58-5158c19bcb07" class="bulleted-list"><li style="list-style-type:disc">WEB 3.0 기반 Bug bounty(code4rena, sherlock), CTF(paradigm) 참여</li></ul><ul id="e2db27a5-1732-420d-b13f-701bb1f7b311" class="bulleted-list"><li style="list-style-type:disc">격주 1회 오프라인 참여</li></ul><ul id="e3af3a33-4539-4f4b-b1ba-6efdff9f71c8" class="bulleted-list"><li style="list-style-type:disc">참여 동기: 보안에 대한 역량을 키우고 싶었는데 WEB 3.0에서는 입문 벽이 상대적으로 낮다하여 참여</li></ul></div></div><p id="57e7be5d-823b-47e0-a299-f67fed504831" class="">대외적 활동을 하며 블록체인 업계에 활발하게 활동하시는 분들의 다양한 인사이트를 알아 가고 있습니다. 그러한 인사이트를 통해 저만의 생각과 미래를 새로 만들어 나가고 있습니다. 기술적 관점으로 블록체인을 파고들고 있으며 한계점이 어느정도 있지만 그만큼 발전 가능성이 있다는 것을 엿보았습니다.</p><p id="1c8082c7-e6c9-4031-8ecc-e9f3b8d3234a" class="">
+</p><hr id="98d41a39-9bcc-42d4-8f29-7e90b39a9a94"/><h1 id="81e1e85e-33ec-4dfe-9201-9410b5c9ea18" class=""><mark class="highlight-orange">Research in Graduate School</mark></h1><h2 id="0f7e31b6-9be6-49c6-b08b-41f5935433f2" class="">Research Interest</h2><p id="ae30e906-ee73-4b55-87f1-591cfd7fe966" class="">• System software support for high-performance and efficient heterogeneous computing systems</p><p id="8d2a80f2-0040-49db-a337-db9b43a67119" class="">• Performance analysis for emerging computer systems and workloads</p><h2 id="78232a20-ed23-455e-af49-d4490d2f699d" class="">Publication</h2><p id="331a204a-964b-4ce7-a1a4-7834fa7d47a0" class=""><strong>Jaeyoung Yun</strong>, Jinsu Park, and Woongki Baek, <strong>“</strong><a href="https://scholar.google.co.kr/scholar?q=HARS:+a+Heterogeneity-Aware+Runtime+System+for+Self-Adaptive+Multithreaded+Applications&amp;hl=ko&amp;as_sdt=0&amp;as_vis=1&amp;oi=scholart"><strong>HARS: a Heterogeneity-Aware Runtime System for Self-Adaptive Multithreaded Applications</strong></a><strong>,”</strong> in the Proceedings of the 52nd Design Automation Conference (DAC), Jun. 2015. [참고]</p><ul id="094a9cf9-3508-4398-ba7b-5106550ded57" class="bulleted-list"><li style="list-style-type:disc"><a href="http://www.kiise.or.kr/TopConferences/data/SW%EB%B6%84%EC%95%BC%EC%9A%B0%EC%88%98%ED%95%99%EC%88%A0%EB%8C%80%ED%9A%8C%EB%AA%A9%EB%A1%9D_2016.pdf">한국정보과학회 기준 최우수(Top-tier) 학회</a></li></ul><ul id="7dc96c25-d091-4b20-bb1f-43ae29f179ae" class="bulleted-list"><li style="list-style-type:disc">Heterogeneous computing: big.LITTLE architecture</li></ul><ul id="fe8a9769-7cb7-44a4-93aa-643cecdbb8e3" class="bulleted-list"><li style="list-style-type:disc">Self-Adaptation: observation, decision, action feedback loop</li></ul><ul id="0b1cbfd9-8357-408f-b4ed-9c67f83b7a4d" class="bulleted-list"><li style="list-style-type:disc">Multi-thread application</li></ul><ul id="a686f871-71b6-41d2-a1f0-8d7a47777452" class="bulleted-list"><li style="list-style-type:disc">어플리케이션 특성(e.g., 파이프라인)에 따른 스캐줄링</li></ul><ul id="f258438c-923b-4865-87d5-0d8255a66afe" class="bulleted-list"><li style="list-style-type:disc">기존 ARM HMP 스캐줄러 대비 성능/전력 효율 향상 250%</li></ul><ul id="0ed3a8c9-8e98-4889-8aac-06fd592c313e" class="bulleted-list"><li style="list-style-type:disc">피인용건수: 30 건</li></ul><p id="e27dc099-8d36-4750-a33c-273d7ffb8e01" class="">
+</p><p id="93be62cd-2d55-4d9f-b114-9d964fa5c9d2" class="">추후 추가 연구를 통해 복수의 Multi-thread application을 지원할 수 있게 업그레이드 했습니다. [참고]</p><h2 id="6753a215-c685-495a-ad7d-e25a48c4caa5" class="">연구 환경 셋업</h2><ul id="aca8859f-715e-4db8-b7ec-844ce1f380f6" class="bulleted-list"><li style="list-style-type:disc">임베디드 HW, SW 테스트 베드 세팅</li></ul><ul id="2875bbcf-1d80-4d5a-8280-5ed55a8d8282" class="bulleted-list"><li style="list-style-type:disc">GDB, Valgrind 등 툴을 활용한 분석 및 디버깅</li></ul><ul id="57de1dd4-c64b-4af3-8dec-f20117138ca2" class="bulleted-list"><li style="list-style-type:disc">자동화 테스트 스크립트 개발: 다양한 테스트 케이스 실험 수행부터 엑셀 그래프로 정리된 결과를 뽑는 스크립트</li></ul><ul id="98fb3987-8cc3-4ff5-93e0-2e3feeb305c4" class="bulleted-list"><li style="list-style-type:disc">시뮬레이터 개발: 가상 하드웨어 환경 구현, Optimal case 및 효율성 추정을 위한 시뮬레이터를 개발</li></ul><p id="83a3f532-3a48-4fff-8af2-bf02bfdc71f8" class="">
+</p><hr id="50c2c9f8-acbe-4534-a8be-a2497a1304cd"/><h1 id="e2a55562-0ee5-4960-8a52-3d76e5c94bfd" class=""><mark class="highlight-orange">Work Experience.</mark></h1><h2 id="006be0af-bd1d-4efd-92cd-034c2138a651" class="">CJ OliveNetworks</h2><p id="16fac43f-7216-49cd-9c0b-21f7386268c7" class="">CJ 계열사. 제조, 유통, 물류, 미디어 등 생활/문화 기반의 IT서비스를 성공적으로 제공하고, 끊임없는 변화와 혁신을 통해 IT트렌드에 부합하는 미래 신기술 개발로 시장의 요구에 빠르게 대응하는 ICT 전문기업.</p><div id="14c1f1f4-1e33-4389-ba90-50a4aa6b18a7" class="column-list"><div id="050b5499-510e-4772-a65d-4f2a22ac3f54" style="width:18.75%" class="column"><p id="a8484ad7-81f8-40d9-83bc-02fcf0cff882" class="">대한통운 FLAGSHIP</p><p id="07dc1a46-b94b-4056-9430-49f29e785122" class=""><mark class="highlight-gray">2021.06-2021.11</mark></p></div><div id="e89e9589-128f-471c-885a-de86376dd60e" style="width:81.25%" class="column"><ul id="0e991ba0-8de3-4b0f-87db-7af2ba0269d7" class="bulleted-list"><li style="list-style-type:disc">앱 내 광고 효율을 측정하기 위한 이벤트 수집 시스템 구축</li></ul><ul id="bcbe4774-686b-4637-87bc-c5e16d2ab29a" class="bulleted-list"><li style="list-style-type:disc">알선 의료법 리스크 및 월 1.2억의 매출 손해 방지를 위해 강남언니 BM을 CPV로 전환</li></ul><ul id="949ac141-b695-4095-ab1b-2606a8121bdf" class="bulleted-list"><li style="list-style-type:disc">광고 개인화 시스템 구축 후 푸시 광고 개인화를 통한 광고 효율 212% 개선 및 매출 62% 상승</li></ul></div></div><div id="cd38c189-68de-4ae0-87d9-4e53a8311039" class="column-list"><div id="6a296200-1dad-411e-a8df-4d34cc696a2b" style="width:18.75%" class="column"><p id="4d37f4ef-6788-424d-a10d-1504e9b42590" class=""><strong>PLAY-LAB
+(사내벤처)</strong></p><p id="45c5eb06-305c-4e8e-ac02-df62e99350b2" class=""><mark class="highlight-gray">2020.05-2020.11</mark></p></div><div id="f9c1c30a-76d8-401d-a476-d44ad61b49e9" style="width:81.25%" class="column"><ul id="d20c4d8b-b6ce-4c56-95f3-4a4af05df984" class="bulleted-list"><li style="list-style-type:disc">사내공모로 발탁. 정부 지원금 수주.</li></ul><ul id="0b44fdbe-f5d5-4bea-8875-fd0c9e3a523e" class="bulleted-list"><li style="list-style-type:disc">비즈니스 모델 기획, 현장 조사</li></ul><ul id="0b0911f6-006c-4c66-893d-98fc07f67b36" class="bulleted-list"><li style="list-style-type:disc">Android Application MVP 개발</li></ul><p id="01ea6ed9-f8bc-4954-a998-cb661559cf87" class="">
+</p></div></div><div id="ccb83c24-d627-4f81-bccd-80440b6b5677" class="column-list"><div id="e16634e2-b2d8-4ff5-819f-f287b93fc26b" style="width:18.75%" class="column"><p id="c5d9f8c1-7724-4efd-9428-281e9f5c4ac9" class=""><strong>Data Team Lead</strong></p><p id="2b3a36d7-e853-4cd6-b967-9a80e4c8eed3" class=""><mark class="highlight-gray">2020.11-2021.05</mark></p></div><div id="0db47c94-fbc1-4eba-b244-50a000fee455" style="width:81.25%" class="column"><ul id="5f8ddcfc-3761-4b85-b2e6-5ec11f6831a4" class="bulleted-list"><li style="list-style-type:disc">전사 주요 지표 적재, 분석 및 시각화를 통해 전사가 데이터를 보는 기반 구축</li></ul><ul id="74ed85ad-7718-460e-b484-ae44d0c9f298" class="bulleted-list"><li style="list-style-type:disc">데이터 엔지니어링 및 애널리틱스 역할로 여러 팀과 협업하며 데이터로 문제를 해결하는 문화 확산</li></ul><p id="ec0fe8e7-0dce-4adb-ab05-4ce573d8e260" class="">
+</p></div></div><p id="68331dd6-17ca-4e70-83a1-6a37e8158adc" class="">
+</p><hr id="5e32498b-84d4-43b9-b003-b25aefe6bb10"/><h2 id="7a3c0ca3-18f7-4b56-b0b1-cf5e91a6e337" class=""><a href="http://codestates.com">코드스테이츠</a></h2><p id="f429cf33-7b4a-4612-bd51-9b95faadaad3" class="">2,000여 명 이상이 참여한 국내 최초 코딩 부트캠프 스타트업으로 스트롱벤처스, 프라이머 등으로부터 투자 유치</p><div id="e0abd236-3168-4178-a096-be40573f52ce" class="column-list"><div id="bbc31a5a-99d8-4297-8dc9-237dc2ebb17f" style="width:18.75%" class="column"><p id="30cd6ad2-7b2e-4f63-8710-552ce5b7b0a5" class=""><strong>(Freelancer) Growth Lead</strong></p><p id="90c61d32-1b08-4f90-a928-71a50018ff0d" class=""><mark class="highlight-gray">2020.02-2020.05</mark></p></div><div id="d1f4fef1-823c-4f02-adb5-b6016a8aadd4" style="width:81.25%" class="column"><ul id="482ee442-c55c-46c1-a972-f50c5c27a380" class="bulleted-list"><li style="list-style-type:disc">마케팅부터 최종 결제까지의 퍼널 전체 데이터를 보며 랜딩 페이지 기획/개발, 기존 홈페이지 대비 결제 전환율 250% 개선</li></ul><ul id="476b1872-3cff-4dad-80a6-a79d4a543e23" class="bulleted-list"><li style="list-style-type:disc">전사가 동일한 데이터를 보며 일할 수 있도록 기본적인 데이터 인프라 세팅 및 대시보드 제작</li></ul><ul id="54c33fa3-c22a-43ec-8dbc-bc649acbfeee" class="bulleted-list"><li style="list-style-type:disc">단순 컨텐츠 변경을 위해 매번 마케팅팀이 개발팀에게 업무 요청을 해야했던 비효율적인 프로세스를 개선할 수 있도록 홈페이지를 <a href="https://webflow.com/">webflow</a> 플랫폼으로 이전</li></ul></div></div><p id="7d8094e2-e423-4cdd-8ad9-7c5fdc67e409" class="">
+</p><hr id="e2d9dc3e-1d67-436a-8d44-fdee0175e5a5"/><h2 id="63050228-3a78-4ecf-b4a0-aacdff22d802" class=""><a href="http://trevari.co.kr/">트레바리</a></h2><p id="bd52ed1f-4221-40c2-8776-c7d783a9a540" class="">35,000여 명 이상의 유료 멤버가 참여한 독서모임 기반의 커뮤니티 서비스 스타트업으로 소프트뱅크, 알토스 등으로부터 90억 투자 유치</p><div id="df30e1fe-95e3-452a-a546-6e235d5f5019" class="column-list"><div id="5df7d758-b3e6-4caa-9609-4e57c3030544" style="width:18.75%" class="column"><p id="3b11583c-5f27-425b-894a-4e0221938683" class=""><strong>Tech Lead</strong></p><p id="e657f25f-143e-4f29-b290-5166c0de0a66" class=""><mark class="highlight-gray">2017.08-2020.03</mark></p><p id="5007148b-582a-4d2b-94d9-b5e63322de19" class="">
+</p></div><div id="7928d846-e102-4a1a-a306-74eaa10f6830" style="width:81.25%" class="column"><ul id="2eacb1a2-2dcf-4110-b795-1944b01f755f" class="bulleted-list"><li style="list-style-type:disc">첫 번째 개발자로 입사하여 혼자서 일 년 동안 트레바리에 필요한 모든 IT 서비스(웹사이트, 서버, 백오피스 등) 기획/개발/배포/운영</li></ul><ul id="707cafc6-8084-4e23-b020-f030f7a1f408" class="bulleted-list"><li style="list-style-type:disc">혼자서 4개월 동안 <a href="https://wonny.space/writing/work/rewriting">기존 Ruby on Rails 웹사이트를 React, Next.js, Node.js, AWS 등을 사용하여 리라이팅</a>, 서버 비용 70% 감소 및 속도 170% 개선</li></ul><ul id="2eb069d2-ca08-4d64-96dd-b19e0c45c573" class="bulleted-list"><li style="list-style-type:disc">SQL, redash를 활용하여 개인의 직관이 아닌 팀 차원에서 유저에 대한 이해도를 쌓을 수 있도록 전사가 활용할 수 있는 <a href="https://wonny.space/writing/work/make-data-team">데이터 인프라 및 문화 구축</a></li></ul><ul id="3ffd4ea1-074d-4098-9079-46c2fac599a5" class="bulleted-list"><li style="list-style-type:disc">단순/루틴 업무를 자동화/효율화하는 백오피스 기능 기획/개발, 운영 팀의 업무 시간을 주당 70시간 이상 줄임</li></ul><ul id="837fc753-a4bd-4a1e-9725-0d5349666ab6" class="bulleted-list"><li style="list-style-type:disc">AWS Lamdba, CloudWatch를 활용하여 하루 1,000여 개 이상의 문자 메시지 전송 자동화</li></ul><ul id="8b7016f9-88f2-4ab8-a50e-1b1e6b4160b5" class="bulleted-list"><li style="list-style-type:disc">Query와 Sort 개발 경험 개선을 위해 AWS DynamoDB을 AWS RDS(PostgreSQL)으로 무중단 Migration</li></ul><ul id="7725aa28-f0ae-4ef7-a573-2762cdbc5194" class="bulleted-list"><li style="list-style-type:disc"><a href="https://brunch.co.kr/magazine/startupwork">브런치 &lt;트레바리에서 테크 리더로 일하기&gt;</a> 글 연재: 1) 47,465 조회 2) 5,501 공유 3) 20여명 가량의 개발자 지원 유도 (개발자 4명 채용)</li></ul></div></div><p id="4ac14dfa-0f18-43e5-b73b-200fe2e178d2" class="">
+</p><hr id="9431b434-f813-428a-9497-f53c1bd4f381"/><h1 id="fa812e6b-7978-448b-9d0b-f0e932677556" class=""><mark class="highlight-orange">Other Projects.</mark></h1><hr id="9d498e9b-193a-4f5b-92ba-f2816f3b90b0"/><h2 id="b4fb977c-ba8e-47fa-b809-0deb491c032f" class="">MUZIT</h2><p id="13a6538a-89e9-4779-ac42-385ed7d1b343" class="">춤을 음악으로 만드는 웨어러블 기기 개발. CJ 그룹 공모 Final List 진출.</p><p id="976abfff-76c3-466c-8c08-321629926806" class="">Lead Developer(12인 팀)</p><p id="eb21d6ad-5f98-490e-a80d-b0806025bb52" class=""><mark class="highlight-gray">2017.11</mark></p><ul id="ee572714-67eb-45d9-bd71-5bba8b3d7b08" class="bulleted-list"><li style="list-style-type:disc">Arduino nano, 10 axis 센서, 블루투스 모듈 활용</li></ul><ul id="3d1e5ae4-7da5-4153-91c3-2b78b0d9ec41" class="bulleted-list"><li style="list-style-type:disc">소형화 작업 및 동작 인식을 정교화하는데 상당의 리소스 투입</li></ul><hr id="36347a4e-5ae3-4138-a689-a7a6355769a4"/><h2 id="c3f01482-5f8a-4192-a057-9612a8a25cb9" class="">지능형 교통 사고 처리 시스템</h2><p id="5e726c20-24f2-4872-b3ff-da788d6beec9" class="">삼성휴먼테크 논문 공모, 예선 탈락</p><p id="9bf5891a-274b-4683-9d00-a21d59b92489" class="">Android Developer(4인 팀)</p><p id="81f86524-7fce-4ef1-9bf8-b7c363ca37a2" class=""><mark class="highlight-gray">2012.12</mark></p><ul id="01bcd346-7465-487c-86ec-34ea5f1d4e9b" class="bulleted-list"><li style="list-style-type:disc">도로: RFID Tag 내장 가상 테스트베드</li></ul><ul id="84c5bb98-c422-456a-9ee2-1dea9ac12fe0" class="bulleted-list"><li style="list-style-type:disc">차량: RFID, LED, Wi-Fi, 가속도 센서</li></ul><ul id="c5522463-efc4-4c93-9006-5205262c6723" class="bulleted-list"><li style="list-style-type:disc">서버: DB, 통신 브릿지, 최단경로 계산 알고리즘</li></ul><ul id="0e377065-f78b-46aa-83c2-1f75ed337bae" class="bulleted-list"><li style="list-style-type:disc">App: 안드로이드, 교통 실시간 표시, 차량 이동, 도로 통제</li></ul><hr id="8382514d-f8a3-4579-9cf2-e60524ecce12"/><h2 id="68613b04-252b-4b3a-a42a-194c906efc7f" class="">Zigbee 활용한 위치기반 무인 관람 안내 시스템</h2><p id="86b921df-8bb2-498a-87da-6002166e20ef" class="">신규모델 발굴 교내 공모전. 학장상(2위) 수상, 국립과천과학관 관람 안내 기반(2013년 기준)</p><p id="e07876d9-59f3-4750-8035-72cf531c9732" class="">Android/Embedded Developer(2인 팀)</p><p id="5258c2ca-6fcb-4c5c-8134-268578b6695b" class=""><mark class="highlight-gray">2012.03</mark></p><ul id="e7441020-7bfa-4af3-8eb2-4052761e5fc9" class="bulleted-list"><li style="list-style-type:disc">서버: DB, 관람 통계 수집 및 작품 추천</li></ul><ul id="b8bf65c0-c870-4ca0-a632-6b121bbb7a53" class="bulleted-list"><li style="list-style-type:disc">Zigbee 게이트웨이: 단말기 신호 Polling</li></ul><ul id="4894212a-af47-4bf1-8aa3-f0e803866e0a" class="bulleted-list"><li style="list-style-type:disc">안드로이드 단말기: 안내 App, Zigbee SD card type내장</li></ul><hr id="9ba730de-d3f6-43e8-9a32-4bcfb4faaa1b"/><h1 id="e7dd7844-51af-4bbe-81ba-2828724735d7" class=""><mark class="highlight-orange">Other Experience.</mark></h1><hr id="85200343-2cd9-45f3-a12d-fc7417948a44"/><h2 id="9c0f7e3d-fc84-4f1c-a366-282d113914b0" class="">Teaching Experience</h2><ul id="cd31f1bc-7551-445a-8235-310b71c0a199" class="bulleted-list"><li style="list-style-type:disc">Research Assistant<ul id="2bbd0821-d73a-42bb-b90f-adf88504cb61" class="bulleted-list"><li style="list-style-type:circle">대구일과학고등학교
+Android 기기를 활용한 물리 실험 가능 범위 탐색
+Android Application 개발 교육
+2012.07~2012.12</li></ul></li></ul><ul id="cb06b386-c946-4cfc-a4f6-4d3b6f9b35e7" class="bulleted-list"><li style="list-style-type:disc">Teaching Assistant<ul id="de325d50-de8e-472c-8e60-b83b65175e30" class="bulleted-list"><li style="list-style-type:circle">(Fall 2014) CSE301 Computer Architecture, UNIST</li></ul></li></ul><hr id="ac1ba4da-3187-4f86-b4e8-a24f2d552608"/><h2 id="a3e8f1e2-223d-4ab4-a732-e89ce3636e5d" class="">ETC.</h2><ul id="690fc14e-8547-4b6b-ba8b-dc30bb36b029" class="bulleted-list"><li style="list-style-type:disc">Research Intern<ul id="fb2b856e-b8f3-43fb-983b-288ca7d18973" class="bulleted-list"><li style="list-style-type:circle">경북대학교 모바일컴퓨팅 및 임베디드시스템 연구실(서대화 교수)
+메모리 펌웨어 테스팅 및 디버깅
+2011.03~2013.12</li></ul></li></ul><ul id="79727964-a7a6-42e6-a6a6-a0dd35d88a1b" class="bulleted-list"><li style="list-style-type:disc">딥러닝 스터디<ul id="b0258a15-03f6-4477-aa9e-32a219b5083c" class="bulleted-list"><li style="list-style-type:circle">직장인 딥러닝 스터디 모임
+딥러닝 서적 3권 학습
+주 1회 모임
+2018.01~2019.01</li></ul></li></ul><p id="50df28fc-d0d2-4e97-80d7-8a21c4edeed2" class="">
+</p><hr id="661a965f-038e-4f87-8d98-d7f97779fef2"/><h1 id="33ca9999-893a-4ed5-a6be-92676bf0a2de" class=""><mark class="highlight-orange">Certification.</mark></h1><ul id="4e520f89-0295-4872-85d2-2093413f3855" class="bulleted-list"><li style="list-style-type:disc"><a href="https://www.coursera.org/account/accomplishments/professional-cert/AMUK7UKRFHRE">Google IT Automation with Python</a>: Devops에 필요한 OS부터 Server Cluster Level 까지의 자동화 스킬 획득<ul id="8d315cd1-6342-44c3-bd5f-70ddc7645036" class="bulleted-list"><li style="list-style-type:circle"><a href="https://www.coursera.org/account/accomplishments/verify/MYME8EGB9FXS">Troubleshooting and Debugging Techniques</a>: 트러블 슈팅에 대한 당연하지만 놓치고 있는 부분에 대한 리마인드와 새로운 스킬 획득</li></ul><ul id="93b318cf-281e-4461-a29c-6f3f97fafca6" class="bulleted-list"><li style="list-style-type:circle"><a href="https://www.coursera.org/account/accomplishments/records/ZF6YB2GACHGC">Introduction to Git and GitHub</a>: Git에 대한 기본적 사용법</li></ul><ul id="f88c572c-8c20-472b-888f-724a5633d52b" class="bulleted-list"><li style="list-style-type:circle"><a href="https://www.coursera.org/account/accomplishments/records/SH63U5NH9MAF">Using Python to Interact with the Operating System</a>: Python을 이용한 OS레벨 제어 습득</li></ul><ul id="dc92273f-91bf-4ef0-adfe-8cd43c31b3ec" class="bulleted-list"><li style="list-style-type:circle"><a href="https://www.coursera.org/account/accomplishments/records/SW9CWHE2XTDX">Configuration Management and the Cloud</a>: 다수의 서버의 환경을 한 번에 자동으로 세팅하는 방법 습득</li></ul><ul id="7f0fc802-4efe-442e-a121-d2337479b446" class="bulleted-list"><li style="list-style-type:circle"><a href="https://www.coursera.org/account/accomplishments/records/RKNH6H44GDMR">Crash Course on Python</a>: 기초적 Python 수업</li></ul><ul id="8dab2eec-6e75-43f3-89c4-6ad7ee85b2c7" class="bulleted-list"><li style="list-style-type:circle"><a href="https://www.coursera.org/account/accomplishments/records/HFTFB2U5QKQ3">Automation Real-World Tasks with Python</a></li></ul></li></ul><ul id="8848eff3-5bda-4fda-b577-6d258dba089c" class="bulleted-list"><li style="list-style-type:disc"><a href="https://courses.nvidia.com/certificates/8be1f9ad9ec64e7a9ea0d4c8028e1e34/">Fundamentals of Deep Learning for Computer Vision</a>: 실제 이미징 처리 </li></ul><ul id="0d02cd85-8912-44d9-a5a3-22cd72a0a4b1" class="bulleted-list"><li style="list-style-type:disc"><a href="https://courses.nvidia.com/courses/course-v1:DLI+C-AC-02+V1/course/">Fundamentals of Accelerated Computing with CUDA Python</a>: Python 기반 CUDA 프로그래밍
+(Almostly done. But failed for test environment reason)</li></ul><ul id="4e162a53-0d77-4579-b158-47165d87e136" class="bulleted-list"><li style="list-style-type:disc">ibm certi..</li></ul><hr id="badc1d8a-e3ad-49b0-af8e-3bfa39e1077f"/><h1 id="22336c33-2891-403a-9b31-54bf23dcc74e" class=""><mark class="highlight-orange">Skill.</mark></h1><ul id="32d3b03a-957a-44dd-819b-31710ec2813b" class="bulleted-list"><li style="list-style-type:disc">Low-Level: C, C++, Assembly, Rust</li></ul><ul id="5bd564f2-b141-4632-a3cb-6cefe7a1c83f" class="bulleted-list"><li style="list-style-type:disc">Front-End: JavaScript, Thymleaf, HTML/CSS, Next.js, TypeScript</li></ul><ul id="6c114302-3659-405a-9f95-e6c79bfbb857" class="bulleted-list"><li style="list-style-type:disc">Back-End: Spring, Node.js</li></ul><ul id="fe4b96a8-7d3a-4de2-81da-b76b26db69e7" class="bulleted-list"><li style="list-style-type:disc">Devops: Docker, NginX, Jenkins, ControlM</li></ul><ul id="76b46305-959e-41bc-abfc-f7b8cdea2177" class="bulleted-list"><li style="list-style-type:disc">Database: Oracle, MySQL, MsSQL, Tibero, VERTICA</li></ul><ul id="7876d20e-e1c3-4767-a8b2-438ac61cc01d" class="bulleted-list"><li style="list-style-type:disc">IDE: Vim, VS Code, Eclipse based IDE</li></ul><ul id="1de78eb8-126f-40f5-8917-55807b84998b" class="bulleted-list"><li style="list-style-type:disc">Others: Python, Solidity, Bash script, Make, Android</li></ul><p id="abcb0c8c-81db-4769-b632-83de24afe2e7" class="">
+</p><hr id="0055dbe0-6f20-41c5-89b8-ad6e777213ef"/><h1 id="b655ebec-c459-4a56-a6ca-343e411f9f5a" class=""><mark class="highlight-orange">Education.</mark></h1><p id="7acb2ec3-74f8-4644-97bc-7d9d0c15a0a5" class="">2007.03-2014.02 경북대학교 전자공학과 임베디드 제어 시스템 학사</p><p id="f2c8f8e2-fbf6-4caa-a4fe-cfdcc8abee2c" class="">2014.03-2016.02 UNIST 컴퓨터공학과 석사</p><p id="8b57a43d-8404-4979-92b8-efbe264f53f2" class="">
+</p></div></article></body></html>
